@@ -1,0 +1,1 @@
+For downstream analysis we want to divide groups in ASE/not ASE (here we call them outlier/not outlier), so make matrix for each sample which genes show significant ASE
