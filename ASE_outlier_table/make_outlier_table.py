@@ -25,8 +25,6 @@ for f in glob.glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest
             if float(bonf_pval) < 0.05:
                 outliers[gene].add(sample)
             else:
-                if sample == 'AD2DBFACXX-6-10' and gene == 'ENSG00000139842':
-                    print(line)
                 not_outliers[gene].add(sample)
             genes.add(gene)
             samples.add(sample)
