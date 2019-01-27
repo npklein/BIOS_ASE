@@ -1,0 +1,3 @@
+For each gene calculate the binominal p-value with 
+    Rscript binom_test.R
+This makes for every gene a file with per individual the p-values for that gene. Includes both nominal and bonferonni corrected p-values.
