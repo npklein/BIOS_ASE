@@ -1,5 +1,8 @@
 # BIOS_ASE
 
+# Generate count files for haplotype A and B from geneAE data
+sh createCountTables.sh
+
 # Run binomial test on the a/b counts
 Rscript ASE_binomial_test/binom_test.R
 
@@ -8,3 +11,4 @@ python ASE_outlier_table/make_outlier_table.py
 
 # Select samples from the table that don't have more than 1000 ASE genes and are not CODAM
 python ASE_outlier_table/select_samples.py
+
