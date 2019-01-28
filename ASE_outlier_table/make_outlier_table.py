@@ -8,7 +8,7 @@ genes = set([])
 samples = set([])
 
 # Per gene we have a list of samples with the p-value threshold that they show ASE for that gene
-for f in glob.glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest/genes/ENSG00000139842*'):
+for f in glob.glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest/genes/*'):
     with open(f) as input_file:
         header = input_file.readline()
         for line in input_file:
@@ -29,7 +29,6 @@ for f in glob.glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest
             genes.add(gene)
             samples.add(sample)
 
-exit()
 
 samples = list(samples)
 genes = list(genes)

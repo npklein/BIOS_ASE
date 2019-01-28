@@ -1,5 +1,4 @@
 # subset the logfold change table on outlier samples that have > 1000 ASE genes
-
 with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/samples_NOUTLIERS1000.depthFiltered.bonferroni.txt') as input_file:
     samples = set(input_file.read().split('\n'))
 
