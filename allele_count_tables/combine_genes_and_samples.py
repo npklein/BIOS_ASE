@@ -19,7 +19,7 @@ def read_gene_info():
 def read_gene_outliers(foldChange):
     # from the outlier table, extract for each gene which samples are outliers and which are not outliers
     gene_outlier = {}
-    with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.samplesFILTERED.txt') as input_file:
+    with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt') as input_file:
         header = input_file.readline().strip().split('\t')
         header_index = {}
         for index, element in enumerate(header):
@@ -95,7 +95,7 @@ def read_vcf():
 def read_fc():
     # per gene extract which genes have a log fold change (so not NA, Inf or -Inf)
     foldChange = {}
-    with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.samplesFILTERED.values.txt') as input_file:
+    with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.values.txt') as input_file:
         header = input_file.readline().strip().split('\t')
         header_index = {}
         for index, element in enumerate(header):
@@ -126,7 +126,7 @@ gene_outlier = read_gene_outliers(None)
 
 gene_outlier_sum = {}
 
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.outliers.binom.Bonferonni.txt','w') as out:
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.outliers.binom.Bonferroni.txt','w') as out:
     out.write('gene\tsnp\tAF\tref\talt\t0\t1\t2\ttotal\n')
     # per gene, sum for the outlier and not_outlier group the allele counts. Divide by number of sampls (that have logFC count) to get normalized number of alleles per gene
     for gene in gene_outlier:
@@ -152,7 +152,7 @@ with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCoun
                 out.write('\t'+str(zeros)+'\t'+str(ones)+'\t'+str(twos)+'\t'+str(total)+'\n')
 
 
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.not_outliers.binom.Bonferonni.txt','w') as out:
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.not_outliers.binom.Bonferroni.txt','w') as out:
     out.write('gene\tsnp\tAF\tref\talt\t0\t1\t2\ttotal\n')
     # per gene, sum for the outlier and not_outlier group the allele counts. Divide by number of sampls (that have logFC count) to get normalized number of alleles per gene
     for gene in gene_outlier:
