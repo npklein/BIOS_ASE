@@ -22,13 +22,30 @@ ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=dataTab1$MED
 genes_to_keep <- dataTab1[dataTab1$NOUTLIERS < 1000, ]
 ggplot(genes_to_keep,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 
+#Replace the LLDeepNotInBios biobank IDs with LL
+genes_to_keep1$biobank_id[genes_to_keep1$biobank_id == "LLDeepNotInBIOS"] <- "LL"
+
 #Remove CODAM samples
 genes_to_keep1<-genes_to_keep[genes_to_keep$biobank_id != "CODAM" | is.na(genes_to_keep$biobank_id),]
 
 #Plot again
-ggplot(genes_to_keep1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
+plot<-ggplot(genes_to_keep1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.4) +
+  ggtitle(paste0("Number of significant ASE genes per sample")) +
+  ylab('Number of significant (P < 0.05) ASE genes')+
+  xlab('Number of observed ASE genes per sample')+
+  labs(colour= "Biobank")+
+  theme(panel.grid.major = element_line(colour = "grey", size = 0.1),panel.grid.minor = element_line(colour = "grey", size = 0.1),
+        axis.title.x = element_text(size=16),
+        axis.text=element_text(size=16),
+        axis.title.y = element_text(size=16))
+
+#Print plot to pdf
+pdf("/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/suppl_ASEgenesVsSigASEgenes.pdf")
+print(plot)
+dev.off()
+
 
 #Write sample IDs
-write.table(unique(as.character(genes_to_keep1$SAMPLE)), "/Users/freerkvandijk/Downloads/samples_NOUTLIERS500.depthFiltered.bonferroni.txt",sep='\t',quote=F,
+write.table(unique(as.character(genes_to_keep1$SAMPLE)), "/Users/freerkvandijk/Downloads/samples_NOUTLIERS1000.depthFiltered.bonferroni.txt",sep='\t',quote=F,
             row.names=F, col.names=F)
 
