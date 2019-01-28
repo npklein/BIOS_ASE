@@ -25,8 +25,12 @@ Rscript removeOutliersAndCODAM.R
 
 
 ## Calculate number of ASE genes and outlier genes per sample (using samplelist as obtained from Rscript)
-Only use samples having at least 30X coverage and at least 5X on both haplotypes
-Calculate meand and SD
-Only assess genes for which at least 100 samples show ASE, when a sample is more than 3SD from the mean mark it as outlier for that specific gene
+# Only use samples having at least 30X coverage and at least 5X on both haplotypes
+# Calculate meand and SD
+# Only assess genes for which at least 100 samples show ASE, when a sample is more than 3SD from the mean mark it as outlier for that specific gene
 
 perl createLogFoldTable.pl
+
+
+## Count per gene the number of homs and hets, output in long format
+python allele_count_tables/combine_genes_and_samples.py

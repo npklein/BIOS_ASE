@@ -7,8 +7,8 @@ library(data.table)
 
 input_and_output_dir <- '/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest/'
 #### READ IN A AND B COUNTS ####
-aCount <- read.table(paste0(input_and_output_dir,'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.aCount.txt'), header=T, check.names=FALSE)
-bCount <- read.table(paste0(input_and_output_dir,'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.bCount.txt'),header=T, check.names=FALSE)
+aCount <- read.table(paste0(input_and_output_dir,'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.20190124.aCount.txt'), header=T, check.names=FALSE)
+bCount <- read.table(paste0(input_and_output_dir,'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.20190124.bCount.txt'),header=T, check.names=FALSE)
 annotations <- as.data.frame(fread("/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest/sample_genes_outliers_phenotypes.removedCODAM.txt"))
 
 
