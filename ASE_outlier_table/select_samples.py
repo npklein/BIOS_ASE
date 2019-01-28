@@ -2,8 +2,8 @@
 with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/samples_NOUTLIERS1000.depthFiltered.bonferroni.txt') as input_file:
     samples = set(input_file.read().split('\n'))
 
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.txt') as input_file:
-    with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.samplesFILTERED.txt','w') as out:
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.txt') as input_file:
+    with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt','w') as out:
         header = input_file.readline().strip().split('\t')
         indexes = []
         out.write(header[0])

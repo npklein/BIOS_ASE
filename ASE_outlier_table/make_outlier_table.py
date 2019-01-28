@@ -35,7 +35,7 @@ genes = list(genes)
 print(len(genes),'number of genes')
 
 
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.txt','w') as out:
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.txt','w') as out:
     out.write('ENSEMBLID')
     for sample in samples:
         out.write('\t'+sample)
