@@ -6,10 +6,10 @@ library(ggExtra)
 
 # READ DATA
 # gonl wgs
-gonl_af <- data.frame(fread('GoNL.AF.txt'))
+gonl_af <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/GoNL.AF.txt'))
 colnames(gonl_af) <- c('snp','ref','alt','AF_GoNL')
 # gonl RNAseq genotypes
-gonl_RNA_af <- data.frame(fread('GoNL.RNAseqGenotypes.AF.txt'))
+gonl_RNA_af <- data.frame(fread('/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged/exac_comparison/GoNL.RNAseqGenotypes.AF.txt'))
 colnames(gonl_RNA_af) <- c('snp','ref','alt','AF_GoNL_RNAseq')
 
 
@@ -60,7 +60,7 @@ p <- ggplot(AF, aes(AF1*100, AF2*100))+
 
 
 
-png('figures/WGS_vs_RNAseq_genotypes.png', width=600, height=600)
+png('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes.png', width=600, height=600)
 ggMarginal(p, type = "histogram", bins=1000)
 dev.off()
 
@@ -87,7 +87,7 @@ p <- ggplot(AF_rare, aes(AF1*100, AF2*100))+
   scale_y_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))
 
 
-png('figures/WGS_vs_RNAseq_genotypes_rare.png', width=600, height=600)
+png('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare.png', width=600, height=600)
 ggMarginal(p, type = "histogram", bins=40)
 dev.off()
 

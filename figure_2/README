@@ -1,0 +1,5 @@
+Count the number with ASE (binom bonferroni p-val < 0.05) per impact category
+
+
+OMIM_enrichment_hetsOnly.py
+    Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
