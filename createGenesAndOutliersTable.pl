@@ -14,7 +14,7 @@ use Statistics::Basic qw(:all);
 
 
 
-open(BINOM, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.txt") || die "Can't open input BINOM file!\n";
+open(BINOM, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.txt") || die "Can't open input BINOM file!\n";
 my @BINOMfile = <BINOM>;
 close(BINOM);
 my $BINOMhead = $BINOMfile[0];

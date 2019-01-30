@@ -34,3 +34,28 @@ perl createLogFoldTable.pl
 
 ## Count per gene the number of homs and hets, output in long format
 python allele_count_tables/combine_genes_and_samples.py
+
+
+
+#Minor allele analysis
+
+## Create major/minor allele tables
+perl minor_allele_ratio/createTable.pl
+
+## Filter out all lines with only NA values from major/minor tables
+perl minor_allele_ratio/filterMatrices.pl
+
+## Annotate table with CADD information
+module load HTSlib/1.3.2-foss-2015b
+perl minor_allele_ratio/annotateCountsWithCADD.pl
+
+## Create impact category plot, use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
+Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R
+
+
+#Gene expression analysis and ASE
+
+## Create gene expression table for all samples
+perl geneExpressionTables/selectAllSamplesExcludingCODAMand4outliersForAllGenes.pl
+
+
