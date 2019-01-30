@@ -51,3 +51,11 @@ perl minor_allele_ratio/annotateCountsWithCADD.pl
 
 ## Create impact category plot, use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
 Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R
+
+
+#Gene expression analysis and ASE
+
+## Create gene expression table for all samples
+perl geneExpressionTables/selectAllSamplesExcludingCODAMand4outliersForAllGenes.pl
+
+
