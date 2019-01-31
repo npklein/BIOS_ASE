@@ -1,3 +1,5 @@
 make_outlier_table.py
     For downstream analysis we want to divide groups in ASE/not ASE (here we call them outlier/not outlier), so make matrix for each sample which genes show significant ASE
 
+select_samples.py
+    subset the logfold change table on outlier samples that have > 1000 ASE genes
