@@ -6,24 +6,23 @@ library(reshape2)
 library(data.table)
 library(RColorBrewer)
 library(viridis)
-library(pheatmap)
 
-
+out_dir <- "/groups/umcg-bios/tmp03/projects/outlierGeneASE/correlateLogFC/"
 
 do_correlations <- function(){
   
-  logFC <- as.data.frame(fread('genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltered.removedCODAM.4outliersRemoved.SD3.table.txt',fill=T))
+  logFC <- as.data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.values.txt'),fill=T)
   logFC <- logFC[!grepl(";", logFC$ENSEMBLID),]
   logFC$NSAMPLES <- NULL
   logFC$MEDIAN <- NULL
   logFC$MAD <- NULL
-  logFC_melt <- melt(logFC)
+  logFC_melt <- melt(logFC, id.vars='ENSEMBLID')
   colnames(logFC_melt) <- c("GENE", "sample", "logFC")
   
   # because hap A of one gene is not hap A of other gene, we can not look at direction
   # change to absolute
   logFC_melt$logFC_abs <- abs(logFC_melt$logFC)
-  annotations <- as.data.frame(fread("/Users/NPK/UMCG/projects/BIOS/number_of_outliers_per_sample/sample_genes_outliers_phenotypes.removedCODAM.txt"))
+  annotations <- as.data.frame(fread("/groups/umcg-bios/tmp03/projects/outlierGeneASE/phenotypeTables/AllSamplesExcludingCODAMand4outliers.phenotypes.nGenesANDnOutliers.txt"))
 
   annotations$Sex <- ifelse(annotations$Sex == "Male", 0,  ifelse(annotations$Sex == "male", 0,  ifelse(annotations$Sex == "female", 1,  ifelse(annotations$Sex == "Female", 1, NA))))
   annotations$Smoking <- ifelse(annotations$Smoking=="non-smoker", 0, ifelse(annotations$Smoking=='former smoker', 1, ifelse(annotations$Smoking=='current smoker', 2, NA)))
@@ -96,49 +95,10 @@ do_correlations <- function(){
     logFC_correlations <- rbind(logFC_correlations, correlationTMP)
     logFC_pval <- rbind(logFC_pval, pvalTMP)
   }
-  write.table(logFC_correlations,	'logFC_correlations.txt', sep='\t',quote=F, col.names=NA)
-  write.table(logFC_pval,	'logFC_pvals.txt', sep='\t',quote=F, col.names=NA)
+  write.table(logFC_correlations,	paste0(out_dir,'logFC_correlations.txt'), sep='\t',quote=F, col.names=NA)
+  write.table(logFC_pval,	paste0(out_dir, 'logFC_pvals.txt'), sep='\t',quote=F, col.names=NA)
   
 }
 
-if(!file.exists('logFC_correlations.txt')){
-  do_correlations()
-}
+do_correlations()
 
-logFC_correlations <- read.table('logFC_correlations.txt', sep='\t', header=T, row.names=1)
-logFC_pval <- read.table('logFC_pvals.txt', sep='\t', header=T, row.names=1)
-
-
-
-logFC_correlations_remove_NA <- logFC_correlations
-logFC_correlations_remove_NA <- logFC_correlations_remove_NA[,colSums(is.na(logFC_correlations_remove_NA))<nrow(logFC_correlations_remove_NA)]
-
-logFC_correlations_remove_NA[is.na(logFC_correlations_remove_NA)] <- 0
-pdf("correlations_logFC.pdf", width=10, height=10)
-pheatmap(logFC_correlations_remove_NA, 
-         show_rownames=F,
-         cluster_rows=T,
-         cluster_cols=T)
-dev.off()
-
-
-not_significants <- logFC_pval >= 0.05
-not_significants[is.na(not_significants)] <- TRUE
-logFC_correlations_significant <- logFC_correlations
-logFC_correlations_significant[not_significants] <- 0
-
-logFC_correlations_significant_remove_NA <- logFC_correlations_significant
-logFC_correlations_significant_remove_NA <- logFC_correlations_significant_remove_NA[,colSums(is.na(logFC_correlations_significant_remove_NA))<nrow(logFC_correlations_significant_remove_NA)]
-
-logFC_correlations_significant_remove_NA[is.na(logFC_correlations_significant_remove_NA)] <- 0
-logFC_correlations_significant_remove_NA_at_least_one <- logFC_correlations_significant_remove_NA[rowSums(logFC_correlations_significant_remove_NA) > 0,]
-pdf("correlations_logFC_significants.pdf", width=10, height=10)
-pheatmap(logFC_correlations_significant_remove_NA_at_least_one, 
-         show_rownames=F,
-         cluster_rows=T,
-         cluster_cols=T)
-dev.off()
-
-
-
-t <- logFC_correlations_significant[order(-abs(logFC_correlations_significant$MEAN_INSERT_SIZE)),]

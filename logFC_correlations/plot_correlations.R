@@ -42,3 +42,36 @@ most_correlations <- correlations_naRemoved_noSD[apply(correlations_naRemoved_no
 
 pheatmap(most_correlations, cluster_rows=F, cluster_cols = F)
 
+
+
+logFC_correlations <- read.table(paste0(out_dir, 'logFC_correlations.txt'), sep='\t', header=T, row.names=1)
+logFC_pval <- read.table(paste0(out_dir, 'logFC_pvals.txt'), sep='\t', header=T, row.names=1)
+
+logFC_correlations_remove_NA <- logFC_correlations
+logFC_correlations_remove_NA <- logFC_correlations_remove_NA[,colSums(is.na(logFC_correlations_remove_NA))<nrow(logFC_correlations_remove_NA)]
+
+logFC_correlations_remove_NA[is.na(logFC_correlations_remove_NA)] <- 0
+pdf(paste0(out_dir, "correlations_logFC.pdf"), width=10, height=10)
+pheatmap(logFC_correlations_remove_NA,
+         show_rownames=F,
+         cluster_rows=T,
+         cluster_cols=T)
+dev.off()
+
+
+not_significants <- logFC_pval >= 0.05
+not_significants[is.na(not_significants)] <- TRUE
+logFC_correlations_significant <- logFC_correlations
+logFC_correlations_significant[not_significants] <- 0
+
+logFC_correlations_significant_remove_NA <- logFC_correlations_significant
+logFC_correlations_significant_remove_NA <- logFC_correlations_significant_remove_NA[,colSums(is.na(logFC_correlations_significant_remove_NA))<nrow(logFC_correlations_significant_remove_NA)]
+
+logFC_correlations_significant_remove_NA[is.na(logFC_correlations_significant_remove_NA)] <- 0
+logFC_correlations_significant_remove_NA_at_least_one <- logFC_correlations_significant_remove_NA[rowSums(logFC_correlations_significant_remove_NA) > 0,]
+pdf(paste0(out_dir, "correlations_logFC_significants.pdf"), width=10, height=10)
+pheatmap(logFC_correlations_significant_remove_NA_at_least_one,
+         show_rownames=F,
+         cluster_rows=T,
+         cluster_cols=T)
+dev.off()
