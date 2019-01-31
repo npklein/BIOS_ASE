@@ -86,8 +86,8 @@ foreach my $file (@geneAE_files) { #Iterate over all geneAE files
 }
 
 print "\n\n\nGenerating output tables ..\n\n";
-open(OUTA, "> genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.aCount.txt") || die "Can't open outA!\n";
-open(OUTB, "> genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.bCount.txt") || die "Can't open outB!\n";
+open(OUTA, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.20190124.aCount.txt") || die "Can't open outA!\n";
+open(OUTB, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.20190124.bCount.txt") || die "Can't open outB!\n";
 
 my $sampleString = join("\t", @samples);
 my $outputHeader = "ENSEMBLID\t$sampleString";
