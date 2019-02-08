@@ -122,7 +122,11 @@ foreach my $file (@geneAE_files) { #Iterate over all geneAE files
 
 #Process BINOM filtered file
 print "Processing BINOM filtered file ..\n";
+<<<<<<< HEAD
 my $binomFile = "/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.samplesFILTERED.txt";
+=======
+my $binomFile = "/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt";
+>>>>>>> 2a80f51c302edfb1917d2925ee56cc7cdaab0734
 #my $binomFile = "./testInput.txt";
 open(BINOM, "< $binomFile") || die "Can't open file: $binomFile\n";
 my @BINOMfile = <BINOM>;
@@ -133,7 +137,11 @@ my @BINOMheader = split("\t", $BINOMhead);
 print "Done processing BINOM filtered file\n";
 
 print "Creating output files ..\n";
+<<<<<<< HEAD
 open(OUTPUT, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.samplesFILTERED.values.txt") || die "Can't open outputfile\n";
+=======
+open(OUTPUT, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.values.txt") || die "Can't open outputfile\n";
+>>>>>>> 2a80f51c302edfb1917d2925ee56cc7cdaab0734
 print OUTPUT "$BINOMhead\n";
 
 my %outliers;
@@ -179,7 +187,11 @@ for (my $i=1; $i<=$#BINOMfile; $i++){
 close(OUTPUT);
 
 
+<<<<<<< HEAD
 open(STATS, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.samplesFILTERED.stats.txt") || die "Can't open stats file\n";
+=======
+open(STATS, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.stats.txt") || die "Can't open stats file\n";
+>>>>>>> 2a80f51c302edfb1917d2925ee56cc7cdaab0734
 print STATS "ENSEMBLID\tGENE\tCHR\tINHERITANCE\tGROUP\tCATEGORY\tNNONOUTLIERS\tNOUTLIERS\tNCATEGORIES\n";
 
 #Generate statistics table
