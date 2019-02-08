@@ -4,78 +4,69 @@ library(ggplot2)
 library(reshape2)
 library(dplyr)
 library(data.table)
+library(bbmle)
 
-/groups/umcg-bios/tmp03/projects/BIOS_manuscript/ase_sampleAse.txt
+#### Read in file with the ref/alt counts ####
+ase_counts_snp_aggregate <- fread('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/ase_ase.txt')
+ase_counts_sample <- fread('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/ase_sampleAse.txt')
+ase_counts_sample$Alt_Counts <- as.numeric(ase_counts_sample$Alt_Counts)
+ase_counts_sample$Ref_Counts <- as.numeric(ase_counts_sample$Ref_Counts)
 
-input_and_output_dir <- '/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest/'
-#### READ IN A AND B COUNTS ####
-aCount <- read.table(paste0(input_and_output_dir,'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.20190124.aCount.txt'), header=T, check.names=FALSE)
-bCount <- read.table(paste0(input_and_output_dir,'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.20190124.bCount.txt'),header=T, check.names=FALSE)
-annotations <- as.data.frame(fread("/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest/sample_genes_outliers_phenotypes.removedCODAM.txt"))
+#### First sum the ref and alt per snp ####
+allele_counts_per_snp <- ase_counts_sample %>% 
+  group_by(snp_id) %>% 
+  summarise(Ref_Counts = sum(Ref_Counts),
+            Alt_Counts = sum(Alt_Counts))
+allele_counts_per_snp$total <- allele_counts_per_snp$Ref_Counts + allele_counts_per_snp$Alt_Counts
+
+allele_counts_per_snp <- head(allele_counts_per_snp)
+####
+
+#### Calculate the log ratio ####
+logL_function <- function(p, snp) -sum(dbinom(as.numeric(snp[['Ref_Counts']]),
+                                          as.numeric(snp[['total']]),
+                                          p, log=T))
 
 
-abcount_all_genes <- data.frame()
-number_of_genes <- length(unique(aCount$ENSEMBLID))
-x <- 0
-for(gene in unique(aCount$ENSEMBLID)){
-  if (x %% 100 == 0){
-      print(paste0(x,'/',number_of_genes))
-  }
-  x <- x + 1
-  a_subset <- aCount[aCount$ENSEMBLID==gene,]
-  b_subset <- bCount[bCount$ENSEMBLID==gene,]
-  aCount_melt <- melt(a_subset, id.vars='ENSEMBLID')
-  colnames(aCount_melt)[c(2,3)] = c('sample','aCount')
-  
-  
-  bCount_melt <- melt(b_subset, id.vars='ENSEMBLID')
-  colnames(bCount_melt)[c(2,3)] = c('sample','bCount')
-  #####
-  
-  ##### MERGE AND FILTER, CALC RATIO ####
-  ab_count <- merge(aCount_melt, bCount_melt, by=c('ENSEMBLID','sample'))
-  ab_count <- ab_count[!is.na(ab_count$aCount),]
-  ab_count <- ab_count[!is.na(ab_count$bCount),]
-  ab_count <- ab_count[ab_count$aCount > 0 & ab_count$bCount >0,]
-  ab_count$ratio <- ab_count$aCount / (ab_count$aCount+ab_count$bCount)
-  if(nrow(ab_count) == 0){
-    next
-  }
-  ####
-  
-  ##### READ IN ANNOTATION
-  ab_count$biobank <- annotations[match(as.character(ab_count$sample), annotations$SAMPLE),]$biobank_id
-  #####
-  
-  #ab_count %>%
-  #  group_by(ENSEMBLID, biobank) %>%
-  #  summarise_at(vars(-ratio), funs(mean(., na.rm=TRUE)))
-  
-  # calcualte the mean ratio per biobank to use as new p
-#  av_ratio_per_biobank <- ddply(ab_count, .(ENSEMBLID, biobank), summarize,  ratio=mean(ratio))
-  
-#  ab_count$binom_pvals_other_p <- apply(ab_count, 1, function(x) {
-#    av_gene  <- av_ratio_per_biobank[x['ENSEMBLID']==av_ratio_per_biobank$ENSEMBLID, ] 
-#    biobank_p <- av_gene[match(x['biobank'], av_gene$biobank),]$ratio
-                                         
-#    binom.test(as.numeric(x[c('aCount','bCount')]), alternative="two.sided", 
-#                 p=biobank_p, 
-#                 conf.level=0.95)$p.value
-#    })
-  
-  ab_count$binom_pvals <- apply(ab_count, 1, function(x) {
-    binom.test(as.numeric(x[c('aCount','bCount')]), alternative="two.sided", 
+logL_sumary <- apply(allele_counts_per_snp, 1, function(x)
+                            summary(mle2(logL_function, 
+                                 start=list(p=0.5), 
+                                 data=list(snp=x))))
+# can't get it nicely into the column in a different way, so apply and unlist
+allele_counts_per_snp$Likelihood_ratio <- unlist(lapply(logL_sumary, function(x) x@m2logL))
+allele_counts_per_snp$Likelihood_ratio_test_Pval <- unlist(lapply(logL_sumary, function(x) x@coef[4]))
+
+allele_counts_per_snp$Likelihood_ratio_test_FDR <- p.adjust(allele_counts_per_snp$Likelihood_ratio_test_Pval, 
+                                                            method='fdr')
+allele_counts_per_snp$Likelihood_ratio_test_bonferroni <- p.adjust(allele_counts_per_snp$Likelihood_ratio_test_Pval, 
+                                                                    method='bonferroni')
+####
+
+#### Calculate binomial p-value ####
+allele_counts_per_snp$binom_Pval <- apply(allele_counts_per_snp, 1, function(x) {
+    binom.test(as.numeric(x['Ref_Counts']),
+               as.numeric(x['Ref_Counts'])+as.numeric(x['Alt_Counts']), 
+               alternative="two.sided", 
                p=0.5, 
                conf.level=0.95)$p.value
-  })
- # ab_count_all <- rbind(ab_count_all, ab_count)
-  ab_count$p_bonferroni_gene <- p.adjust(ab_count$binom_pvals, method='bonferroni')
-  ab_count$p_fdr_gene <- p.adjust(ab_count$binom_pvals, method='fdr')
-  abcount_all_genes <- rbind(abcount_all_genes, ab_count)
-  write.table(ab_count, paste0(input_and_output_dir,'genes/',gene,'.txt'))
-}  
+})
 
-abcount_all_genes$p_bonferroni <- p.adjust(abcount_all_genes$binom_pvals, method='bonferroni')
-abcount_all_genes$p_fdr <- p.adjust(abcount_all_genes$binom_pvals, method='fdr')
-write.table(abcount_all_genes, paste0(input_and_output_dir, 'binom_ASE_all_genes.txt'), quote = F, sep='\t')
+allele_counts_per_snp$binom_FDR <- p.adjust(allele_counts_per_snp$binom_Pval,
+                                                            method='fdr')
+allele_counts_per_snp$binom_bonferroni <- p.adjust(allele_counts_per_snp$binom_Pval,
+                                                            method='bonferroni')
+####
+ase_counts_snp_aggregate <- data.frame(ase_counts_snp_aggregate)
+allele_counts_per_snp <- data.frame(allele_counts_per_snp)
+ase_counts_snp_aggregate_binom <- merge(ase_counts_snp_aggregate, allele_counts_per_snp, by.x='SNP_ID',by.y='snp_id')
+
+ase_counts_snp_aggregate_binom <- ase_counts_snp_aggregate_binom[c('SNP_ID','Fraction_alternative_allele',
+                                                                   'Alternative_allele','Reference_allele',
+                                                                   'Samples','Chr','Pos','Likelihood_ratio',
+                                                                   'Likelihood_ratio_test_Pval','Likelihood_ratio_test_FDR',
+                                                                   'Likelihood_ratio_test_bonferroni','binom_Pval',
+                                                                   'binom_FDR','binom_bonferroni')]
+write.table(ase_counts_snp_aggregate_binom, '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/ase_snpAse.binom.txt',
+            sep='\t',
+            row.names=F)
 
