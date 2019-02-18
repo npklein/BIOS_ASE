@@ -22,22 +22,17 @@ ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=dataTab1$MED
 genes_to_keep <- dataTab1[dataTab1$NOUTLIERS < 1000, ]
 ggplot(genes_to_keep,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 
-<<<<<<< HEAD
-=======
 #Replace the LLDeepNotInBios biobank IDs with LL
 genes_to_keep1$biobank_id[genes_to_keep1$biobank_id == "LLDeepNotInBIOS"] <- "LL"
 
->>>>>>> 2a80f51c302edfb1917d2925ee56cc7cdaab0734
 #Remove CODAM samples
 genes_to_keep1<-genes_to_keep[genes_to_keep$biobank_id != "CODAM" | is.na(genes_to_keep$biobank_id),]
 
 #Plot again
-<<<<<<< HEAD
 ggplot(genes_to_keep1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 
 #Write sample IDs
 write.table(unique(as.character(genes_to_keep1$SAMPLE)), "/Users/freerkvandijk/Downloads/samples_NOUTLIERS500.depthFiltered.bonferroni.txt",sep='\t',quote=F,
-=======
 plot<-ggplot(genes_to_keep1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.4) +
   ggtitle(paste0("Number of significant ASE genes per sample")) +
   ylab('Number of significant (P < 0.05) ASE genes')+
@@ -56,6 +51,5 @@ dev.off()
 
 #Write sample IDs
 write.table(unique(as.character(genes_to_keep1$SAMPLE)), "/Users/freerkvandijk/Downloads/samples_NOUTLIERS1000.depthFiltered.bonferroni.txt",sep='\t',quote=F,
->>>>>>> 2a80f51c302edfb1917d2925ee56cc7cdaab0734
             row.names=F, col.names=F)
 
