@@ -29,6 +29,10 @@ genes_to_keep1$biobank_id[genes_to_keep1$biobank_id == "LLDeepNotInBIOS"] <- "LL
 genes_to_keep1<-genes_to_keep[genes_to_keep$biobank_id != "CODAM" | is.na(genes_to_keep$biobank_id),]
 
 #Plot again
+ggplot(genes_to_keep1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
+
+#Write sample IDs
+write.table(unique(as.character(genes_to_keep1$SAMPLE)), "/Users/freerkvandijk/Downloads/samples_NOUTLIERS500.depthFiltered.bonferroni.txt",sep='\t',quote=F,
 plot<-ggplot(genes_to_keep1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.4) +
   ggtitle(paste0("Number of significant ASE genes per sample")) +
   ylab('Number of significant (P < 0.05) ASE genes')+

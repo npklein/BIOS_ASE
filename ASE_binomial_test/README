@@ -1,3 +1,11 @@
 For each gene calculate the binominal p-value with 
     Rscript binom_test.R
 This makes for every gene a file with per individual the p-values for that gene. Includes both nominal and bonferonni corrected p-values.
+
+
+
+For ASE per sample with the annonymized data
+    Rscript binom_sample_ASE_test.R
+
+For each aggregated SNP calculate the binom p-value
+    Rscript binom_snp_aggregate_test.R

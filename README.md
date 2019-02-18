@@ -12,6 +12,8 @@ python ASE_outlier_table/make_outlier_table.py
 # Select samples from the table that don't have more than 1000 ASE genes and are not CODAM
 python ASE_outlier_table/select_samples.py
 
+## Perform binominal test on count data
+NPK fill in
 
 ## Create phenotype table
 perl createPhenotypeTable.pl
@@ -34,7 +36,6 @@ perl createLogFoldTable.pl
 
 ## Count per gene the number of homs and hets, output in long format
 python allele_count_tables/combine_genes_and_samples.py
-
 
 
 #Minor allele analysis
