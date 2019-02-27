@@ -28,15 +28,13 @@ for f in glob.glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest
                 not_outliers[gene].add(sample)
             genes.add(gene)
             samples.add(sample)
-#            if sample == 'AC3BR8ACXX-6-8' and gene == 'ENSG00000170889':
-#                print('found')
 
 samples = list(samples)
 genes = list(genes)
 print(len(genes),'number of genes')
 
 
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.txt.TMP_DELETE','w') as out:
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferonni.txt','w') as out:
     out.write('ENSEMBLID')
     for sample in samples:
         out.write('\t'+sample)
@@ -51,4 +49,3 @@ with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/g
             else:
                 out.write('\tNA')
         out.write('\n')
-

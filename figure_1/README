@@ -1,0 +1,5 @@
+For panel a and b (Allele frequency comparison between WGS and RNAseq genotypes):
+    Rscript compare_allele_freqs_WGS_RNAseq.R
+
+For panel c (Swap errors):
+    compare_allele_freqs_WGS_RNAseq.R
