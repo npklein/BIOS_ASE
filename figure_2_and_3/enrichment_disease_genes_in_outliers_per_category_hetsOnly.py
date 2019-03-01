@@ -4,6 +4,7 @@ inheritance = {}
 manifestation = {}
 manifestations = set([])
 inheritances = set([])
+# TOD: how was this file made
 with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/CGD.20171220.txt') as input_file:
     header = input_file.readline().strip().split('\t')
     for line in input_file:
@@ -20,7 +21,8 @@ with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/C
             manifestations.add(manifestationName)
 
 logFC_per_sample_per_gene = {}
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.values.txt') as input_file:
+# TODO: how was this file made
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE//logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.values.txt') as input_file:
     header = input_file.readline().strip().split('\t')
     header_index = {}
     for index, element in enumerate(header):
@@ -36,7 +38,8 @@ with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/g
 outliers = {}
 not_outliers = {}
 na = {}
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt') as input_file:
+# TODO: how was this file made
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.txt') as input_file:
     header = input_file.readline().strip().split('\t')
     for line in input_file:
         line = line.strip().split('\t')
@@ -69,6 +72,7 @@ count_per_inheritance['other'] = {'outlier':{}, 'not_outlier':{}, 'na':{}}
 
 s = set([])
 s2 = set([])
+
 with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.hetsOnly.txt') as input_file:
     input_file.readline()
     x = 0
@@ -132,7 +136,7 @@ with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_
                 count_per_inheritance['other']['na'][impact].append([gene, snp, sample, MAF])
 
 
-disease_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.Bonferroni.txt'
+disease_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.txt'
 with open(disease_outfile,'w') as out:
     for m in count_per_manifestation:
         for type in ['outlier','not_outlier','na']:
@@ -143,7 +147,7 @@ with open(disease_outfile,'w') as out:
                     out.write(logFC_per_sample_per_gene[result[2]][result[0]])
                     out.write('\t'+result[3]+'\n')
 
-inheritance_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_inheritance/carriers_per_inheritance.hetsOnly.Bonferroni.txt'
+inheritance_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_inheritance/carriers_per_inheritance.hetsOnly.txt'
 with open(inheritance_outfile,'w') as out:
     out.write('disease\ttype\timpact\tgene\tsnp\tsample\tlogFC\tMAF\n')
     for m in count_per_inheritance:
