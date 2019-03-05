@@ -6,12 +6,10 @@ library(plotly)
 require(dplyr)
 
 carriers_per_clinvar <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.txt')
-print(head(carriers_per_clinvar))
+
 carriers_per_clinvar <- carriers_per_clinvar[!is.na(carriers_per_clinvar$logFC),]
 snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
 snpInfo$snp <- paste0(sapply(strsplit(snpInfo$VARIANT, "_"), "[[", 1),'_',sapply(strsplit(snpInfo$VARIANT, "_"), "[[", 2))
-print(head(carriers_per_clinvar))
-print(head(snpInfo))
 carriers_per_clinvar_snpInfo <- merge(carriers_per_clinvar, snpInfo, by='snp')
 clinvarTable <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvarSNPs_2019-Feb-19.txt')
 
@@ -53,7 +51,10 @@ ggplot(outliers_per_disease, aes(CLNVRSIG, fraction_outlier, fill=CLNVRSIG))+
   scale_x_discrete(limit=c('Pathogenic',
                            'Uncertain_significance','Benign'))+
   scale_y_continuous(limit=c(0,1.1))
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig3//proportion_outlier_per_clinvar_per_disease.png',width=25, height=20)
+
+outfile = '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig3//proportion_outlier_per_clinvar_per_disease.png'
+print(paste('write to:',outfile))
+ggsave(outfile,width=25, height=20)
 
 ##### make one overview plot ####
 outliers_total <- carriers_per_clinvar_snpInfo %>%
@@ -76,7 +77,10 @@ ggplot(outliers_total, aes(CLNVRSIG, fraction_outlier, fill=CLNVRSIG))+
                            'Uncertain_significance','Benign'))+
   scale_y_continuous(limit=c(0,1.1))+
   guides(fill=FALSE)
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_clinvar.png',width=12, height=8)
+
+outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_clinvar.png'
+print(paste('write to:',outfile))
+ggsave(outfile,width=12, height=8)
 
 #####
 

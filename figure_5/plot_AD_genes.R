@@ -29,10 +29,11 @@ allele_counts_unique_minorRatio <- rbind(allele_counts_unique_1, allele_counts_u
 allele_counts_unique_minorRatio <- rbind(allele_counts_unique_minorRatio, allele_counts_unique_3)
 allele_counts_unique_minorRatio <- rbind(allele_counts_unique_minorRatio, allele_counts_unique_4)
 
+allele_counts_unique_minorRatio_overlappingGene <- allele_counts_unique_minorRatio[allele_counts_unique_minorRatio$GENENAME %in% allele_counts_high_impact_unique$GENENAME,]
 ggplot(data=allele_counts_high_impact_unique, aes(x=GENENAME, y=GENEEXPRESSION, fill = GENENAME))+
   geom_violin()+
   geom_boxplot(width=0.05, outlier.shape=NA)+
-  geom_jitter(data=allele_counts_unique_minorRatio,
+  geom_jitter(data=allele_counts_unique_minorRatio_overlappingGene,
               aes(x=GENENAME, y=na.omit(GENEEXPRESSION), size = MINORRATIO, colour=IMPACT, alpha=0.8), 
               position=position_jitter(w=0.4,h=0.1))+
   theme_bw(base_size=18)+

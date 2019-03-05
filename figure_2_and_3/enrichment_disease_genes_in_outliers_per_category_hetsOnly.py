@@ -138,6 +138,7 @@ with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_
 
 disease_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.txt'
 with open(disease_outfile,'w') as out:
+    out.write('disease\ttype\timpact\tgene\tsnp\tsample\tlogFC\tMAF\n')
     for m in count_per_manifestation:
         for type in ['outlier','not_outlier','na']:
             for impact in count_per_manifestation[m][type]:
@@ -149,7 +150,7 @@ with open(disease_outfile,'w') as out:
 
 inheritance_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_inheritance/carriers_per_inheritance.hetsOnly.txt'
 with open(inheritance_outfile,'w') as out:
-    out.write('disease\ttype\timpact\tgene\tsnp\tsample\tlogFC\tMAF\n')
+    out.write('inheritance\ttype\timpact\tgene\tsnp\tsample\tlogFC\tMAF\n')
     for m in count_per_inheritance:
         for type in ['outlier','not_outlier','na']:
             for impact in count_per_inheritance[m][type]:
