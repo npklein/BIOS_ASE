@@ -89,14 +89,8 @@ p <- ggplot(data=summed_counts_filtered, aes(SNPEFFIMPACT,
   geom_segment(aes(x='MODERATE', y=1.3, xend='MODERATE', yend=1.275), size=0.3) + # line 3
   geom_segment(aes(x='LOW', y=1.3, xend='LOW', yend=1.275), size=0.3) # line 3
 
-  #ggtitle("Rare variants (AF <= 0.01)")+  
-#  stat_compare_means(aes(label = ..p.adj..),
-#                    comparisons = comparisons, method='wilcox.test')+
-
   
-#ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig4/minor_allele_fracion.manuscript.20190303.png',
-#        plot=p,  width=8, height=8)
-
-
-ggsave('minor_allele_fracion.manuscript.20190303.png',
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig4/minor_allele_fracion.manuscript.20190303.png',
         plot=p,  width=8, height=8)
+
+
