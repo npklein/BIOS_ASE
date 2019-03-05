@@ -76,7 +76,7 @@ p <- ggplot(data=summed_counts_filtered, aes(SNPEFFIMPACT,
   stat_summary(fun.data = give.n, geom = "text")+
   geom_text(data = comparison_df[!(comparison_df$group2 == 'HIGH' & comparison_df$group1=='LOW'),], 
             aes(x = SNPEFFIMPACT, y =frac_minor_allele , label = p.adj), size = 4,
-            hjust=-2.2)+
+            hjust=-1.6)+
   geom_text(data = comparison_df[(comparison_df$group2 == 'HIGH' & comparison_df$group1=='LOW'),], 
             aes(x = SNPEFFIMPACT, y =frac_minor_allele , label = p.adj), size = 4)+
   geom_segment(aes(x='HIGH', y=1.1, xend='MODERATE', yend=1.1), size=0.3) + # line 1
@@ -90,6 +90,7 @@ p <- ggplot(data=summed_counts_filtered, aes(SNPEFFIMPACT,
   geom_segment(aes(x='LOW', y=1.3, xend='LOW', yend=1.275), size=0.3) # line 3
 
   
+# NOTE: the hjsut of p is based on width=8, if you change the width also adjust hjust
 ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig4/minor_allele_fracion.manuscript.20190303.png',
         plot=p,  width=8, height=8)
 
