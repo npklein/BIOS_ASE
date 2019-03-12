@@ -1,0 +1,13 @@
+mergeAllelicCountsPerSample.sh
+    Merges the allelic counts (that are in batches) per sample to create for each chr. one file per sample
+
+merge_allelic_counts_per_snp.py
+    Sum the hapA and hapB counts per SNP and calculate the log fold change over the summed counts
+
+merge_with_LCL_ASE.py
+    Merge our ASE results from merge_allelic_counts_per_snp.py with those of https://www.ncbi.nlm.nih.gov/pubmed/25954321
+    Table of https://www.ncbi.nlm.nih.gov/pubmed/25954321 was downloaded from  https://molgenis56.gcc.rug.nl/
+
+
+plot_single_snp_concordance.R
+    Plot the single SNP concordance and output numbers and p-values used in the manuscript

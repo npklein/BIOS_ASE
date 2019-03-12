@@ -1,5 +1,8 @@
 # BIOS_ASE
 
+# NOTE: We use hardcoded paths to locations of files on our cluster, if you want to 
+#       do these analysis on your own data you wil have to change the paths in the scripts
+
 ## Generate count files for haplotype A and B from geneAE data
 sh createCountTables.sh
 
@@ -13,7 +16,7 @@ python ASE_outlier_table/make_outlier_table.py
 python ASE_outlier_table/select_samples.py
 
 ## Perform binominal test on count data
-NPK fill in
+Rscript binom_sample_ASE_test.all.R
 
 ## Create phenotype table
 perl createPhenotypeTable.pl
@@ -21,10 +24,8 @@ perl createPhenotypeTable.pl
 ## Merge phenotypedata with the aggregate #genes and #outlier ASE genes from bonferroni corrected logFoldChange matrix
 perl createGenesAndOutliersTable.pl
 
-
 ## Select and remove outliers from data, create list with sample IDs to keep
 Rscript removeOutliersAndCODAM.R
-
 
 ## Calculate number of ASE genes and outlier genes per sample (using samplelist as obtained from Rscript)
 # Only use samples having at least 30X coverage and at least 5X on both haplotypes
@@ -32,7 +33,6 @@ Rscript removeOutliersAndCODAM.R
 # Only assess genes for which at least 100 samples show ASE, when a sample is more than 3SD from the mean mark it as outlier for that specific gene
 
 perl createLogFoldTable.pl
-
 
 ## Count per gene the number of homs and hets, output in long format
 python allele_count_tables/combine_genes_and_samples.py
