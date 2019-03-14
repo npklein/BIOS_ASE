@@ -1,15 +1,15 @@
 # BIOS_ASE
 
-# NOTE: We use hardcoded paths to locations of files on our cluster, if you want to 
-#       do these analysis on your own data you wil have to change the paths in the scripts
+## NOTE: We use hardcoded paths to locations of files on our cluster, if you want to 
+##       do these analysis on your own data you wil have to change the paths in the scripts
 
 ## Generate count files for haplotype A and B from geneAE data
 sh createCountTables.sh
 
-# Run binomial test on the a/b counts
+## Run binomial test on the a/b counts
 Rscript ASE_binomial_test/binom_test.R
 
-# Make table with ASE genes (bonf. corrected p-value < 0.05
+## Make table with ASE genes (bonf. corrected p-value < 0.05
 python ASE_outlier_table/make_outlier_table.py
 
 ## Perform binominal test on count data
@@ -24,7 +24,10 @@ perl createGenesAndOutliersTable.pl
 ## Select and remove outliers from data, create list with sample IDs to keep
 Rscript removeOutliersAndCODAM.R
 
-# Select samples from the table that don't have more than 1000 ASE genes and are not CODAM
+
+# ASE outlier (genes showing strong ASE) detection
+
+## Select samples from the table that don't have more than 1000 ASE genes and are not CODAM
 python ASE_outlier_table/select_samples.py
 
 ## Calculate number of ASE genes and outlier genes per sample (using samplelist as obtained from Rscript)
@@ -38,7 +41,7 @@ perl createLogFoldChangeTable.pl
 python allele_count_tables/combine_genes_and_samples.py
 
 
-#Minor allele analysis
+# Minor allele analysis
 
 ## Create major/minor allele tables
 perl minor_allele_ratio/createTable.pl
@@ -48,15 +51,26 @@ perl minor_allele_ratio/filterMatrices.pl
 
 ## Annotate table with CADD information
 module load HTSlib/1.3.2-foss-2015b
+
 perl minor_allele_ratio/annotateCountsWithCADD.pl
 
 ## Create impact category plot, use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
 Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R
 
 
-#Gene expression analysis and ASE
+# Gene expression analysis and ASE
 
 ## Create gene expression table for all samples
 perl geneExpressionTables/selectAllSamplesExcludingCODAMand4outliersForAllGenes.pl
 
+
+# How to name this section?
+
+## Annotate counts with additional information
+perl createAnnotationTableNew.pl
+
+## Create major/minor table for non-ASE samples
+perl minor_allele_ratio/createTableNonASEsamples.pl
+
+## Filter table, remove lines containing only NA's
 
