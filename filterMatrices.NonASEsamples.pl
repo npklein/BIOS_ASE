@@ -17,7 +17,7 @@ my $tabixPath="/apps/software/HTSlib/1.3.2-foss-2015b/bin/";
 
 ##Read counts file
 print "Processing count matrix files..\n";
-my @countFiles = glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.m*orAllelle.chrALL.txt');
+my @countFiles = glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.m*orAllelle.nonASEsamples.chrALL.txt');
 
 
 foreach my $cFile (@countFiles){
