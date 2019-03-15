@@ -29,7 +29,7 @@ foreach my $cFile (@countFiles){
     chomp($header);
     
     #Open output
-    open(OUTPUT, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/$cFile.filtered.txt") || die "Can't open output file: $cFile.filtered.txt\n";
+    open(OUTPUT, "> $cFile.filtered.txt") || die "Can't open output file: $cFile.filtered.txt\n";
     print OUTPUT "$header\n";
     for (my $i=1; $i<=$#countFile; $i++){
         my $line = $countFile[$i];

@@ -73,4 +73,12 @@ perl createAnnotationTableNew.pl
 perl minor_allele_ratio/createTableNonASEsamples.pl
 
 ## Filter table, remove lines containing only NA's
+perl filterMatrices.NonASEsamples.pl
+
+## Create cumulative count matrices
+perl createCountMatricesCumulativeVariants.pl
+
+
+
+
 
