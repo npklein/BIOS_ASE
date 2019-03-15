@@ -83,7 +83,7 @@ perl geneExpressionTables/selectAllSamplesExcludingCODAMand4outliersForAllGenes.
 <br><br>
 
 
-# How to name this section?
+# Comparison vs GTEx
 
 ### Annotate counts with additional information
 perl createAnnotationTableNew.pl
