@@ -1,7 +1,6 @@
 # BIOS_ASE
 
-## NOTE: We use hardcoded paths to locations of files on our cluster, if you want to 
-##       do these analysis on your own data you wil have to change the paths in the scripts
+## NOTE: We use hardcoded paths to locations of files on our cluster, if you want to do these analysis on your own data you wil have to change the paths in the scripts
 
 ### Generate count files for haplotype A and B from geneAE data
 sh createCountTables.sh
@@ -68,6 +67,10 @@ perl minor_allele_ratio/annotateCountsWithCADD.pl
 ### Create impact category plot
 Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
 Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R
+
+<br><br>
+<br><br>
+<br><br>
 
 
 # Gene expression analysis and ASE
