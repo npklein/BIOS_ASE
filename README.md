@@ -25,6 +25,11 @@ perl createGenesAndOutliersTable.pl
 Rscript removeOutliersAndCODAM.R
 
 
+
+
+
+
+
 # ASE outlier (genes showing strong ASE) detection
 
 ## Select samples from the table that don't have more than 1000 ASE genes and are not CODAM
@@ -78,7 +83,7 @@ perl filterMatrices.NonASEsamples.pl
 ## Create cumulative count matrices
 perl createCountMatricesCumulativeVariants.pl
 
-
-
+## Create table including GTEx and our counts/ratios
+perl createTables.AlleleAdded.pl
 
 
