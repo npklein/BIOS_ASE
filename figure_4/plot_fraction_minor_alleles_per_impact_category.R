@@ -62,7 +62,9 @@ comparison_df[comparison_df$group2 == 'HIGH' & comparison_df$group1=='LOW',]$fra
 comparison_df[comparison_df$group2 == 'HIGH' & comparison_df$group1=='LOW',]$SNPEFFIMPACT <- 'MODERATE'
 comparison_df[comparison_df$group2 == 'MODERATE' & comparison_df$group1=='LOW',]$frac_minor_allele <- 1.33
 comparison_df[comparison_df$group2 == 'MODERATE' & comparison_df$group1=='LOW',]$SNPEFFIMPACT <- 'LOW'
- 
+
+# NOTE! the hjust that is used to put the p-values in the middle is dependent on the machine it is run on
+# On our cluster this puts the p-value in the middle, if you run localy or somethwere else this may fail 
 p <- ggplot(data=summed_counts_filtered, aes(SNPEFFIMPACT, 
                                              frac_minor_allele,
                                              fill = SNPEFFIMPACT))+
