@@ -12,3 +12,6 @@ get_clinvar_pathogenics.R
 
 enrichment_disease_genes_in_outliers_per_category_hetsOnly.py
     Calcualte enrichment in disease genes
+
+plot_carriers_per_clinvar_hetsOnly.R
+    Make the figure 2 and 3 plot
