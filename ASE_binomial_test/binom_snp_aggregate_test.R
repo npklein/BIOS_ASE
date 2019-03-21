@@ -80,6 +80,13 @@ ase_counts_snp_aggregate_binom <- ase_counts_snp_aggregate_binom[c('SNP_ID','Fra
                                                                    'Likelihood_ratio_test_Pval','Likelihood_ratio_test_FDR',
                                                                    'Likelihood_ratio_test_bonferroni','binom_Pval',
                                                                    'binom_FDR','binom_bonferroni')]
+
+#Add quotes around values in last three columns dataframe
+ase_counts_snp_aggregate_binom$binom_Pval <- paste0("", ase_counts_snp_aggregate_binom$binom_Pval, "")
+ase_counts_snp_aggregate_binom$binom_FDR <- paste0("", ase_counts_snp_aggregate_binom$binom_FDR, "")
+ase_counts_snp_aggregate_binom$binom_bonferroni <- paste0("", ase_counts_snp_aggregate_binom$binom_bonferroni, "")
+
+
 print('write to /groups/umcg-bios/tmp03/projects/BIOS_manuscript/ase_snpAse.binom.txt')
 write.table(ase_counts_snp_aggregate_binom, '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/ase_snpAse.binom.txt',
             sep='\t',
