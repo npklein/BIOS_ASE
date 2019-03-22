@@ -132,6 +132,7 @@ perl ASEbrowserplots/createSampleAseEntityWithAllCounts.pl
 
 ### Run binomial tests on ase and sampleAse table
 Rscript ASE_binomial_test/binom_snp_aggregate_test.R
+
 Rscript ASE_binomial_test/binom_sample_ASE_test.20190315.R
 
 ### Split ase_samlpeASE table in smaller chunks, this to produce plots from own laptop (issues with graphial R libraries on cluster)
