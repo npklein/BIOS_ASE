@@ -100,4 +100,28 @@ perl createCountMatricesCumulativeVariants.pl
 ### Create table including GTEx and our counts/ratios
 perl createTables.AlleleAdded.pl
 
+<br><br>
+<br><br>
+<br><br>
+
+
+# Combined gene expression and ASE analysis and plots
+
+### Filter count lists
+This is a manual step, can otherwise be done using awk for example.
+
+### Create files used as input for figure 5
+perl figure_5/createASEandGeneExpressionTable/createGeneExpressionAndMinorAlleleRatioTables.ListInput.pl
+
+<br><br>
+<br><br>
+<br><br>
+
+
+# CSV files for ASE-browser
+There are 3 tables needed to populate the database
+
+
+
+
 
