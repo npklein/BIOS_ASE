@@ -120,8 +120,22 @@ perl figure_5/createASEandGeneExpressionTable/createGeneExpressionAndMinorAllele
 
 # CSV files for ASE-browser
 There are 3 tables needed to populate the database
+- ase_ase
+- ase_sampleAse
+- ase_genes
 
+### Create files for tables
+perl ASEbrowserplots/createASEbrowserTablesCsv.pl
 
+### Create table including all counts
+perl ASEbrowserplots/createSampleAseEntityWithAllCounts.pl
 
+### Run binomial tests on ase and sampleAse table
+Rscript ASE_binomial_test/binom_snp_aggregate_test.R
+Rscript ASE_binomial_test/binom_sample_ASE_test.20190315.R
 
+### Split ase_samlpeASE table in smaller chunks, this to produce plots from own laptop (issues with graphial R libraries on cluster)
+perl ASE_binomial_test/splitAse_sampleAseTable.pl
 
+### Run Rscript to produce plots
+Rscript ASE_binomial_test/manuscript_ASEbrowserPlots.R
