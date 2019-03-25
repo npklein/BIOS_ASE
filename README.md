@@ -66,6 +66,7 @@ perl minor_allele_ratio/annotateCountsWithCADD.pl
 
 ### Create impact category plot
 Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
+
 Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R
 
 <br><br>
