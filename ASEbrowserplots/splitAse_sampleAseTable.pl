@@ -10,9 +10,6 @@ use File::Basename;
 use Getopt::Long;
 use POSIX qw/ceil/;
 use Scalar::Util qw(looks_like_number);
-use lib '/home/umcg-fvandijk/perl_modules/';
-use lib '/home/umcg-fvandijk/perl_modules/lib/perl5/';
-use Statistics::Basic qw(:all);
 
 
 ###Variables to set

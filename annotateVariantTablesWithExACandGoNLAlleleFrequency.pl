@@ -8,8 +8,6 @@ use File::Glob ':glob';
 use File::Basename;
 use Getopt::Long;
 use Scalar::Util qw(looks_like_number);
-use lib '/home/umcg-fvandijk/perl_modules/';
-use lib '/home/umcg-fvandijk/perl_modules/lib/perl5/';
 
 my $tabixPath="/apps/software/HTSlib/1.3.2-foss-2015b/bin/";
 
