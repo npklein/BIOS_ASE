@@ -93,7 +93,7 @@ p <- ggplot(data=summed_counts_filtered, aes(SNPEFFIMPACT,
 
   
 # NOTE: the hjsut of p is based on width=8, if you change the width also adjust hjust
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig4/minor_allele_fracion.manuscript.20190303.png',
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig4/minor_allele_fraction.manuscript.20190315.png',
         plot=p,  width=8, height=8)
 
 

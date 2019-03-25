@@ -66,7 +66,27 @@ perl minor_allele_ratio/annotateCountsWithCADD.pl
 
 ### Create impact category plot
 Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
+
 Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R
+
+<br><br>
+<br><br>
+<br><br>
+
+
+# Carriers per disease/inheritance (fig 2 and 3)
+
+### Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
+python figure_2_and_3/OMIM_enrichment_hetsOnly.py
+
+### Get the 3 star clinvar variants
+Rscript figure_2_and_3/get_clinvar_pathogenics.R
+
+### Calcualte enrichment in disease genes
+python figure_2_and_3/enrichment_disease_genes_in_outliers_per_category_hetsOnly.py
+
+### Make figure 2 and 3
+Rscript figure_2_and_3/plot_carriers_per_clinvar_hetsOnly.R
 
 <br><br>
 <br><br>
@@ -100,16 +120,45 @@ perl createCountMatricesCumulativeVariants.pl
 ### Create table including GTEx and our counts/ratios
 perl createTables.AlleleAdded.pl
 
+<br><br>
+<br><br>
+<br><br>
 
-#Carriers per disease/inheritance (fig 2 and 3)
-## Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
-python figure_2_and_3/OMIM_enrichment_hetsOnly.py
 
-##Get the 3 star clinvar variants
-Rscript figure_2_and_3/get_clinvar_pathogenics.R
+# Combined gene expression and ASE analysis and plots
 
-##Calcualte enrichment in disease genes
-python figure_2_and_3/enrichment_disease_genes_in_outliers_per_category_hetsOnly.py
+### Filter count lists
+This is a manual step, can otherwise be done using awk for example.
 
-##Make figure 2 and 3
-Rscript figure_2_and_3/plot_carriers_per_clinvar_hetsOnly.R
+### Create files used as input for figure 5
+perl figure_5/createASEandGeneExpressionTable/createGeneExpressionAndMinorAlleleRatioTables.ListInput.pl
+
+<br><br>
+<br><br>
+<br><br>
+
+
+# CSV files for ASE-browser
+There are 3 tables needed to populate the database
+- ase_ase
+- ase_sampleAse
+- ase_genes
+
+### Create files for tables
+perl ASEbrowserplots/createASEbrowserTablesCsv.pl
+
+### Create table including all counts
+perl ASEbrowserplots/createSampleAseEntityWithAllCounts.pl
+
+### Run binomial tests on ase and sampleAse table
+Rscript ASE_binomial_test/binom_snp_aggregate_test.R
+
+Rscript ASE_binomial_test/binom_sample_ASE_test.20190315.R
+
+### Split ase_samlpeASE table in smaller chunks, this to produce plots from own laptop (issues with graphial R libraries on cluster)
+perl ASE_binomial_test/splitAse_sampleAseTable.pl
+
+### Run Rscript to produce plots
+Rscript ASE_binomial_test/manuscript_ASEbrowserPlots.R
+
+
