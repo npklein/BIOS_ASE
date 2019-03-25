@@ -164,4 +164,10 @@ There are 3 tables needed to populate the database
 ### Run Rscript to produce plots
 `Rscript ASE_binomial_test/manuscript_ASEbrowserPlots.R`
 
+<br><br>
+<br><br>
+<br><br>
 
+
+# Plot concordance GoNL DNA vs RNA
+`Rscript concordance_GoNL_DNA_vs_RNA.R`
