@@ -73,6 +73,25 @@ Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R
 <br><br>
 
 
+# Carriers per disease/inheritance (fig 2 and 3)
+
+### Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
+python figure_2_and_3/OMIM_enrichment_hetsOnly.py
+
+### Get the 3 star clinvar variants
+Rscript figure_2_and_3/get_clinvar_pathogenics.R
+
+### Calcualte enrichment in disease genes
+python figure_2_and_3/enrichment_disease_genes_in_outliers_per_category_hetsOnly.py
+
+### Make figure 2 and 3
+Rscript figure_2_and_3/plot_carriers_per_clinvar_hetsOnly.R
+
+<br><br>
+<br><br>
+<br><br>
+
+
 # Gene expression analysis and ASE
 
 ### Create gene expression table for all samples
@@ -141,20 +160,4 @@ perl ASE_binomial_test/splitAse_sampleAseTable.pl
 ### Run Rscript to produce plots
 Rscript ASE_binomial_test/manuscript_ASEbrowserPlots.R
 
-<br><br>
-<br><br>
-<br><br>
 
-
-#Carriers per disease/inheritance (fig 2 and 3)
-## Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
-python figure_2_and_3/OMIM_enrichment_hetsOnly.py
-
-##Get the 3 star clinvar variants
-Rscript figure_2_and_3/get_clinvar_pathogenics.R
-
-##Calcualte enrichment in disease genes
-python figure_2_and_3/enrichment_disease_genes_in_outliers_per_category_hetsOnly.py
-
-##Make figure 2 and 3
-Rscript figure_2_and_3/plot_carriers_per_clinvar_hetsOnly.R
