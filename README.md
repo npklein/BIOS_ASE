@@ -3,7 +3,7 @@
 ## NOTE: We use hardcoded paths to locations of files on our cluster, if you want to do these analysis on your own data you will have to change the paths in the scripts
 
 ### Generate count files for haplotype A and B from geneAE data
-sh createCountTables.sh
+`sh createCountTables.sh`
 
 ### Run binomial test on the a/b counts
 Rscript ASE_binomial_test/binom_test.R
