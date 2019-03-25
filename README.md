@@ -19,10 +19,12 @@ perl createPhenotypeTable.pl
 
 ### Merge phenotype table with stats
 Merge phenotypedata with the aggregate #genes and #outlier ASE genes from bonferroni corrected logFoldChange matrix
+
 perl createGenesAndOutliersTable.pl
 
 ### Remove outliers
 Select and remove outliers from data, create list with sample IDs to keep
+
 Rscript removeOutliersAndCODAM.R
 
 <br><br>
@@ -34,6 +36,7 @@ Rscript removeOutliersAndCODAM.R
 
 ### Remove outliers
 Select samples from the table that don't have more than 1000 ASE genes and are not CODAM
+
 python ASE_outlier_table/select_samples.py
 
 ### Calculate number of ASE genes and outlier genes per sample (using samplelist as obtained from Rscript)
