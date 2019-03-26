@@ -206,3 +206,9 @@ There are 3 tables needed to populate the database
 
 
 
+##Make figure 2 and 3
+`Rscript figure_2_and_3/plot_carriers_per_clinvar_hetsOnly.R`
+
+# Analysis of AD pathogenic variants (fig 5)
+## plot AD genes
+`Rscript figure_5/plot_AD_genes.R`
