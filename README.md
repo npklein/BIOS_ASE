@@ -91,6 +91,7 @@ Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.
 ### Make figure 2 and 3
 `Rscript figure_2_and_3/plot_carriers_per_clinvar_hetsOnly.R`
 
+<<<<<<< HEAD
 <br><br>
 <br><br>
 <br><br>
@@ -205,10 +206,10 @@ There are 3 tables needed to populate the database
 `Rscript proportion_alt_alleles_per_variant_impact_category.R`
 
 
-
 ##Make figure 2 and 3
 `Rscript figure_2_and_3/plot_carriers_per_clinvar_hetsOnly.R`
 
 # Analysis of AD pathogenic variants (fig 5)
 ## plot AD genes
 `Rscript figure_5/plot_AD_genes.R`
+
