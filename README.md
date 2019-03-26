@@ -187,15 +187,21 @@ There are 3 tables needed to populate the database
 ### Extract only variants which are present in specific database of interest
 
 `perl pathogenicAlleles/extractOMIMgenesFromAlleleCounts.pl`
+
 `perl pathogenicAlleles/extractOMIMgenesFromAlleleCounts.V3.pl`
+
 `perl pathogenicAlleles/extractCGDgenesFromAlleleCounts.pl`
+
 `perl pathogenicAlleles/extractCGDgenesFromAlleleCounts.V3.pl`
+
 `perl pathogenicAlleles/extractDDG2PgenesFromAlleleCounts.pl`
+
 `perl pathogenicAlleles/extractDDG2PgenesFromAlleleCounts.V3.pl`
 
 ### Extract p-values and create plots
 
 `Rscript enrichment_alt_alleles_per_impact_category.R`
+
 `Rscript proportion_alt_alleles_per_variant_impact_category.R`
 
 
