@@ -9,6 +9,13 @@ import sys
 
 allelic_counts_dir = '/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing/results/phasing/readbackedPhasing/allelic_counts_mergedPerSample/'
 outdir = '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/merged_count_data/'
+
+# These are all the samples after filtering, have to select those also from output of this script
+samples_to_keep_file = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/samples_NOUTLIERS1000.depthFiltered.bonferroni.txt'
+with open(samples_to_keep_file) as input_file:
+    samples_to_keep = input_file.read().split('\n')        
+
+
 count_per_snp = {}
 samples_per_snp = {}
 
@@ -39,6 +46,7 @@ files = glob.glob(allelic_counts_dir+'/chr*/*txt')
 n_files = len(files)
 x = 0
 
+
 # Below is for temporary tst file, remove code later
 out = open('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/tmp/sample_snp_pass_filter.txt','w')
 out.write('sample\tSNP\tcov20_min1readPerAllele\n')
@@ -53,6 +61,8 @@ for f in files:
             line = line.strip().split('\t')
             snp,ref,alt,refCount,altCount = line[2], line[3], line[4], int(line[5]), int(line[6])
             sample = f.split('phASER.')[1].split('.chr')[0]
+            if sample not in samples_to_keep:
+                continue
             for f_level in filter_levels:
                 if snp not in count_per_snp[f_level]:
                     count_per_snp[f_level][snp] = {'ref':0, 'alt':0, 'logFC':0,'n_samples':0}
