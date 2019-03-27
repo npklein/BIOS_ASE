@@ -331,7 +331,7 @@ eQTLgen eQTLs (from https://www.biorxiv.org/content/10.1101/447367v1, eqtlgen.or
 
 # Analysis of AD pathogenic variants (fig 5)
 
-plot AD genes
+### plot AD genes
 
 `Rscript figure_5/plot_AD_genes.R`
 
