@@ -73,6 +73,11 @@ Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R
 <br><br>
 <br><br>
 
+# Allele frequency comparison
+## Get the allele frequencies from the RNAseq based genotypes
+bash figure_1/get_allele_frequency.sh
+
+
 
 # Carriers per disease/inheritance (fig 2 and 3)
 
@@ -167,16 +172,23 @@ Rscript ASE_binomial_test/manuscript_ASEbrowserPlots.R
 Rscript figure_5/plot_AD_genes.R
 
 
-# Comparison with other ASE datasets
+# Comparison with other ASE and eQTL datasets
 ## LCL ASE (from https://www.ncbi.nlm.nih.gov/pubmed/25954321, https://molgenis56.target.rug.nl/)
-## Merge the allelic counts (that are in batches) per sample to create for each chr. one file per sample
+### Merge the allelic counts (that are in batches) per sample to create for each chr. one file per sample
 bash numbers_and_pvalues/ASE_replications/LCL_replication/mergeAllelicCountsPerSample.sh
 
-## Sum the hapA and hapB counts per SNP and calculate the log fold change over the summed counts
+### Sum the hapA and hapB counts per SNP and calculate the log fold change over the summed counts
 python numbers_and_pvalues/ASE_replications/LCL_replication/merge_allelic_counts_per_snp.py
 
-## Merge our ASE results from merge_allelic_counts_per_snp.py with those of https://www.ncbi.nlm.nih.gov/pubmed/25954321
+### Merge our ASE results from merge_allelic_counts_per_snp.py with those of https://www.ncbi.nlm.nih.gov/pubmed/25954321
 python numbers_and_pvalues/ASE_replications/LCL_replication/merge_with_LCL_ASE.py
 
-## Plot the single SNP concordance (sup figure ?) and output numbers and p-values used in the manuscript
+### Plot the single SNP concordance (sup figure ?) and output numbers and p-values used in the manuscript
 Rscript numbers_and_pvalues/ASE_replications/LCL_replication/plot_single_snp_concordance.R
+
+## eQTLgen eQTLs (from https://www.biorxiv.org/content/10.1101/447367v1, eqtlgen.org)
+### Merge our ASE results from merge_allelic_counts_per_snp.py with the eQTLs from eQTLgen
+python numbers_and_pvalues/ASE_replications/merge_snpCounts_with_eQTLgen.py
+
+### plot the concordance between eqtlGen eQTLs and our ASE results
+Rscript numbers_and_pvalues/ASE_replications/plot_snp_concorance.R

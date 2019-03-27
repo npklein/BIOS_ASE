@@ -55,7 +55,7 @@ for f in glob.glob(data_dir+'/counts_summed*txt'):
             elif int(line[3]) == 0:
                 continue
             else:
-                logFC = math.log(int(line[4])/int(line[3]))
+                logFC = math.log(float(line[4])/float(line[3]))
     
                     
     
