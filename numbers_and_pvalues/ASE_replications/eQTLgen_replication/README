@@ -1,0 +1,2 @@
+merge_snpCounts_with_eQTLgen.py
+    Merge our ASE results from merge_allelic_counts_per_snp.py with the eQTLs from eQTLgen

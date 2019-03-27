@@ -1,0 +1,6 @@
+rare_variant_enrichment.py
+    Take output from allele_count_tables/combine_genes_and_samples.py and calculate for different maf bins 
+    the number of genes that show ASE or not ASE for all the variants in that MAF bin
+
+plot_stratification.R
+    Plot the stratification per MAF

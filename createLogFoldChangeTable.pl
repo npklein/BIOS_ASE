@@ -119,6 +119,7 @@ foreach my $file (@geneAE_files) { #Iterate over all geneAE files
 
 #Process BINOM filtered file
 print "Processing BINOM filtered file ..\n";
+# input from figure_2_and_3/select_samples_from_outlierTable.py
 my $binomFile = "/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt";
 #my $binomFile = "./testInput.txt";
 open(BINOM, "< $binomFile") || die "Can't open file: $binomFile\n";

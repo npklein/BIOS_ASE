@@ -43,7 +43,7 @@ Select samples from the table that don't have more than 1000 ASE genes and are n
 - Only use samples having at least 30X coverage and at least 5X on both haplotypes
 - Calculate meand and SD
 - Only assess genes for which at least 100 samples show ASE, when a sample is more than 3SD from the mean mark it as outlier for that specific gene
-
+- uses input from figure_2_and_3/select_samples_from_outlierTable.py
 `perl createLogFoldChangeTable.pl`
 
 ### Count per gene the number of homs and hets, output in long format
@@ -78,11 +78,14 @@ Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.
 
 # Allele frequency comparison
 ## Get the allele frequencies from the RNAseq based genotypes
-bash figure_1/get_allele_frequency.sh
+python figure_1/get_allele_frequency.py
 
 
 
 # Carriers per disease/inheritance (fig 2 and 3)
+
+## Filter ASE table
+`python python figure_2_and_3/select_samples_from_outlierTable.py`
 
 ### Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
 `python figure_2_and_3/OMIM_enrichment_hetsOnly.py`
@@ -280,3 +283,12 @@ There are 3 tables needed to populate the database
 # Analysis of AD pathogenic variants (fig 5)
 ## plot AD genes
 `Rscript figure_5/plot_AD_genes.R`
+
+# Rare variant enrichment (sup fig 9)
+## Calculate enrichment of ASE variants per MAF bin
+Take output from allele_count_tables/combine_genes_and_samples.py and calculate for different maf bins
+the number of genes that show ASE or not ASE for all the variants in that MAF bin
+`python sup_figure_9/rare_variant_enrichment.py`
+
+## Plot the enrichment
+`Rscript sup_figure_9/plot_stratification.R`

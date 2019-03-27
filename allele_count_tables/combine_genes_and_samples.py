@@ -19,6 +19,7 @@ def read_gene_info():
 def read_gene_outliers(foldChange):
     # from the outlier table, extract for each gene which samples are outliers and which are not outliers
     gene_outlier = {}
+    # this file is output of ../allele_count_tables/combine_genes_and_samples.py
     with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt') as input_file:
         header = input_file.readline().strip().split('\t')
         header_index = {}
