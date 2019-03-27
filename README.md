@@ -280,3 +280,12 @@ There are 3 tables needed to populate the database
 # Analysis of AD pathogenic variants (fig 5)
 ## plot AD genes
 `Rscript figure_5/plot_AD_genes.R`
+
+# Rare variant enrichment (sup fig 9)
+## Calculate enrichment of ASE variants per MAF bin
+Take output from allele_count_tables/combine_genes_and_samples.py and calculate for different maf bins
+the number of genes that show ASE or not ASE for all the variants in that MAF bin
+`python sup_figure_9/rare_variant_enrichment.py`
+
+## Plot the enrichment
+`Rscript sup_figure_9/plot_stratification.R`
