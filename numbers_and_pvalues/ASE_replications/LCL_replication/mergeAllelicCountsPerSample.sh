@@ -1,8 +1,11 @@
 # Take output from phASER that we have over several chunks and merge per chromosome and sample
 
-echo "SAFETY EXIT, check if you really want to run this (removes/overwrites some data)"
-echo "If so, remove the exit from the code"
-exit
+read -p "Are you sure you want to run this (overwrites some data)? " -r
+echo    # (optional) move to a new line
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
+fi
 
 BASE="/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing/results/phasing/readbackedPhasing/"
 

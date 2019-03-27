@@ -6,3 +6,6 @@ For panel c (Swap errors):
 
 For panel d (Ratio observed vs GtEX):
     Rscript plot_variant_ratio_observed_vs_gtex.R
+
+get_allele_frequency.sh
+    Get allele frequencies of BIOS genotypes
