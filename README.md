@@ -190,6 +190,7 @@ There are 3 tables needed to populate the database
 ### Create pathogenic allele counts for all variants
 
 `perl pathogenicAlleles/integrateVariantInformationWithAlleleCounts.V2.pl`
+
 `perl pathogenicAlleles/integrateVariantInformationWithAlleleCounts.V3.pl`
 
 ### Extract only variants which are present in specific database of interest
