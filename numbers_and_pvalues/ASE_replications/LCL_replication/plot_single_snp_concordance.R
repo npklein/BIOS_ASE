@@ -31,7 +31,7 @@ for(f in file.names){
       # TODO: write these values to a file
       numbers_and_pvalues_results$n_overlap_ASE_LCL <- nrow(eqtl_and_ASE_fdr05)
       numbers_and_pvalues_results$concordance_with_LCL <- concordance_LCL_logFC*100
-      numbers_and_pvalues_results$correlation_with_LCL <- numbers_and_pvalues_results$cor_zscore_logFC_LCL
+      numbers_and_pvalues_results$correlation_with_LCL <- cor_zscore_logFC_LCL
   }
 
   ggplot(eqtl_and_ASE_fdr05, aes(logFC, LCL_ratio, size=-log(fdr+0.00000000001, base=10),
@@ -59,3 +59,6 @@ for(f in file.names){
   ######  
   
 }
+
+write.table(numbers_and_pvalues_results, file='LCL_ASE_comparison.txt',quote=F,
+        sep='\t', row.names=F)
