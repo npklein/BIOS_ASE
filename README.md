@@ -94,6 +94,7 @@ python figure_2_and_3/enrichment_disease_genes_in_outliers_per_category_hetsOnly
 Rscript figure_2_and_3/plot_carriers_per_clinvar_hetsOnly.R
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <br><br>
 <br><br>
 <br><br>
@@ -192,3 +193,7 @@ python numbers_and_pvalues/ASE_replications/merge_snpCounts_with_eQTLgen.py
 
 ### plot the concordance between eqtlGen eQTLs and our ASE results
 Rscript numbers_and_pvalues/ASE_replications/plot_snp_concorance.R
+
+# Analysis of AD pathogenic variants (fig 5)
+## plot AD genes
+Rscript figure_5/plot_AD_genes.R
