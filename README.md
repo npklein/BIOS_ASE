@@ -78,7 +78,7 @@ Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.
 
 # Allele frequency comparison
 ## Get the allele frequencies from the RNAseq based genotypes
-bash figure_1/get_allele_frequency.sh
+python figure_1/get_allele_frequency.py
 
 
 
