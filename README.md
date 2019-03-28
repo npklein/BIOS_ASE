@@ -351,6 +351,14 @@ the number of genes that show ASE or not ASE for all the variants in that MAF bi
 
 `Rscript sup_figure_9/plot_stratification.R`
 
+<br><br>
+<br><br>
+<br><br>
 
+
+# Concordance observed ASE vs GTEx
+This step uses the output from createTables.AlleleAdded.pl as input
+
+`Rscript concordance_GTEx_ASE/test_concordance_GTEx_ASE.R`
 
 
