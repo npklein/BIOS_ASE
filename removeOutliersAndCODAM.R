@@ -1,15 +1,6 @@
 library(ggplot2)
-library(Hmisc)
-library(reshape2)
-library(dplyr)
-library(ggpubr)
-library(EnvStats)
-library(scales)
-library(ggrepel)
 
-
-
-dataTab1<-read.table("/Users/freerkvandijk/Downloads/AllSamples.phenotypes.nGenesANDnOutliers.txt", sep="\t", header=TRUE)
+dataTab1<-read.table("/groups/umcg-bios/tmp03/projects/outlierGeneASE/phenotypeTables/AllSamples.phenotypes.nGenesANDnOutliers.txt", sep="\t", header=TRUE)
 
 ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=factor(dataTab1$biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=dataTab1$PF_READS)) + theme_bw() + geom_point(alpha = 0.6) + scale_color_gradientn(colours = rainbow(5))
@@ -18,22 +9,30 @@ ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=dataTab1$PF_
 ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=dataTab1$PERCENT_DUPLICATION)) + theme_bw() + geom_point(alpha = 0.6) + scale_color_gradientn(colours = rainbow(5))
 ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=dataTab1$MEDIAN_5PRIME_TO_3PRIME_BIAS)) + theme_bw() + geom_point(alpha = 0.6) + scale_color_gradientn(colours = rainbow(5))
 
-#Only keep sample having less than 1000 outlier ASE genes
-genes_to_keep <- dataTab1[dataTab1$NOUTLIERS < 1000, ]
+# Only keep sample having less than 500 outlier ASE genes
+# This is based on visual inspection of plots above, where a few samples have many more outliers than all other samples
+genes_to_keep <- dataTab1[dataTab1$NOUTLIERS < 500, ]
+
+# Also remove 
 ggplot(genes_to_keep,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 
 #Replace the LLDeepNotInBios biobank IDs with LL
-genes_to_keep1$biobank_id[genes_to_keep1$biobank_id == "LLDeepNotInBIOS"] <- "LL"
+genes_to_keep$biobank_id[genes_to_keep$biobank_id == "LLDeepNotInBIOS"] <- "LL"
 
 #Remove CODAM samples
-genes_to_keep1<-genes_to_keep[genes_to_keep$biobank_id != "CODAM" | is.na(genes_to_keep$biobank_id),]
+genes_to_keep <- genes_to_keep[genes_to_keep$biobank_id != "CODAM" | is.na(genes_to_keep$biobank_id),]
+print(paste0('samples filtered out: ',sum(dataTab1$NOUTLIERS >= 500)))
+print(paste0('samples kept: ',nrow(genes_to_keep)))
 
 #Plot again
-ggplot(genes_to_keep1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
+ggplot(genes_to_keep,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 
 #Write sample IDs
-write.table(unique(as.character(genes_to_keep1$SAMPLE)), "/Users/freerkvandijk/Downloads/samples_NOUTLIERS500.depthFiltered.bonferroni.txt",sep='\t',quote=F,
-plot<-ggplot(genes_to_keep1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.4) +
+write.table(unique(as.character(genes_to_keep$SAMPLE)), 
+    "/groups/umcg-bios/tmp03/projects/outlierGeneASE/samples_NOUTLIERS500.depthFiltered.binom.txt",
+    sep='\t',quote=F,row.names=F, col.names=F)
+
+plot<-ggplot(genes_to_keep,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.4) +
   ggtitle(paste0("Number of significant ASE genes per sample")) +
   ylab('Number of significant (P < 0.05) ASE genes')+
   xlab('Number of observed ASE genes per sample')+
@@ -49,7 +48,4 @@ print(plot)
 dev.off()
 
 
-#Write sample IDs
-write.table(unique(as.character(genes_to_keep1$SAMPLE)), "/Users/freerkvandijk/Downloads/samples_NOUTLIERS1000.depthFiltered.bonferroni.txt",sep='\t',quote=F,
-            row.names=F, col.names=F)
 
