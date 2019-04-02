@@ -18,7 +18,7 @@
 `perl createPhenotypeTable.pl`
 
 ### Merge phenotype table with stats
-Merge phenotypedata with the aggregate #genes and #outlier ASE genes from bonferroni corrected logFoldChange matrix
+Merge phenotypedata with the aggregate #genes and #outlier ASE genes from FDR < 0.05 logFoldChange matrix
 
 `perl createGenesAndOutliersTable.pl`
 
