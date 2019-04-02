@@ -20,9 +20,9 @@ for f in glob.glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/binomialTest
                 not_outliers[gene] = set([])
             
             sample = line[2]
-            bonf_pval = line[8]
+            fdr_pval = line[8]
 
-            if float(bonf_pval) < 0.05:
+            if float(fdr_pval) < 0.05:
                 outliers[gene].add(sample)
             else:
                 not_outliers[gene].add(sample)
