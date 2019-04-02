@@ -12,7 +12,7 @@
 `python ASE_outlier_table/make_outlier_table.py`
 
 ### Perform binominal test on count data
-`Rscript binom_sample_ASE_test.all.R`
+`Rscript ASE_binomial_test/binom_sample_ASE_test.all.R`
 
 ### Create phenotype table
 `perl createPhenotypeTable.pl`
