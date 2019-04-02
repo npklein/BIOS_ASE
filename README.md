@@ -11,9 +11,6 @@
 ### Make table with ASE genes (FDR < 0.05)
 `python ASE_outlier_table/make_outlier_table.py`
 
-### Perform binominal test on count data
-`Rscript ASE_binomial_test/binom_sample_ASE_test.all.R`
-
 ### Create phenotype table
 `perl createPhenotypeTable.pl`
 
@@ -160,6 +157,9 @@ There are 3 tables needed to populate the database
 - ase_ase
 - ase_sampleAse
 - ase_genes
+
+### Perform binominal test on individual count data
+`Rscript ASE_binomial_test/binom_sample_ASE_test.all.R`
 
 ### Create files for tables
 `perl ASEbrowserplots/createASEbrowserTablesCsv.pl`
