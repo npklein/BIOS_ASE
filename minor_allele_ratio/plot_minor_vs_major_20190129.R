@@ -4,12 +4,11 @@ library(ggplot2)
 library(data.table)
 library(reshape2)
 library(ggforce)
-library(ggpubr)
 library(ggsignif)
 
 ###### READ IN DATA #####
-major_allele_counts <- data.frame(fread('/Users/freerkvandijk/Downloads/counts.matrix.majorAllelle.chrALL.txt.filtered.txt'))
-minor_allele_counts <- data.frame(fread('/Users/freerkvandijk/Downloads/counts.matrix.minorAllelle.chrALL.txt.filtered.txt'))
+major_allele_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.majorAllelle.chrALL.txt.filtered.txt'))
+minor_allele_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.minorAllelle.chrALL.txt.filtered.txt'))
 snp_info <- data.frame(fread('/Users/freerkvandijk/Downloads/counts.chr22.addedCADD.txt'))
 ######
 
@@ -88,7 +87,7 @@ ggplot(summed_counts_subsetted, aes(SNPEFFIMPACT, minor/(minor+major), fill = SN
   scale_fill_brewer(palette="Dark2")+ 
   stat_compare_means(comparisons = comparisons, method='wilcox.test') + 
   stat_summary(fun.data = give.n, geom = "text")
-ggsave('figures/minor_allele_fraction_MAF_select.png',width=8, height=8)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/minor_allele_fraction_MAF_select.png',width=8, height=8)
 #####
 
 ##### SNPeff annotation
@@ -99,5 +98,5 @@ ggplot(summed_counts_annotation_subset, aes(SNPEFFANNOTATION, minor/(minor+major
   xlab('Impact')+
   ylab('Minor allele counts / total counts')+
   guides(fill=F)
-ggsave('figures/minor_allele_fraction.png',width=8, height=8)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/minor_allele_fraction.png',width=8, height=8)
 ####

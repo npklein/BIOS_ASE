@@ -13,6 +13,9 @@ ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=dataTab1$MED
 # This is based on visual inspection of plots above, where a few samples have many more outliers than all other samples
 genes_to_keep <- dataTab1[dataTab1$NOUTLIERS < 500, ]
 
+# One extra sample is removed due to having very low genotype concordance with WGS data
+# This has been done separatly so that the ID is not included in the code
+
 # Also remove 
 ggplot(genes_to_keep,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 
