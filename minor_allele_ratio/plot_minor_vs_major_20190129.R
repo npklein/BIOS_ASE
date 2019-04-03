@@ -1,5 +1,4 @@
-
-
+library(ggpubr)
 library(ggplot2)
 library(data.table)
 library(reshape2)
@@ -9,7 +8,7 @@ library(ggsignif)
 ###### READ IN DATA #####
 major_allele_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.majorAllelle.chrALL.txt.filtered.txt'))
 minor_allele_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.minorAllelle.chrALL.txt.filtered.txt'))
-snp_info <- data.frame(fread('/Users/freerkvandijk/Downloads/counts.chr22.addedCADD.txt'))
+snp_info <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.txt'))
 ######
 
 ###### MELT AND FILTER #####

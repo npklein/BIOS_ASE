@@ -23,7 +23,7 @@ with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/C
 logFC_per_sample_per_gene = {}
 # TODO: how was this file made 
 input_dir = '/groups/umcg-bios/tmp03/projects/outlierGeneASE//logFoldChangeTables/'
-with open(input_dir+'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.values.txt') as input_file:
+with open(input_dir+'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.values.txt') as input_file:
     header = input_file.readline().strip().split('\t')
     header_index = {}
     for index, element in enumerate(header):
@@ -40,7 +40,7 @@ outliers = {}
 not_outliers = {}
 na = {}
 # TODO: how was this file made 
-with open(input_dir+'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt') as input_file:
+with open(input_dir+'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.txt') as input_file:
     header = input_file.readline().strip().split('\t')
     for line in input_file:
         line = line.strip().split('\t')
