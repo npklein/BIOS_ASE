@@ -65,7 +65,9 @@ Select samples from the table that don't have more than 1000 ASE genes and are n
 `perl minor_allele_ratio/annotateCountsWithCADD.pl`
 
 ### Create impact category plot
-Use generated files (from minor_allele_ratio/minor_allele_ratio/filterMatrices.pl) counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
+Use generated files as input
+    counts.matrix.m*rAllelle.chrALL.txt.filtered.txt  (from minor_allele_ratio/minor_allele_ratio/filterMatrices.pl)
+    and counts.chr22.addedCADD.txt (from minor_allele_ratio/annotateCountsWithCADD.pl)
 
 `Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R`
 
@@ -75,14 +77,11 @@ Use generated files (from minor_allele_ratio/minor_allele_ratio/filterMatrices.p
 
 # Allele frequency comparison
 ## Get the allele frequencies from the RNAseq based genotypes
-python figure_1/get_allele_frequency.py
-
-
+TODO: we compare gonl wgs allele freq with rnaseq genotype allele freq. this gets allele freq for
+all samples
+`python figure_1/get_allele_frequency.py`
 
 # Carriers per disease/inheritance (fig 2 and 3)
-
-## Filter ASE table
-`python python figure_2_and_3/select_samples_from_outlierTable.py`
 
 ### Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
 `python figure_2_and_3/OMIM_enrichment_hetsOnly.py`
