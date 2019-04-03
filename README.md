@@ -296,5 +296,7 @@ the number of genes that show ASE or not ASE for all the variants in that MAF bi
 <br><br>
 <br><br>
 
-
+# Lipid level correlations
+## Correlate lipid level measurements with absolute log fold change
+`Rscript logFC_correlations/correlate_logFC.R`
 
