@@ -120,7 +120,7 @@ foreach my $file (@geneAE_files) { #Iterate over all geneAE files
 #Process BINOM filtered file
 print "Processing BINOM filtered file ..\n";
 # input from figure_2_and_3/select_samples_from_outlierTable.py
-my $binomFile = "/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt";
+my $binomFile = "/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.txt";
 #my $binomFile = "./testInput.txt";
 open(BINOM, "< $binomFile") || die "Can't open file: $binomFile\n";
 my @BINOMfile = <BINOM>;
@@ -131,7 +131,7 @@ my @BINOMheader = split("\t", $BINOMhead);
 print "Done processing BINOM filtered file\n";
 
 print "Creating output files ..\n";
-open(OUTPUT, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.values.txt") || die "Can't open outputfile\n";
+open(OUTPUT, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.values.txt") || die "Can't open outputfile\n";
 print OUTPUT "$BINOMhead\n";
 
 my %outliers;
@@ -177,7 +177,7 @@ for (my $i=1; $i<=$#BINOMfile; $i++){
 close(OUTPUT);
 
 
-open(STATS, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.stats.txt") || die "Can't open stats file\n";
+open(STATS, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.stats.txt") || die "Can't open stats file\n";
 print STATS "ENSEMBLID\tGENE\tCHR\tINHERITANCE\tGROUP\tCATEGORY\tNNONOUTLIERS\tNOUTLIERS\tNCATEGORIES\n";
 
 #Generate statistics table

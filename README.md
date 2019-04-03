@@ -65,7 +65,7 @@ Select samples from the table that don't have more than 1000 ASE genes and are n
 `perl minor_allele_ratio/annotateCountsWithCADD.pl`
 
 ### Create impact category plot
-Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
+Use generated files (from minor_allele_ratio/minor_allele_ratio/filterMatrices.pl) counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
 
 `Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R`
 
