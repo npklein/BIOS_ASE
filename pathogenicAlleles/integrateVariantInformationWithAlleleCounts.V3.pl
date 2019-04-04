@@ -52,13 +52,13 @@ foreach my $annotationFile (@annotation_files){
 print "Done reading annotation table\n\n";
 
 
-#/groups/umcg-bios/tmp03/users/umcg-ndeklein/ESHG_2018/infoTables/alleleCountPerGroupPerGene.not_outliers.TEST.txt
+#/groups/umcg-bios/tmp03/users/umcg-ndeklein/ESHG_2018/infoTables//groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.not_outliers.TEST.txt
 #gene    snp     AF      ref     alt     0       1       2
 #ENSG00000125826 20_389098       0.0004998750312421895   G       A       3294    3       0
 
 print "\nReading Non-outliers table ..\n";
 #/groups/umcg-bios/tmp03/users/umcg-ndeklein/ESHG_2018/infoTables/
-open(NON, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.not_outliers.binom.txt") || die "Can't open non-outliers file!\n";
+open(NON, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables//groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.not_outliers.binom.txt") || die "Can't open non-outliers file!\n";
 my @nons = <NON>;
 close(NON);
 my $nonsHeader = $nons[0];
@@ -69,14 +69,14 @@ print "Done reading Non-outliers table ..\n";
 
 print "\nReading Outliers table ..\n";
 #/groups/umcg-bios/tmp03/users/umcg-ndeklein/ESHG_2018/infoTables/
-open(OUTL, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.outliers.binom.txt") || die "Can't open outlier file!\n";
+open(OUTL, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables//groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.outliers.binom.txt") || die "Can't open outlier file!\n";
 my @outliers = <OUTL>;
 close(OUTL);
 my $outlHeader = $outliers[0];
 chomp($outlHeader);
 my @outlHeaderArray = split("\t", $outlHeader);
 
-open(OUTPUT, "> alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.splitOutliers.ALL.txt") || die "Can't open outlier file!\n";
+open(OUTPUT, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.splitOutliers.ALL.txt") || die "Can't open outlier file!\n";
 print OUTPUT "uniq\tchr\tpos\tref\talt\tgene_id\taf\tTotal\tHomRef\tHet\tHomAlt\tTotalAlleles\tRefAlleles\tAltAlleles\t$annoHeader\tSTATUS\n";
 
 
