@@ -58,7 +58,7 @@ print "Done reading annotation table\n\n";
 
 print "\nReading Non-outliers table ..\n";
 #/groups/umcg-bios/tmp03/users/umcg-ndeklein/ESHG_2018/infoTables/
-open(NON, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.not_outliers.binom.Bonferroni.txt") || die "Can't open non-outliers file!\n";
+open(NON, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.not_outliers.binom.txt") || die "Can't open non-outliers file!\n";
 my @nons = <NON>;
 close(NON);
 my $nonsHeader = $nons[0];
@@ -69,7 +69,7 @@ print "Done reading Non-outliers table ..\n";
 
 print "\nReading Outliers table ..\n";
 #/groups/umcg-bios/tmp03/users/umcg-ndeklein/ESHG_2018/infoTables/
-open(OUTL, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.outliers.binom.Bonferroni.txt") || die "Can't open outlier file!\n";
+open(OUTL, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/infoTables/alleleCountPerGroupPerGene.outliers.binom.txt") || die "Can't open outlier file!\n";
 my @outliers = <OUTL>;
 close(OUTL);
 my $outlHeader = $outliers[0];
