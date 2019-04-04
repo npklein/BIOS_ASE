@@ -9,7 +9,7 @@ library(ggrepel)
 
 
 
-dataTab1<-read.table("/Users/freerkvandijk/Downloads/AllSamples.phenotypes.nGenesANDnOutliers.txt", sep="\t", header=TRUE)
+dataTab1<-read.table("AllSamples.phenotypes.nGenesANDnOutliers.txt", sep="\t", header=TRUE)
 
 ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=factor(dataTab1$biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=dataTab1$PF_READS)) + theme_bw() + geom_point(alpha = 0.6) + scale_color_gradientn(colours = rainbow(5))
