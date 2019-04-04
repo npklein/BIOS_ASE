@@ -214,9 +214,9 @@ There are 3 tables needed to populate the database
 
 ### Extract p-values and create plots
 
-`Rscript enrichment_alt_alleles_per_impact_category.R`
+`Rscript pathogenicAlleles/enrichment_alt_alleles_per_impact_category.R`
 
-`Rscript proportion_alt_alleles_per_variant_impact_category.R`
+`Rscript pathogenicAlleles/proportion_alt_alleles_per_variant_impact_category.R`
 
 <br><br>
 <br><br>
