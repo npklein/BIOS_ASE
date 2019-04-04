@@ -116,7 +116,7 @@ print "Done processing annotation tables.\n\n";
 
 ##Read sample file to include only pass QC samples
 print "Processing sample file..\n";
-open(SAMPLE, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/samples_NOUTLIERS1000.depthFiltered.bonferroni.txt") || die "Can't open sample file\n";
+open(SAMPLE, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/samples_NOUTLIERS500.depthFiltered.binom.txt") || die "Can't open sample file\n";
 my @samples;
 while (my $lin = <SAMPLE>) { #Only one ID per line in the file
     chomp($lin);

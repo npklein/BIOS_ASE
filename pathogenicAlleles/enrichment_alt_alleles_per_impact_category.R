@@ -1,6 +1,7 @@
 library(ggplot2)
 library(Hmisc)
 library(reshape2)
+library(plyr)
 library(dplyr)
 library(ggpubr)
 
@@ -14,7 +15,6 @@ library(ggpubr)
 ##   conf.interval: the percent range of the confidence interval (default is 95%)
 summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=TRUE,
                       conf.interval=.95, .drop=TRUE) {
-  library(plyr)
   
   # New version of length which can handle NA's: if na.rm==T, don't count them
   length2 <- function (x, na.rm=FALSE) {

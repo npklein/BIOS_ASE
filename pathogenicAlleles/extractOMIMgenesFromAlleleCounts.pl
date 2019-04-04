@@ -37,10 +37,10 @@ for (my $i=5; $i<=$#omimFile; $i++){ #loop over lines
 
 
 #Loop over lines in alleleCounts file
-open(ACF, "< alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.ALL.txt") || die "Can't open file: alleleCountPerGroupPerGene.medianSD3.merged.annotated.depthFiltered.removedCODAM.4outliersRemoved.txt!\n";
-open(OUTPUT, "> alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.OMIM.txt") || die "Can't open file: alleleCountPerGroupPerGene.medianSD3.merged.annotated.depthFiltered.removedCODAM.4outliersRemoved.OMIMgenesOnly.txt!\n";
+open(ACF, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.ALL.txt") || die "Can't open file: alleleCountPerGroupPerGene.medianSD3.merged.annotated.depthFiltered.removedCODAM.4outliersRemoved.txt!\n";
+open(OUTPUT, "> /groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.OMIM.txt") || die "Can't open file: alleleCountPerGroupPerGene.medianSD3.merged.annotated.depthFiltered.removedCODAM.4outliersRemoved.OMIMgenesOnly.txt!\n";
 
-my $acfHeader = `head -1 alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.ALL.txt`;
+my $acfHeader = `head -1 /groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.ALL.txt`;
 chomp($acfHeader);
 print OUTPUT "$acfHeader\n";
 

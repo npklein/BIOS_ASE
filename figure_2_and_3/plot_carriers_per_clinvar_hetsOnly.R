@@ -1,22 +1,26 @@
-
+#TODO: write numbers to a file
 
 library(data.table)
 library(ggplot2)
 library(plotly)
 require(dplyr)
 
-carriers_per_clinvar <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.txt')
+carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.txt')
 
-carriers_per_clinvar <- carriers_per_clinvar[!is.na(carriers_per_clinvar$logFC),]
+carriers_per_disease <- carriers_per_disease[!is.na(carriers_per_disease$logFC),]
 snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
 snpInfo$snp <- paste0(sapply(strsplit(snpInfo$VARIANT, "_"), "[[", 1),'_',sapply(strsplit(snpInfo$VARIANT, "_"), "[[", 2))
-carriers_per_clinvar_snpInfo <- merge(carriers_per_clinvar, snpInfo, by='snp')
+carriers_per_disease_snpInfo <- merge(carriers_per_disease, snpInfo, by='snp')
 clinvarTable <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvarSNPs_2019-Feb-19.txt')
 
-carriers_per_clinvar_clinvarInfo <- merge(carriers_per_clinvar_snpInfo, clinvarTable, by='snp', fill=T)
+carriers_per_disease_clinvarInfo <- merge(carriers_per_disease_snpInfo, clinvarTable, by='snp', fill=T)
 
+# filter: keep only those SNPs that are high confidence. 
+carriers_per_disease_snpInfo <- carriers_per_disease_clinvarInfo[which(carriers_per_disease_clinvarInfo$Selected == "TRUE"),]
 
-carriers_per_clinvar_snpInfo <- carriers_per_clinvar_snpInfo[!is.na(carriers_per_clinvar_snpInfo$CLNVRSIG),]
+carriers_per_disease_snpInfo_noDuplicates <- carriers_per_disease_snpInfo[!duplicated(carriers_per_disease_snpInfo$snp),]
+print(table(carriers_per_disease_snpInfo_noDuplicates$ClinSimple))
+
 
 give.n <- function(x){
   return(c(y = -0.1, label = length(x)))
@@ -24,12 +28,12 @@ give.n <- function(x){
 
 
 ###### outliers per impact factor #####
-carriers_per_clinvar_snpInfo[grepl('Benign',carriers_per_clinvar_snpInfo$CLNVRSIG,ignore.case=TRUE),]$CLNVRSIG <- 'Benign'
-carriers_per_clinvar_snpInfo[carriers_per_clinvar_snpInfo$CLNVRSIG=='Pathogenic,_other',]$CLNVRSIG <- 'Pathogenic'
-carriers_per_clinvar_snpInfo[carriers_per_clinvar_snpInfo$CLNVRSIG=='Pathogenic/Likely_pathogenic',]$CLNVRSIG <- 'Pathogenic'
-carriers_per_clinvar_snpInfo[carriers_per_clinvar_snpInfo$disease=='other',]$disease <- 'General'
-carriers_per_clinvar_snpInfo <- carriers_per_clinvar_snpInfo[!carriers_per_clinvar_snpInfo$disease=='General',]
-outliers_per_disease <- carriers_per_clinvar_snpInfo %>%
+carriers_per_disease_snpInfo[grepl('Benign',carriers_per_disease_snpInfo$CLNVRSIG,ignore.case=TRUE),]$CLNVRSIG <- 'Benign'
+carriers_per_disease_snpInfo[carriers_per_disease_snpInfo$CLNVRSIG=='Pathogenic,_other',]$CLNVRSIG <- 'Pathogenic'
+carriers_per_disease_snpInfo[carriers_per_disease_snpInfo$CLNVRSIG=='Pathogenic/Likely_pathogenic',]$CLNVRSIG <- 'Pathogenic'
+carriers_per_disease_snpInfo[carriers_per_disease_snpInfo$disease=='other',]$disease <- 'General'
+carriers_per_disease_snpInfo <- carriers_per_disease_snpInfo[!carriers_per_disease_snpInfo$disease=='General',]
+outliers_per_disease <- carriers_per_disease_snpInfo %>%
   group_by(disease,CLNVRSIG) %>%
    summarise(outlier = sum(type=='outlier'),
              not_outlier = sum(type=='not_outlier'),
@@ -57,12 +61,13 @@ print(paste('write to:',outfile))
 ggsave(outfile,width=25, height=20)
 
 ##### make one overview plot ####
-outliers_total <- carriers_per_clinvar_snpInfo %>%
+outliers_total <- carriers_per_disease_snpInfo %>%
   group_by(CLNVRSIG) %>%
   summarise(outlier = sum(type=='outlier'),
             not_outlier = sum(type=='not_outlier'),
             n=n())
 outliers_total$fraction_outlier <- outliers_total$outlier/(outliers_total$outlier+outliers_total$not_outlier)
+print(outliers_total)
 outliers_total$CLNVRSIG <- factor(outliers_total$CLNVRSIG, levels=c('Pathogenic',
                                                                                 'Uncertain_significance','Benign'))
 ggplot(outliers_total, aes(CLNVRSIG, fraction_outlier, fill=CLNVRSIG))+
@@ -86,7 +91,7 @@ ggsave(outfile,width=12, height=8)
 
 ## Leaving in below temporarily, will remove if not needed later
 ##### clinvar more trusted
-#clinvar_outliers_per_disease <- carriers_per_clinvar_clinvarInfo %>%
+#clinvar_outliers_per_disease <- carriers_per_disease_clinvarInfo %>%
 #  group_by(disease,ClinSimple) %>%
 #  summarise(outlier = sum(type=='outlier'),
 #            not_outlier = sum(type=='not_outlier'),

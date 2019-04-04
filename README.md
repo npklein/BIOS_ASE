@@ -8,17 +8,14 @@
 ### Run binomial test on the a/b counts
 `Rscript ASE_binomial_test/binom_test.R`
 
-### Make table with ASE genes (bonf. corrected p-value < 0.05
+### Make table with ASE genes (FDR < 0.05)
 `python ASE_outlier_table/make_outlier_table.py`
-
-### Perform binominal test on count data
-`Rscript binom_sample_ASE_test.all.R`
 
 ### Create phenotype table
 `perl createPhenotypeTable.pl`
 
 ### Merge phenotype table with stats
-Merge phenotypedata with the aggregate #genes and #outlier ASE genes from bonferroni corrected logFoldChange matrix
+Merge phenotypedata with the aggregate #genes and #outlier ASE genes from FDR < 0.05 logFoldChange matrix
 
 `perl createGenesAndOutliersTable.pl`
 
@@ -68,7 +65,9 @@ Select samples from the table that don't have more than 1000 ASE genes and are n
 `perl minor_allele_ratio/annotateCountsWithCADD.pl`
 
 ### Create impact category plot
-Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.chr22.addedCADD.txt as input
+Use generated files as input
+    counts.matrix.m*rAllelle.chrALL.txt.filtered.txt  (from minor_allele_ratio/minor_allele_ratio/filterMatrices.pl)
+    and counts.chr22.addedCADD.txt (from minor_allele_ratio/annotateCountsWithCADD.pl)
 
 `Rscript minor_allele_ratio/plot_minor_vs_major_20190129.R`
 
@@ -78,14 +77,11 @@ Use generated files counts.matrix.m*rAllelle.chrALL.txt.filtered.txt and counts.
 
 # Allele frequency comparison
 ## Get the allele frequencies from the RNAseq based genotypes
-python figure_1/get_allele_frequency.py
-
-
+TODO: we compare gonl wgs allele freq with rnaseq genotype allele freq. this gets allele freq for
+all samples
+`python figure_1/get_allele_frequency.py`
 
 # Carriers per disease/inheritance (fig 2 and 3)
-
-## Filter ASE table
-`python python figure_2_and_3/select_samples_from_outlierTable.py`
 
 ### Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
 `python figure_2_and_3/OMIM_enrichment_hetsOnly.py`
@@ -114,28 +110,6 @@ python figure_1/get_allele_frequency.py
 <br><br>
 
 
-# Comparison vs GTEx
-
-### Annotate counts with additional information
-`perl createAnnotationTableNew.pl`
-
-### Create major/minor table for non-ASE samples
-`perl minor_allele_ratio/createTableNonASEsamples.pl`
-
-### Filter table, remove lines containing only NA's
-`perl filterMatrices.NonASEsamples.pl`
-
-### Create cumulative count matrices
-`perl createCountMatricesCumulativeVariants.pl`
-
-### Create table including GTEx and our counts/ratios
-`perl createTables.AlleleAdded.pl`
-
-<br><br>
-<br><br>
-<br><br>
-
-
 # Combined gene expression and ASE analysis and plots
 
 ### Filter count lists
@@ -154,6 +128,9 @@ There are 3 tables needed to populate the database
 - ase_ase
 - ase_sampleAse
 - ase_genes
+
+### Perform binominal test on individual count data
+`Rscript ASE_binomial_test/binom_sample_ASE_test.all.R`
 
 ### Create files for tables
 `perl ASEbrowserplots/createASEbrowserTablesCsv.pl`
@@ -209,9 +186,9 @@ There are 3 tables needed to populate the database
 
 ### Extract p-values and create plots
 
-`Rscript enrichment_alt_alleles_per_impact_category.R`
+`Rscript pathogenicAlleles/enrichment_alt_alleles_per_impact_category.R`
 
-`Rscript proportion_alt_alleles_per_variant_impact_category.R`
+`Rscript pathogenicAlleles/proportion_alt_alleles_per_variant_impact_category.R`
 
 <br><br>
 <br><br>
@@ -230,25 +207,8 @@ There are 3 tables needed to populate the database
 
 
 # Comparison with other ASE and eQTL datasets
-
-### LCL ASE (from https://www.ncbi.nlm.nih.gov/pubmed/25954321, https://molgenis56.target.rug.nl/)
+# LCL ASE (from https://www.ncbi.nlm.nih.gov/pubmed/25954321, https://molgenis56.target.rug.nl/)
 Merge the allelic counts (that are in batches) per sample to create for each chr. one file per sample
-
-`bash numbers_and_pvalues/ASE_replications/LCL_replication/mergeAllelicCountsPerSample.sh`
-
-### Sum the hapA and hapB counts per SNP and calculate the log fold change over the summed counts
-
-`python numbers_and_pvalues/ASE_replications/LCL_replication/merge_allelic_counts_per_snp.py`
-
-### Merge our ASE results from merge_allelic_counts_per_snp.py with those of https://www.ncbi.nlm.nih.gov/pubmed/25954321
-
-`python numbers_and_pvalues/ASE_replications/LCL_replication/merge_with_LCL_ASE.py`
-
-### Plot the single SNP concordance (sup figure ?) and output numbers and p-values used in the manuscript
-
-`Rscript numbers_and_pvalues/ASE_replications/LCL_replication/plot_single_snp_concordance.R`
-
-### Merge the allelic counts (that are in batches) per sample to create for each chr. one file per sample
 
 `bash numbers_and_pvalues/ASE_replications/LCL_replication/mergeAllelicCountsPerSample.sh`
 
@@ -270,7 +230,6 @@ Merge the allelic counts (that are in batches) per sample to create for each chr
 
 
 # eQTLgen eQTLs (from https://www.biorxiv.org/content/10.1101/447367v1, eqtlgen.org)
-
 ### Merge our ASE results from merge_allelic_counts_per_snp.py with the eQTLs from eQTLgen
 
 `python numbers_and_pvalues/ASE_replications/merge_snpCounts_with_eQTLgen.py`
@@ -283,51 +242,32 @@ Merge the allelic counts (that are in batches) per sample to create for each chr
 <br><br>
 <br><br>
 
+## Comparison vs GTEx
 
-# Analysis of AD pathogenic variants (fig 5)
+### Annotate counts with additional information
+`perl createAnnotationTableNew.pl`
 
-### plot AD genes
+### Create major/minor table for non-ASE samples
+`perl minor_allele_ratio/createTableNonASEsamples.pl`
 
-`Rscript figure_5/plot_AD_genes.R`
+### Filter table, remove lines containing only NA's
+`perl filterMatrices.NonASEsamples.pl`
 
-<br><br>
-<br><br>
-<br><br>
+### Create cumulative count matrices
+`perl createCountMatricesCumulativeVariants.pl`
 
+### Create table including GTEx and our counts/ratios
+`perl createTables.AlleleAdded.pl`
 
-# Comparison with other ASE and eQTL datasets
+### Concordance observed ASE vs GTEx
+This step uses the output from createTables.AlleleAdded.pl as input
 
-### LCL ASE (from https://www.ncbi.nlm.nih.gov/pubmed/25954321, https://molgenis56.target.rug.nl/)
-Merge the allelic counts (that are in batches) per sample to create for each chr. one file per sample
+`Rscript concordance_GTEx_ASE/test_concordance_GTEx_ASE.R`
 
-`bash numbers_and_pvalues/ASE_replications/LCL_replication/mergeAllelicCountsPerSample.sh`
-
-### Sum the hapA and hapB counts per SNP and calculate the log fold change over the summed counts
-
-`python numbers_and_pvalues/ASE_replications/LCL_replication/merge_allelic_counts_per_snp.py`
-
-### Merge our ASE results from merge_allelic_counts_per_snp.py with those of https://www.ncbi.nlm.nih.gov/pubmed/25954321
-
-`python numbers_and_pvalues/ASE_replications/LCL_replication/merge_with_LCL_ASE.py`
-
-### Plot the single SNP concordance (sup figure ?) and output numbers and p-values used in the manuscript
-
-`Rscript numbers_and_pvalues/ASE_replications/LCL_replication/plot_single_snp_concordance.R`
-
-eQTLgen eQTLs (from https://www.biorxiv.org/content/10.1101/447367v1, eqtlgen.org)
-
-### Merge our ASE results from merge_allelic_counts_per_snp.py with the eQTLs from eQTLgen
-
-`python numbers_and_pvalues/ASE_replications/merge_snpCounts_with_eQTLgen.py`
-
-### plot the concordance between eqtlGen eQTLs and our ASE results
-
-`Rscript numbers_and_pvalues/ASE_replications/plot_snp_concorance.R`
 
 <br><br>
 <br><br>
 <br><br>
-
 
 # Analysis of AD pathogenic variants (fig 5)
 
@@ -355,10 +295,7 @@ the number of genes that show ASE or not ASE for all the variants in that MAF bi
 <br><br>
 <br><br>
 
-
-# Concordance observed ASE vs GTEx
-This step uses the output from createTables.AlleleAdded.pl as input
-
-`Rscript concordance_GTEx_ASE/test_concordance_GTEx_ASE.R`
-
+# Lipid level correlations
+## Correlate lipid level measurements with absolute log fold change
+`Rscript logFC_correlations/correlate_logFC.R`
 

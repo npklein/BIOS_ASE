@@ -110,7 +110,7 @@ print "Done processing PHENO file ..\n";
 
 #Interate over logFoldChange file to get the same sample and gene order in this output
 print "Processing SAMPLES file ..\n";
-open(SAMPLES, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.values.txt") || die "Can't open input SAMPLES file!\n";
+open(SAMPLES, "< /groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.values.txt") || die "Can't open input SAMPLES file!\n";
 #open(SAMPLES, "< ./testInputSamples.txt") || die "Can't open input SAMPLES file!\n";
 my @SAMPLESfile = <SAMPLES>;
 close(SAMPLES);

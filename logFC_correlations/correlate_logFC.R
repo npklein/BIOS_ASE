@@ -1,17 +1,13 @@
 
 # correlate the logFC values to all pheno and run statistic data
 
-library(ggplot2)
 library(reshape2)
 library(data.table)
-library(RColorBrewer)
-library(viridis)
 
 out_dir <- "/groups/umcg-bios/tmp03/projects/outlierGeneASE/correlateLogFC/"
 
-do_correlations <- function(){
   
-  logFC <- as.data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.values.txt'),fill=T)
+  logFC <- as.data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.values.txt'))
   logFC <- logFC[!grepl(";", logFC$ENSEMBLID),]
   logFC$NSAMPLES <- NULL
   logFC$MEDIAN <- NULL
@@ -22,7 +18,7 @@ do_correlations <- function(){
   # because hap A of one gene is not hap A of other gene, we can not look at direction
   # change to absolute
   logFC_melt$logFC_abs <- abs(logFC_melt$logFC)
-  annotations <- as.data.frame(fread("/groups/umcg-bios/tmp03/projects/outlierGeneASE/phenotypeTables/AllSamplesExcludingCODAMand4outliers.phenotypes.nGenesANDnOutliers.txt"))
+  annotations <- as.data.frame(fread("/groups/umcg-bios/tmp03/projects/outlierGeneASE/phenotypeTables/AllSamples.phenotypes.nGenesANDnOutliers.txt"))
 
   annotations$Sex <- ifelse(annotations$Sex == "Male", 0,  ifelse(annotations$Sex == "male", 0,  ifelse(annotations$Sex == "female", 1,  ifelse(annotations$Sex == "Female", 1, NA))))
   annotations$Smoking <- ifelse(annotations$Smoking=="non-smoker", 0, ifelse(annotations$Smoking=='former smoker', 1, ifelse(annotations$Smoking=='current smoker', 2, NA)))
@@ -43,26 +39,8 @@ do_correlations <- function(){
   l <- length(unique(logFC_melt$GENE))
   
   
+  annotations_lipids <- annotations[c("SAMPLENAME", "LDLchol", "HDLchol", "Triglycerides", "TotChol")]
   
-  to_filter <- c('num_splice_annotated','star.num_splice_atac','star.num_splice_gcag','star.num_splice_gtag','star.num_splice_noncanonical',
-                 'star.num_splice_total','star.num_input','star.num_unique_mapped','PF_READS','PF_HQ_ALIGNED_BASES',
-                 'PF_HQ_ALIGNED_Q20_BASES','READS_ALIGNED_IN_PAIRS','PF_READS_ALIGNED','PF_HQ_ALIGNED_BASES','bam.genome_mapped',
-                 'bam.exon_total','bam.exon_mapped','bam.genome_mapped','CODING_BASES','UTR_BASES','PF_ALIGNED_BASES',
-                 'READ_PAIRS_EXAMINED','MEDIAN_INSERT_SIZE','bam.genome_insert_std','bam.genome_insert_mean',
-                 'WIDTH_OF_10_PERCENT','WIDTH_OF_20_PERCENT','WIDTH_OF_30_PERCENT','WIDTH_OF_40_PERCENT','WIDTH_OF_50_PERCENT',
-                 'WIDTH_OF_60_PERCENT','WIDTH_OF_70_PERCENT','INTERGENIC_BASES','prime_bias.MEDIAN_3PRIME_BIAS',
-                 'WIDTH_OF_80_PERCENT','WIDTH_OF_90_PERCENT',
-                 'MEDIAN_5PRIME_BIAS', 'MEDIAN_5PRIME_TO_3PRIME_BIAS','fastqc_clean.R1_clean_GC_mean',
-                 'fastqc_raw.R1_raw_GC_mean','bam.genome_total','PF_ALIGNED_BASES.1','PF_HQ_ALIGNED_READS','prime_bias.MEDIAN_5PRIME_BIAS',
-                 'fastqc_clean.R1_clean_GC_std','fastqc_clean.R2_clean_GC_mean','fastqc_clean.R2_clean_GC_std',
-                 'STANDARD_DEVIATION','MEDIAN_ABSOLUTE_DEVIATION', 'LUC','Eos','PCT_ADAPTER','PF_MISMATCH_RATE','PF_HQ_ERROR_RATE',
-                 'BAD_CYCLES','UNPAIRED_READS_EXAMINED','bam.genome_duplicates','READ_PAIR_OPTICAL_DUPLICATES','PERCENT_DUPLICATION',
-                 'READ_PAIRS','star.num_mapped_many','star.num_splice_annotated','PF_BASES','LipidsMed_Age','Anthropometry_Age',
-                 'TotChol','Baso','Granulocyte_Perc','star.avg_input_length','MCH','DNA_Extraction_Date','PCT_MRNA_BASES')
-  
-  for(column in to_filter){
-    annotations[column] <- NULL
-  }
   
   # per gene calculate the correlations
   for( gene in unique(logFC_melt$GENE)){
@@ -74,7 +52,7 @@ do_correlations <- function(){
     print(paste0(i,'/',l,'  ', nrow(logFC_subset) ))
     if(nrow(logFC_subset) < 2){next}
 
-      logFC_subset_with_info <- merge(logFC_subset, annotations, by.x='sample', by.y="SAMPLENAME")
+      logFC_subset_with_info <- merge(logFC_subset, annotations_lipids, by.x='sample', by.y="SAMPLENAME")
     # extract all numeric columns, as these are possible to correlate with
     logFC_subset_with_info_numeric <- logFC_subset_with_info[, sapply(logFC_subset_with_info, is.numeric)]
   
@@ -98,7 +76,4 @@ do_correlations <- function(){
   write.table(logFC_correlations,	paste0(out_dir,'logFC_correlations.txt'), sep='\t',quote=F, col.names=NA)
   write.table(logFC_pval,	paste0(out_dir, 'logFC_pvals.txt'), sep='\t',quote=F, col.names=NA)
   
-}
-
-do_correlations()
 
