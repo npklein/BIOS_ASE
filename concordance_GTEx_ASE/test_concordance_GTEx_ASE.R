@@ -30,7 +30,7 @@ data2$GTEXDIR <- ifelse(data2$GTEXRATIO<0.5, "NEG", "POS")
 
 #Binom test on GTEx ASE counts
 data2$binomGTEx<- apply(data2, 1, function(x) binom.test(as.numeric(x[["GTEXSUMMAJOR"]]), as.numeric(x[["GTEXTOTAL"]]), p=0.5, alternative = "two.sided", conf.level = 0.95)$p.value)
-data2$binomCorrectedGTEx <- p.adjust(data2$binomGTEx, method = "fdr")
+data2$binomCorrectedGTEx <- p.adjust(data2$binomGTEx, method = "bonferroni")
 data2$ZSCORE_ASE_GTEx<- -1*qnorm(data2$binomCorrectedGTEx/2)
 data2$FDRGTEx<-p.adjust(data2$binomGTEx, method = "fdr")
 
