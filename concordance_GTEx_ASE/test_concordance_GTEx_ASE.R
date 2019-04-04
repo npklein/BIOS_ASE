@@ -15,10 +15,8 @@ data1<-data_merged[data_merged$TISSUE == "WHLBLD",]
 #Apply binominal test
 data1$binom <- apply(data1, 1, function(x) binom.test(as.numeric(x[["SUMMAJOR"]]), as.numeric(x[["TOTAL"]]), 
                                                       p=0.5, alternative = "two.sided", conf.level = 0.95)$p.value)
-
-data1$binomCorrected <- p.adjust(data1$binom, method = "bonferroni")
-data1$ZSCORE_ASE <- -1*qnorm(data1$binomCorrected/2)
 data1$FDR<-p.adjust(data1$binom, method = "fdr")
+data1$ZSCORE_ASE <- -1*qnorm(data1$FDR/2)
 
 #Select subset based on p-val
 #data2<-data1[data1$binomCorrected < 1e-5,]
@@ -30,9 +28,8 @@ data2$GTEXDIR <- ifelse(data2$GTEXRATIO<0.5, "NEG", "POS")
 
 #Binom test on GTEx ASE counts
 data2$binomGTEx<- apply(data2, 1, function(x) binom.test(as.numeric(x[["GTEXSUMMAJOR"]]), as.numeric(x[["GTEXTOTAL"]]), p=0.5, alternative = "two.sided", conf.level = 0.95)$p.value)
-data2$binomCorrectedGTEx <- p.adjust(data2$binomGTEx, method = "bonferroni")
-data2$ZSCORE_ASE_GTEx<- -1*qnorm(data2$binomCorrectedGTEx/2)
 data2$FDRGTEx<-p.adjust(data2$binomGTEx, method = "fdr")
+data2$ZSCORE_ASE_GTEx<- -1*qnorm(data2$FDRGTEx/2)
 
 #Filter GTEx on FDR
 data5<-data2[data2$FDRGTEx < 0.05,]

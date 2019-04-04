@@ -110,34 +110,6 @@ all samples
 <br><br>
 
 
-# Comparison vs GTEx
-
-### Annotate counts with additional information
-`perl createAnnotationTableNew.pl`
-
-### Create major/minor table for non-ASE samples
-`perl minor_allele_ratio/createTableNonASEsamples.pl`
-
-### Filter table, remove lines containing only NA's
-`perl filterMatrices.NonASEsamples.pl`
-
-### Create cumulative count matrices
-`perl createCountMatricesCumulativeVariants.pl`
-
-### Create table including GTEx and our counts/ratios
-`perl createTables.AlleleAdded.pl`
-
-### Concordance observed ASE vs GTEx
-This step uses the output from createTables.AlleleAdded.pl as input
-
-`Rscript concordance_GTEx_ASE/test_concordance_GTEx_ASE.R`
-
-
-<br><br>
-<br><br>
-<br><br>
-
-
 # Combined gene expression and ASE analysis and plots
 
 ### Filter count lists
@@ -214,9 +186,9 @@ There are 3 tables needed to populate the database
 
 ### Extract p-values and create plots
 
-`Rscript enrichment_alt_alleles_per_impact_category.R`
+`Rscript pathogenicAlleles/enrichment_alt_alleles_per_impact_category.R`
 
-`Rscript proportion_alt_alleles_per_variant_impact_category.R`
+`Rscript pathogenicAlleles/proportion_alt_alleles_per_variant_impact_category.R`
 
 <br><br>
 <br><br>
@@ -235,7 +207,7 @@ There are 3 tables needed to populate the database
 
 
 # Comparison with other ASE and eQTL datasets
-### LCL ASE (from https://www.ncbi.nlm.nih.gov/pubmed/25954321, https://molgenis56.target.rug.nl/)
+# LCL ASE (from https://www.ncbi.nlm.nih.gov/pubmed/25954321, https://molgenis56.target.rug.nl/)
 Merge the allelic counts (that are in batches) per sample to create for each chr. one file per sample
 
 `bash numbers_and_pvalues/ASE_replications/LCL_replication/mergeAllelicCountsPerSample.sh`
@@ -270,6 +242,33 @@ Merge the allelic counts (that are in batches) per sample to create for each chr
 <br><br>
 <br><br>
 
+## Comparison vs GTEx
+
+### Annotate counts with additional information
+`perl createAnnotationTableNew.pl`
+
+### Create major/minor table for non-ASE samples
+`perl minor_allele_ratio/createTableNonASEsamples.pl`
+
+### Filter table, remove lines containing only NA's
+`perl filterMatrices.NonASEsamples.pl`
+
+### Create cumulative count matrices
+`perl createCountMatricesCumulativeVariants.pl`
+
+### Create table including GTEx and our counts/ratios
+`perl createTables.AlleleAdded.pl`
+
+### Concordance observed ASE vs GTEx
+This step uses the output from createTables.AlleleAdded.pl as input
+
+`Rscript concordance_GTEx_ASE/test_concordance_GTEx_ASE.R`
+
+
+<br><br>
+<br><br>
+<br><br>
+
 # Analysis of AD pathogenic variants (fig 5)
 
 ### plot AD genes
@@ -296,5 +295,7 @@ the number of genes that show ASE or not ASE for all the variants in that MAF bi
 <br><br>
 <br><br>
 
-
+# Lipid level correlations
+## Correlate lipid level measurements with absolute log fold change
+`Rscript logFC_correlations/correlate_logFC.R`
 
