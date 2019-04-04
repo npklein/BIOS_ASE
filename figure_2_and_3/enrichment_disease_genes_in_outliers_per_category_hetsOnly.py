@@ -144,10 +144,16 @@ with open(disease_outfile,'w') as out:
         for type in ['outlier','not_outlier','na']:
             for impact in count_per_manifestation[m][type]:
                 for result in count_per_manifestation[m][type][impact]:
-                    out.write(m+'\t'+type+'\t'+impact+'\t'+result[0]+'\t')
-                    out.write(result[1]+'\t'+result[2]+'\t')
-                    out.write(logFC_per_sample_per_gene[result[2]][result[0]])
-                    out.write('\t'+result[3]+'\n')
+                    if result[2] in logFC_per_sample_per_gene:
+                        if result[0] in logFC_per_sample_per_gene[result[2]]:
+                            out.write(m+'\t'+type+'\t'+impact+'\t'+result[0]+'\t')
+                            out.write(result[1]+'\t'+result[2]+'\t')
+                            out.write(logFC_per_sample_per_gene[result[2]][result[0]])
+                            out.write('\t'+result[3]+'\n')
+                        else:
+                            print(result[0],'not in logFC_per_sample_per_gene[result[2]')
+                    else:
+                        print(result[2],'not in logFC_per_sample_per_gene')
 
 inheritance_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_inheritance/carriers_per_inheritance.hetsOnly.txt'
 with open(inheritance_outfile,'w') as out:
@@ -156,9 +162,11 @@ with open(inheritance_outfile,'w') as out:
         for type in ['outlier','not_outlier','na']:
             for impact in count_per_inheritance[m][type]:
                 for result in count_per_inheritance[m][type][impact]:
-                    out.write(m+'\t'+type+'\t'+impact+'\t'+result[0]+'\t')
-                    out.write(result[1]+'\t'+result[2]+'\t')
-                    out.write(logFC_per_sample_per_gene[result[2]][result[0]])
-                    out.write('\t'+result[3]+'\n')
+                    if result[2] in logFC_per_sample_per_gene:
+                        if result[0] in logFC_per_sample_per_gene[result[2]]:
+                            out.write(m+'\t'+type+'\t'+impact+'\t'+result[0]+'\t')
+                            out.write(result[1]+'\t'+result[2]+'\t')
+                            out.write(logFC_per_sample_per_gene[result[2]][result[0]])
+                            out.write('\t'+result[3]+'\n')
 
 print('output written to',disease_outfile,'and',inheritance_outfile)
