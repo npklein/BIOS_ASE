@@ -207,7 +207,7 @@ There are 3 tables needed to populate the database
 
 
 # Comparison with other ASE and eQTL datasets
-# LCL ASE (from https://www.ncbi.nlm.nih.gov/pubmed/25954321, https://molgenis56.target.rug.nl/)
+## LCL ASE (from https://www.ncbi.nlm.nih.gov/pubmed/25954321, https://molgenis56.target.rug.nl/)
 Merge the allelic counts (that are in batches) per sample to create for each chr. one file per sample
 
 `bash numbers_and_pvalues/ASE_replications/LCL_replication/mergeAllelicCountsPerSample.sh`
@@ -229,7 +229,7 @@ Merge the allelic counts (that are in batches) per sample to create for each chr
 <br><br>
 
 
-# eQTLgen eQTLs (from https://www.biorxiv.org/content/10.1101/447367v1, eqtlgen.org)
+## eQTLgen eQTLs (from https://www.biorxiv.org/content/10.1101/447367v1, eqtlgen.org)
 ### Merge our ASE results from merge_allelic_counts_per_snp.py with the eQTLs from eQTLgen
 
 `python numbers_and_pvalues/ASE_replications/merge_snpCounts_with_eQTLgen.py`
@@ -254,7 +254,8 @@ Merge the allelic counts (that are in batches) per sample to create for each chr
 `perl filterMatrices.NonASEsamples.pl`
 
 ### Create cumulative count matrices
-`perl createCountMatricesCumulativeVariants.pl`
+`perl createCountMatricesCumulativeVariants.pl --postfix nonASEsamples.chrALL.txt.filtered.txt`
+`perl createCountMatricesCumulativeVariants.pl --postfix chrALL.txt.filtered.txt`
 
 ### Create table including GTEx and our counts/ratios
 `perl createTables.AlleleAdded.pl`
