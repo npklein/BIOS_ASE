@@ -1,5 +1,8 @@
 library(ggplot2)
 
+<<<<<<< HEAD
+
+
 dataTab1<-read.table("/groups/umcg-bios/tmp03/projects/outlierGeneASE/phenotypeTables/AllSamples.phenotypes.nGenesANDnOutliers.txt", sep="\t", header=TRUE)
 
 ggplot(dataTab1,aes(x=dataTab1$NGENES, y=dataTab1$NOUTLIERS, colour=factor(dataTab1$biobank_id))) + theme_bw() + geom_point(alpha = 0.6)

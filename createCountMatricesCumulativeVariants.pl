@@ -10,6 +10,13 @@ use Getopt::Long;
 use Scalar::Util qw(looks_like_number);
 
 my $tabixPath="/apps/software/HTSlib/1.3.2-foss-2015b/bin/";
+my $postfix;
+
+
+####Get options
+GetOptions(
+                "postfix=s"                     => \$postfix,
+);
 
 
 ##Read GTF file
@@ -91,7 +98,6 @@ for (my $k=1; $k<=$#COUNTSfile; $k++){
 print "Done processing annotation file.\n\n";
 
 
-my $postfix = "nonASEsamples.chrALL.txt.filtered.txt";
 
 
 ##Read counts file
