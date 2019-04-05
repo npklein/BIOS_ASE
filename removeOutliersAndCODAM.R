@@ -1,7 +1,5 @@
 library(ggplot2)
 
-<<<<<<< HEAD
-
 
 dataTab1<-read.table("/groups/umcg-bios/tmp03/projects/outlierGeneASE/phenotypeTables/AllSamples.phenotypes.nGenesANDnOutliers.txt", sep="\t", header=TRUE)
 
@@ -22,8 +20,9 @@ genes_to_keep <- dataTab1[dataTab1$NOUTLIERS < 500, ]
 # Also remove 
 ggplot(genes_to_keep,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.6)
 
-#Replace the LLDeepNotInBios biobank IDs with LL
+#Replace the LLDeepNotInBios biobank IDs with LL in both data frames
 genes_to_keep$biobank_id[genes_to_keep$biobank_id == "LLDeepNotInBIOS"] <- "LL"
+dataTab1$biobank_id[dataTab1$biobank_id == "LLDeepNotInBIOS"] <- "LL"
 
 #Remove CODAM samples
 genes_to_keep <- genes_to_keep[genes_to_keep$biobank_id != "CODAM" | is.na(genes_to_keep$biobank_id),]
@@ -38,11 +37,12 @@ write.table(unique(as.character(genes_to_keep$SAMPLE)),
     "/groups/umcg-bios/tmp03/projects/outlierGeneASE/samples_NOUTLIERS500.depthFiltered.binom.txt",
     sep='\t',quote=F,row.names=F, col.names=F)
 
-plot<-ggplot(genes_to_keep,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.4) +
+plot<-ggplot(dataTab1,aes(x=NGENES, y=NOUTLIERS, colour=factor(biobank_id))) + theme_bw() + geom_point(alpha = 0.4) +
   ggtitle(paste0("Number of significant ASE genes per sample")) +
-  ylab('Number of significant (P < 0.05) ASE genes')+
+  ylab('Number of significant (FDR < 0.05) ASE genes')+
   xlab('Number of observed ASE genes per sample')+
   labs(colour= "Biobank")+
+  geom_hline(yintercept=500, linetype="dashed", color = "red")+
   theme(panel.grid.major = element_line(colour = "grey", size = 0.1),panel.grid.minor = element_line(colour = "grey", size = 0.1),
         axis.title.x = element_text(size=16),
         axis.text=element_text(size=16),
