@@ -1,2 +1,11 @@
+*.txt.filtered.txt
 figures
 figures/*
+.Rhistory
+2018-01-31-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved.aseSNPs.snpsInProtCodingExon.eqtlGenRank.txt
+2018-01-31-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved.aseSNPs.snpsInProtCodingExon.txt
+ASE_eQTL.binom.all_eQTL.txt
+counts_summed_per_snp.binom.txt
+eqtlGen_top_snp.txt
+eqtlRank.txt
+Homo_sapiens.GRCh37.75.gtf
