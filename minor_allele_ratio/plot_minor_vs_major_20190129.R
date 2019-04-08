@@ -90,12 +90,12 @@ ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/minor_allele_frac
 #####
 
 ##### SNPeff annotation
-summed_counts_annotation_subset <- summed_counts[!grepl('&', summed_counts$SNPEFFANNOTATION),]
-ggplot(summed_counts_annotation_subset, aes(SNPEFFANNOTATION, minor/(minor+major)))+
-  geom_sina()+
-  theme_bw(base_size = 18)+
-  xlab('Impact')+
-  ylab('Minor allele counts / total counts')+
-  guides(fill=F)
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/minor_allele_fraction.png',width=8, height=8)
+#summed_counts_annotation_subset <- summed_counts[!grepl('&', summed_counts$SNPEFFANNOTATION),]
+#ggplot(summed_counts_annotation_subset, aes(SNPEFFANNOTATION, minor/(minor+major)))+
+#  geom_sina()+
+#  theme_bw(base_size = 18)+
+#  xlab('Impact')+
+#  ylab('Minor allele counts / total counts')+
+#  guides(fill=F)
+#ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/minor_allele_fraction.png',width=8, height=8)
 ####
