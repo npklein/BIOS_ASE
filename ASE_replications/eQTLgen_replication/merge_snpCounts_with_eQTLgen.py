@@ -22,30 +22,9 @@ for f in glob.glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenet
             ref_alt_per_gene_snp[gene+'_'+snp] = [line[0].split('_')[2],line[0].split('_')[3]]
 
 
-## Below is not necesarry anymore, because it is tested that eqtlgen snp/gene combi is same as for ASE. keep in for now for reference until testing is finished, remove later
-# read in gtf info to check if snp affects the gene the SNP is located in
-#gene_loc = {}
-#/apps/data/ftp.ensembl.org/pub/release-75/gtf/homo_sapiens/Homo_sapiens.GRCh37.75.gtf
-#with open('Homo_sapiens.GRCh37.75.gtf') as input_file:
-#    for line in input_file:
-#        if line.startswith('#'):
-#            continue
-#        line = line.strip().split('\t')
-#        if line[2] != 'exon' or line[1] != 'protein_coding':
-#            continue
-#        chr = line[0]
-#        gene = line[8].split('gene_id "')[1].split('"')[0]
-#        start = int(line[3])
-#        stop = int(line[4])
-#        if gene not in gene_loc:
-#            gene_loc[gene] = []
-#        gene_loc[gene].append([chr, start, stop])
-
-
 print('read eqtl data')
 eqtl_per_gene_snp = {}
-#/groups/umcg-bios/tmp03/projects/outlierGeneASE/compareASEcounts/compareWithEqtlGen/data/2018-01-31-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved.aseSNPs.snpsInProtCodingExon.txt
-with open('2018-01-31-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved.aseSNPs.snpsInProtCodingExon.eqtlGenRank.txt') as input_file:
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/compareASEcounts/compareWithEqtlGen/data/2018-01-31-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved.aseSNPs.snpsInProtCodingExon.eqtlGenRank.txt') as input_file:
     head = input_file.readline().strip().split('\t')
     for line in input_file:
         line = line.strip().split('\t')
@@ -58,18 +37,7 @@ with open('2018-01-31-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved.aseSNPs.snpsInPr
         eqtl_rank = line[8]
         if gene+'_'+chr+'_'+pos not in set_of_gene_snp:
             continue
-        # Since we test that the gene-snp combination is present in the ASE data, we dont need to test if the snp is in the gene
-#        if gene not in gene_loc:
-#            continue
-#        snp_in_gene = False
-#        for location in  gene_loc[gene]:
-#            if location[0] != chr:
-#                continue
-#            if int(pos) > int(location[0]) and int(pos) < int(location[1]):
-#                snp_in_gene = True
-#        if not snp_in_gene:
-#            continue
-        
+
         snp_type = line[5]
         allele_assessed = line[6]
         zScore = line[7]
@@ -78,9 +46,6 @@ with open('2018-01-31-cis-eQTLsFDR-ProbeLevel-CohortInfoRemoved.aseSNPs.snpsInPr
 
         eqtl_per_gene_snp[gene+'_'+chr+'_'+pos] = [fdr,snp_type,allele_assessed,zScore,rs,eqtl_rank]
         
-    
-
-
 list_of_gene_snps = sorted(list(set_of_gene_snp))
 n_snps = len(set_of_gene_snp)
 print('done reading')
