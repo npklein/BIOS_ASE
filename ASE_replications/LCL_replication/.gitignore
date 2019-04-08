@@ -1,1 +1,5 @@
+ASE.mergedWithLCL.txt
 LCL_ASE_comparison.txt
+merge_allelic_counts_per_snp.py
+mergeAllelicCountsPerSample.sh
+figures/
