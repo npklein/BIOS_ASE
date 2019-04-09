@@ -305,3 +305,7 @@ the number of genes that show ASE or not ASE for all the variants in that MAF bi
 `python supp_figures/number_of_hets/number_of_hets_per_sample.py`
 ## Plot distributions of heteroyzgous SNPs
 `Rscript supp_figures/number_of_hets/plotHetsPerSample.R`
+
+# SNPs per chromosome
+## Plot the number of SNPs per chromsome found with RNAseq genotyping
+`Rscript snp_per_chromosome/plot_snp_per_chr.R`
