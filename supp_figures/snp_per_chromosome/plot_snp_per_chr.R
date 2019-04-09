@@ -1,7 +1,7 @@
 library(data.table)
 library(ggplot2)
 
-maf_per_chr <- fread('chrALL.AFsFromData.txt')
+maf_per_chr <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/annotatedWith.snpEff.closest.VEP/chrALL.AFsFromData.txt')
 
 colnames(maf_per_chr) <- c('snp','maf')
 maf_per_chr$chr <- sapply(strsplit(as.character(maf_per_chr$snp), "_"), "[[", 1)
@@ -14,7 +14,7 @@ ggplot(maf_per_chr, aes(maf))+
   theme_bw(base_size=18)+
   xlab('Minor Allele Frequency')+
   ylab('Number of SNPs')
-ggsave('MAFdistribution.png',width=8, height=8)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl//MAFdistribution.png',width=8, height=8)
 
 
 snps_per_chr <- data.frame(table(maf_per_chr$chr))
@@ -27,4 +27,4 @@ ggplot(snps_per_chr, aes(chr, nSNPs))+
   theme_bw(base_size=18)+
   xlab('Chromosome')+
   ylab('Number of SNPs')
-ggsave('SNPs_per_chromosome.png',width=9, height=8)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/SNPs_per_chromosome.png',width=9, height=8)
