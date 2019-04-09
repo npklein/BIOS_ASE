@@ -286,11 +286,11 @@ This step uses the output from createTables.AlleleAdded.pl as input
 Take output from allele_count_tables/combine_genes_and_samples.py and calculate for different maf bins
 the number of genes that show ASE or not ASE for all the variants in that MAF bin.
 
-`python sup_figure_9/rare_variant_enrichment.py`
+`python supp_figures/rare_variant_stratification/rare_variant_enrichment.py`
 
 ### Plot the enrichment
 
-`Rscript sup_figure_9/plot_stratification.R`
+`Rscript supp_figures/rare_variant_stratification/plot_stratification.R`
 
 <br><br>
 <br><br>
@@ -300,3 +300,12 @@ the number of genes that show ASE or not ASE for all the variants in that MAF bi
 ## Correlate lipid level measurements with absolute log fold change
 `Rscript logFC_correlations/correlate_logFC.R`
 
+# Distribution of number of heterozygous genotypes per individual
+## Get the number of heterozygous SNPs per individual
+`python supp_figures/number_of_hets/number_of_hets_per_sample.py`
+## Plot distributions of heteroyzgous SNPs
+`Rscript supp_figures/number_of_hets/plotHetsPerSample.R`
+
+# SNPs per chromosome
+## Plot the number of SNPs per chromsome found with RNAseq genotyping
+`Rscript snp_per_chromosome/plot_snp_per_chr.R`
