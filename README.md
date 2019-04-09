@@ -300,3 +300,6 @@ the number of genes that show ASE or not ASE for all the variants in that MAF bi
 ## Correlate lipid level measurements with absolute log fold change
 `Rscript logFC_correlations/correlate_logFC.R`
 
+# SNPs per chromosome
+## Plot the number of SNPs per chromsome found with RNAseq genotyping
+`Rscript snp_per_chromosome/plot_snp_per_chr.R`
