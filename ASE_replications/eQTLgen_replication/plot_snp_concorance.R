@@ -36,7 +36,7 @@ ggplot(eqtl_and_ASE_fdr_05, aes(zScore_alt_swapped, logFC, size=-log(binom_fdr+0
   theme(legend.justification = c(1, -0.01), legend.position = c(1, 0))+ 
   labs(size="-log10 ( p-value ASE )", 
        colour="-log10 ( p-value eQTL )")
-ggsave('figures/ASE_eQTLgen_top10eQTL_ASEfdr05_topSNPs.pdf', width=14, height=14)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_eQTLgen_top10eQTL_ASEfdr05_topSNPs.pdf', width=14, height=14)
 ######
 
 ###### rank 1 #####
@@ -63,6 +63,6 @@ ggplot(eqtl_and_ASE_fdr_05_rank1, aes(zScore_alt_swapped, logFC, size=-log(binom
   theme(legend.justification = c(1, -0.01), legend.position = c(1, 0))+ 
   labs(size="-log10 ( p-value ASE )", 
        colour="-log10 ( p-value eQTL )")
-ggsave('figures/ASE_eQTLgen_top10eQTL_ASEfdr05_topSNPs_rank1.pdf', width=14, height=14)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_eQTLgen_top10eQTL_ASEfdr05_topSNPs_rank1.pdf', width=14, height=14)
 ######
 

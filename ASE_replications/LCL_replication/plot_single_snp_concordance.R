@@ -2,7 +2,7 @@
 library(ggplot2)
 
 ##### read in data ####
-input_dir <- '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/merged_count_data/ASE_counts_merged_with_LCL/'
+input_dir <- '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/merged_count_data/'
 input_file <- paste0(input_dir,'/ASE.mergedWithLCL.txt')
 
 ##### read in data ####
@@ -46,7 +46,7 @@ ggplot(eqtl_and_ASE_fdr05, aes(logFC, LCL_ratio, size=-log(fdr+0.00000000001, ba
        colour="-log10 ( p-value LCL cell line )")+
   theme(text = element_text(size=24)) 
 
-ggsave('figures/ASE_eQTL_comparison_ours_vs_LCL.fdr05.png', width=12, height=12)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_eQTL_comparison_ours_vs_LCL.fdr05.png', width=12, height=12)
 ######  
 
 
