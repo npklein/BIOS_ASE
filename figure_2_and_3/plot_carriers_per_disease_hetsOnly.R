@@ -40,7 +40,7 @@ outliers_per_disease <- carriers_per_disease_snpInfo %>%
 
 outliers_per_disease$fraction_outlier <- outliers_per_disease$outlier/(outliers_per_disease$outlier+outliers_per_disease$not_outlier)
 
-outliers_per_disease <- factor(outliers_per_disease$disease, levels =c('HIGH','MODERATE','LOW','MODIFIER'))
+outliers_per_disease$impact <- factor(outliers_per_disease$impact, levels =c('HIGH','MODERATE','LOW','MODIFIER'))
 outliers_per_disease <- outliers_per_disease[!outliers_per_disease$impact=='MODIFIER',]
 ggplot(outliers_per_disease, aes(impact, fraction_outlier, fill=impact))+
   geom_bar(stat='identity')+
