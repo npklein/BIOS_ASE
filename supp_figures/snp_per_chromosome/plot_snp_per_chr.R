@@ -1,7 +1,7 @@
 library(data.table)
 library(ggplot2)
 
-maf_per_chr <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/annotatedWith.snpEff.closest.VEP/chrALL.AFsFromData.txt')
+maf_per_chr <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/annotatedWith.snpEff.closest.VEP/chrALL.AFsFromData.final.3810samples.txt')
 
 colnames(maf_per_chr) <- c('snp','maf')
 maf_per_chr$chr <- sapply(strsplit(as.character(maf_per_chr$snp), "_"), "[[", 1)
