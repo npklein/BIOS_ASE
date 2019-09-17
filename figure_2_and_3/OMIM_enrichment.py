@@ -21,6 +21,7 @@ annotation_dir = '/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnos
 
 # from the annotation table extract which SNPs are located within each gene
 carriers = {}
+carriers_hets = {}
 info_per_maf = {}
 count_per_gene = {}
 for vcf in glob.glob(annotation_dir+'BIOS_LLDeep_noRNAeditSites_phASER.snpEff.closest.VEP.removedCODAM.4outliersRemoved.chr*.vcf.gz'):
@@ -41,6 +42,7 @@ for vcf in glob.glob(annotation_dir+'BIOS_LLDeep_noRNAeditSites_phASER.snpEff.cl
             gene = info.split('|')[4]
             if gene not in carriers:
                 carriers[gene] = {}
+                carriers_hets[gene] = {}
             impact = info.split('|')[2]
 
             MAF = float(line[7].split('MAF=')[1].split(';')[0])
@@ -54,14 +56,28 @@ for vcf in glob.glob(annotation_dir+'BIOS_LLDeep_noRNAeditSites_phASER.snpEff.cl
                     continue
                 element = element.split(':')[0]
                 sample = header_index[index]
-#                if element == '1|0' or element == '0|1':
                 chr = line[0]
                 pos = line[1]
+                if element == '1|0' or element == '0|1':
+                    if snp not in carriers[gene]:        
+                         carriers_hets[gene][snp] = []
+                    carriers_hets[gene][snp].append([header[index], element, MAF, impact, gene in OMIM_genes])
                 if snp not in carriers[gene]:        
-                     carriers[gene][snp] = []
+                    carriers[gene][snp] = []
                 carriers[gene][snp].append([header[index], element, MAF, impact, gene in OMIM_genes])
 
     
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.hetsOnly.txt','w') as out:
+    out.write('gene\tsnp\tsampleName\tgenotype\tgeneSymbol\tENSG\tMAF\timpact\tisOmimGene\n')
+    for gene in carriers_hets:
+        for snp in carriers_hets[gene]:
+            for carrier in carriers_hets[gene][snp]:
+                gene_symbol = 'NA'
+                if gene in gene_to_symbol:
+                    gene_symbol = gene_to_symbol[gene]
+                out.write(gene+'\t'+snp+'\t'+carrier[0]+'\t'+carrier[1]+'\t'+gene_symbol+'\t'+gene+'\t'+str(carrier[2]))
+                out.write('\t'+str(carrier[3])+'\t'+str(carrier[4])+'\n')
+
 with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.txt','w') as out:
     out.write('gene\tsnp\tsampleName\tgenotype\tgeneSymbol\tENSG\tMAF\timpact\tisOmimGene\n')
     for gene in carriers:
