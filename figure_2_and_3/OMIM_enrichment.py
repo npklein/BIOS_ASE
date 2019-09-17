@@ -54,15 +54,15 @@ for vcf in glob.glob(annotation_dir+'BIOS_LLDeep_noRNAeditSites_phASER.snpEff.cl
                     continue
                 element = element.split(':')[0]
                 sample = header_index[index]
-#                if element == '1|0' or element == '0|1':
-                chr = line[0]
-                pos = line[1]
-                if snp not in carriers[gene]:        
-                     carriers[gene][snp] = []
-                carriers[gene][snp].append([header[index], element, MAF, impact, gene in OMIM_genes])
+                if element == '1|0' or element == '0|1':
+                    chr = line[0]
+                    pos = line[1]
+                    if snp not in carriers[gene]:        
+                         carriers[gene][snp] = []
+                    carriers[gene][snp].append([header[index], element, MAF, impact, gene in OMIM_genes])
 
     
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.txt','w') as out:
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.hetsOnly.txt','w') as out:
     out.write('gene\tsnp\tsampleName\tgenotype\tgeneSymbol\tENSG\tMAF\timpact\tisOmimGene\n')
     for gene in carriers:
         for snp in carriers[gene]:
