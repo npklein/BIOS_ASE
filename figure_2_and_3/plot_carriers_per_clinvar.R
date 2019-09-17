@@ -5,7 +5,7 @@ library(ggplot2)
 library(plotly)
 require(dplyr)
 
-carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.txt')
+carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt')
 
 carriers_per_disease <- carriers_per_disease[!is.na(carriers_per_disease$logFC),]
 snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
@@ -57,7 +57,7 @@ ggplot(outliers_per_disease, aes(CLNVRSIG, fraction_outlier, fill=CLNVRSIG))+
                            'Uncertain_significance','Benign'))+
   scale_y_continuous(limit=c(0,1.1))
 
-outfile = '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig3//proportion_outlier_per_clinvar_per_disease.hetsOnly.png'
+outfile = '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig3//proportion_outlier_per_clinvar_per_disease.png'
 print(paste('write to:',outfile))
 ggsave(outfile,width=25, height=20)
 
@@ -85,7 +85,7 @@ ggplot(outliers_total, aes(CLNVRSIG, fraction_outlier, fill=CLNVRSIG))+
   scale_y_continuous(limit=c(0,1.1))+
   guides(fill=FALSE)
 
-outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_clinvar.hetsOnly.png'
+outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_clinvar.png'
 print(paste('write to:',outfile))
 ggsave(outfile,width=12, height=8)
 
@@ -112,7 +112,7 @@ ggsave(outfile,width=12, height=8)
 #  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
 #  geom_text(aes(label=n), vjust=-1)+
 #  scale_y_continuous(limit=c(0,0.80))
-#ggsave('figures/proportion_outlier_per_clinvar_trusted.hetsOnly.png',width=25, height=20)
+#ggsave('figures/proportion_outlier_per_clinvar_trusted.png',width=25, height=20)
 
 
 

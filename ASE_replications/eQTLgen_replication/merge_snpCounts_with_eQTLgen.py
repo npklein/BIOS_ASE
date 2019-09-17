@@ -19,7 +19,7 @@ for f in glob.glob('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenet
             snp = '_'.join(line[0].split('_')[0:2])
             ratio_per_gene_snp[gene+'_'+snp] = [line[8],line[9],line[10]]
             set_of_gene_snp.add(gene+'_'+snp)
-            ref_alt_per_gene_snp[gene+'_'+snp] = [line[0].split('_')[2],line[0].split('_')[3]]
+            ref_alt_per_gene_snp[gene+'_'+snp] = [line[3], line[4]]
 
 
 print('read eqtl data')
