@@ -64,6 +64,7 @@ outliers_per_category <- carriers_per_disease_snpInfo %>%
             n=n())
 outliers_per_category$fraction_outlier <- outliers_per_category$outlier/(outliers_per_category$outlier+outliers_per_category$not_outlier)
 
+print(outliers_per_category)
 ggplot(outliers_per_category, aes(impact, fraction_outlier, fill=impact))+
   geom_bar(stat='identity')+
   theme_bw(base_size = 18)+

@@ -30,23 +30,24 @@ ggplot(LCL_and_ASE_fdr05, aes(logFC, LCL_ratio, size=-log(fdr+0.00000000001, bas
   geom_point(alpha=0.5,shape=16)+
   geom_hline(yintercept=0, lty=2, colour='red')+
   geom_vline(xintercept=0, lty=2, colour='red')+
-  theme_classic(base_size = 20)+
+  theme_classic(base_size = 12)+
   ylab('Allelic ratio LCL cell line')+
   xlab('logFC blood')+
-  annotate("text", x = -3, y = 0.45, label = paste0("SNPs: ",nrow(LCL_and_ASE_fdr05)),
+  annotate("text", x = -2.8, y = 0.45, label = paste0("SNPs: ",nrow(LCL_and_ASE_fdr05)),
            size=8)+
-  annotate("text", x = -3, y = 0.4, label = paste0("Concordance: ",signif(concordance_LCL_logFC,3) ),
+  annotate("text", x = -2.8, y = 0.4, label = paste0("Concordance: ",signif(concordance_LCL_logFC,3) ),
            size=8,parse=TRUE)+
-  annotate("text", x = -3, y = 0.35, label = paste0("Correlation: ",signif(cor_logFC_LCL,3) ),
+  annotate("text", x = -2.8, y = 0.35, label = paste0("Correlation: ",signif(cor_logFC_LCL,3) ),
            size=8,parse=TRUE)+
   geom_smooth(method='lm', formula = y~x, show.legend = FALSE)+
   scale_colour_gradient(low = "black", high = "darkgrey")+
-  theme(legend.justification = c(1, -0.01), legend.position = c(1, 0))+ 
-  labs(size="-log10 ( p-value blood )", 
-       colour="-log10 ( p-value LCL cell line )")+
-  theme(text = element_text(size=24)) 
+  labs(size="-log10 ( p-value \nblood )", 
+       colour="-log10 ( p-value \nLCL cell line )")+
+  theme(text = element_text(size=24)) + 
+  xlim(-4, 4)
+#  theme(legend.justification = c(1, -0.01), legend.position = c(1, 0))+ 
 
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_eQTL_comparison_ours_vs_LCL.fdr05.png', width=12, height=12)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_comparison_ours_vs_LCL.fdr05.png', width=12, height=8)
 ######  
 
 ###### at differnet p-values #####
