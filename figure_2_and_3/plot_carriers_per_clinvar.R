@@ -5,12 +5,12 @@ library(ggplot2)
 library(plotly)
 require(dplyr)
 
-#carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt')
-carriers_per_disease <- fread('carriers_per_disease.txt')
-#snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
-snpInfo <- fread('counts.chr22.addedCADD.addedVKGL.txt')
-#clinvarTable <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvarSNPs_2019-Feb-19.txt')
-clinvarTable <- fread('clinvarSNPs_2019-Feb-19.txt')
+carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt')
+#carriers_per_disease <- fread('carriers_per_disease.txt')
+snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
+#snpInfo <- fread('counts.chr22.addedCADD.addedVKGL.txt')
+clinvarTable <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvarSNPs_2019-Feb-19.txt')
+#clinvarTable <- fread('clinvarSNPs_2019-Feb-19.txt')
 
 
 carriers_per_disease <- carriers_per_disease[!is.na(carriers_per_disease$logFC),]
@@ -91,12 +91,12 @@ ggplot(outliers_total, aes(CLNVRSIG, fraction_outlier, fill=CLNVRSIG))+
 
 outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_clinvar.png'
 print(paste('write to:',outfile))
-ggsave(outfile,width=12, height=8)
+ggsave(outfile,width=8, height=8)
 
 #####
 
 ##### make one overview plot hets only VKGL ####
-outliers_total <- carriers_per_disease_snpInfo[carriers_per_disease_snpInfo$dosage==1,] %>%
+outliers_total <- carriers_per_disease_snpInfo %>%
   group_by(CLNVRSIG) %>%
   summarise(outlier = sum(type=='outlier'),
             not_outlier = sum(type=='not_outlier'),
@@ -121,12 +121,12 @@ ggplot(outliers_total, aes(CLNVRSIG, fraction_outlier, fill=CLNVRSIG))+
 
 outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_vkgl.png'
 print(paste('write to:',outfile))
-ggsave(outfile,width=12, height=8)
+ggsave(outfile,width=8, height=8)
 #####
 
 
 ##### make one overview plot hets only clinvar ####
-outliers_total <- carriers_per_disease_snpInfo[carriers_per_disease_snpInfo$dosage==1,] %>%
+outliers_total <- carriers_per_disease_snpInfo %>%
   group_by(ClinSimple) %>%
   summarise(outlier = sum(type=='outlier'),
             not_outlier = sum(type=='not_outlier'),
@@ -151,7 +151,7 @@ ggplot(outliers_total, aes(ClinSimple, fraction_outlier, fill=ClinSimple))+
 
 outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_clinvar.png'
 print(paste('write to:',outfile))
-ggsave(outfile,width=12, height=8)
+ggsave(outfile,width=8, height=8)
 
 #####
 
