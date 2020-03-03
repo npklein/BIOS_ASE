@@ -1,3 +1,5 @@
+# NOTE: figures have been re-arranged slightly. This document has not yet been updated with the new figure numbers
+
 # BIOS_ASE
 
 ## NOTE: We use hardcoded paths to locations of files on our cluster, if you want to do these analysis on your own data you will have to change the paths in the scripts
@@ -82,6 +84,11 @@ all samples
 `python figure_1/get_allele_frequency.py`
 
 # Carriers per disease/inheritance (fig 2 and 3)
+
+### Get OMIM genes
+# OMIM gene list was downloaded from https://www.omim.org/static/omim/data/mim2gene.txt at 2018-02-11 
+# List is filtered with
+python figure_2_and_3/get_omim_genes.py
 
 ### Overlap the heterozygous SNPs with the OMIM data to know in which OMIM gene the SNP is located
 `python figure_2_and_3/OMIM_enrichment_hetsOnly.py`
