@@ -96,7 +96,7 @@ ggsave(outfile,width=12, height=8)
 #####
 
 ##### make one overview plot hets only VKGL ####
-outliers_total <- carriers_per_disease_snpInfo[carriers_per_disease_snpInfo$dosage==1,] %>%
+outliers_total <- carriers_per_disease_snpInfo %>%
   group_by(CLNVRSIG) %>%
   summarise(outlier = sum(type=='outlier'),
             not_outlier = sum(type=='not_outlier'),
