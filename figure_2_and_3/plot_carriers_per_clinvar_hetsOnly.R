@@ -5,13 +5,17 @@ library(ggplot2)
 library(plotly)
 require(dplyr)
 
-carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.txt')
+#carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.hetsOnly.txt')
+carriers_per_disease <- fread('carriers_per_disease.hetsOnly.txt')
+#snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
+snpInfo <- fread('counts.chr22.addedCADD.addedVKGL.txt')
+#clinvarTable <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvarSNPs_2019-Feb-19.txt')
+clinvarTable <- fread('clinvarSNPs_2019-Feb-19.txt')
+
 
 carriers_per_disease <- carriers_per_disease[!is.na(carriers_per_disease$logFC),]
-snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
 snpInfo$snp <- paste0(sapply(strsplit(snpInfo$VARIANT, "_"), "[[", 1),'_',sapply(strsplit(snpInfo$VARIANT, "_"), "[[", 2))
 carriers_per_disease_snpInfo <- merge(carriers_per_disease, snpInfo, by='snp')
-clinvarTable <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvarSNPs_2019-Feb-19.txt')
 
 carriers_per_disease_clinvarInfo <- merge(carriers_per_disease_snpInfo, clinvarTable, by='snp', fill=T)
 
