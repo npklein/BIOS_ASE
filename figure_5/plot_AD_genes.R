@@ -30,33 +30,48 @@ allele_counts_unique_minorRatio <- rbind(allele_counts_unique_minorRatio, allele
 allele_counts_unique_minorRatio <- rbind(allele_counts_unique_minorRatio, allele_counts_unique_4)
 
 allele_counts_unique_minorRatio_overlappingGene <- allele_counts_unique_minorRatio[allele_counts_unique_minorRatio$GENENAME %in% allele_counts_high_impact_unique$GENENAME,]
-ggplot(data=allele_counts_high_impact_unique, aes(x=GENENAME, y=GENEEXPRESSION, fill = GENENAME))+
+ggplot(data=allele_counts_high_impact_unique, aes(x=GENENAME, y=log2(GENEEXPRESSION+1)))+
   geom_violin()+
   geom_boxplot(width=0.05, outlier.shape=NA)+
-  geom_jitter(data=allele_counts_unique_minorRatio_overlappingGene,
-              aes(x=GENENAME, y=na.omit(GENEEXPRESSION), size = MINORRATIO, colour=IMPACT, alpha=0.8), 
+  geom_jitter(data=allele_counts_unique_minorRatio_overlappingGene[allele_counts_unique_minorRatio_overlappingGene$IMPACT != "MODIFIER",],
+              aes(x=GENENAME, y=log2(na.omit(GENEEXPRESSION)+1), size = MINORRATIO, colour=IMPACT, alpha=0.8), 
               position=position_jitter(w=0.4,h=0.1))+
   theme_bw(base_size=18)+
-  scale_y_continuous(limit=c(0,680))+
-  guides(fill=F, alpha=F)+
+#  scale_y_continuous(limit=c(0,680))+
+  guides(fill=F, alpha=F, colour=F)+
   scale_colour_brewer(palette="Dark2")+
   theme(legend.position="top",
-        legend.box = "vertical")
+        legend.box = "vertical")+
+  xlab('')+
+  ylab('log2(TPM+1)')
 ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig5/panel_b/ase_samples_overall_expression.png', width=8, height=8)
 
+# plot this to stitch the legend together in .ai
+ggplot(data=allele_counts_high_impact_unique, aes(x=GENENAME, y=log2(GENEEXPRESSION+1), fill = GENENAME))+
+  geom_jitter(data=allele_counts_unique_minorRatio_overlappingGene,
+              aes(x=GENENAME, y=log2(na.omit(GENEEXPRESSION)+1), size = MINORRATIO, colour=IMPACT, alpha=0.8),
+              position=position_jitter(w=0.4,h=0.1))+
+  theme_bw(base_size=18)+
+  guides(fill=F, alpha=F)+
+  scale_colour_brewer(palette="Dark2")+
+  guides(colour = guide_legend(override.aes = list(size=5)))
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig5/panel_b/ase_samples_overall_expression_legend.png', width=8, height=8)
 
 
-ggplot(data=allele_counts_high_impact_unique, aes(x=GENENAME, y=GENEEXPRESSION, fill = GENENAME))+
+
+ggplot(data=allele_counts_high_impact_unique, aes(x=GENENAME, y=log2(GENEEXPRESSION+1), fill = GENENAME))+
   geom_violin()+
   geom_boxplot(width=0.05, outlier.shape=NA)+
   geom_jitter(data=allele_counts_unique_minorRatio[allele_counts_unique_minorRatio$IMPACT=="HIGH",],
-              aes(x=GENENAME, y=na.omit(GENEEXPRESSION), size = MINORRATIO), 
+              aes(x=GENENAME, y=log2(na.omit(GENEEXPRESSION)+1), size = MINORRATIO), 
               position=position_jitter(w=0,h=0.1))+
   theme_bw(base_size=18)+
-  scale_y_continuous(limit=c(0,680))+
+#  scale_y_continuous(limit=c(0,680))+
   guides(fill=F, alpha=F)+
   scale_colour_brewer(palette="Dark2")+
-  theme(legend.position="top")
+  theme(legend.position="top")+
+  xlab('')+
+  ylab('log2(TPM+1)')
 ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig5/panel_a//ase_samples_overall_expression_only_high_impact.png', width=8, height=8)
 
 

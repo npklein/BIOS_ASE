@@ -236,6 +236,24 @@ Merge the allelic counts (that are in batches) per sample to create for each chr
 <br><br>
 
 
+
+## Replicate ASE effects in BIOS blood eQTLs
+### Get the variants for which there are ASE measurements
+
+`bash ASE_replications/BIOS_eQTL_replication/get_variants_genes_from_ase.sh`
+`python ASE_replications/BIOS_eQTL_replication/map_variants_to_rs.py`
+
+### Run eQTL analysis on BIOS samples only on SNPs for which we find ASE effects
+
+`bash ASE_replications/BIOS_eQTL_replication/run-qtl.sh`
+
+### Make a table with the ASE ratio's and z-scores
+
+`python /groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/compare_ase_eqtl.py`
+
+### Plot the results
+Rscript ASE_replications/BIOS_eQTL_replication/plot_ase_eqtl.R
+
 ## eQTLgen eQTLs (from https://www.biorxiv.org/content/10.1101/447367v1, eqtlgen.org)
 ### Merge our ASE results from merge_allelic_counts_per_snp.py with the eQTLs from eQTLgen
 
