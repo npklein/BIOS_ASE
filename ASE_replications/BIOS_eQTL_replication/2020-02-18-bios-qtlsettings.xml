@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- note: legacy options are not actively developed and may be broken --><settings>
+    <defaults>
+        <qc>
+            <snpqccallratethreshold>0.95</snpqccallratethreshold>
+            <!-- SNP call rate or (1-missingness) threshold-->
+            <snpqchwethreshold>0.0001</snpqchwethreshold>
+            <!-- Hardy-Weinberg p-value threshold -->
+            <snpqcmafthreshold>0.01</snpqcmafthreshold>
+            <!-- Minor allele frequency threshold-->
+        </qc>
+        <analysis>
+            <analysistype>cis</analysistype>
+            <!-- can be cis, trans, or cistrans. cis and trans keep cisanalysisprobedistance into account, cistrans ignores this setting -->
+            <cisanalysisprobedistance>1000000</cisanalysisprobedistance>
+            <!-- int: distance between SNP and probe or gene position to call an effect cis or trans-->
+            <correlationtype>nonparametric</correlationtype>
+            <!-- nonparametric for Spearman rank based analysis, parametric for Pearson correlation -->
+            <buffersize>1</buffersize>
+            <!-- int: Number of snps to preload -->
+            <createqqplot>false</createqqplot>
+            <!-- true/false create QQ plot after calculating QTLs -->
+            <createdotplot>false</createdotplot>
+            <!-- true/false create QTL dotplot-->
+            <regressOutEQTLEffects/>
+            <!-- path to eQTL file containing QTLs to regress prior to analysis -->
+            <regressOutEQTLEffectsSaveOutput>false</regressOutEQTLEffectsSaveOutput>
+            <!-- true/false save the expression matrix as output after regressing eQTLs specified in regressOutEQTLEffects -->
+            <equalrankforties>true</equalrankforties>
+            <!-- true/false use equal ranks for ties in nonparametric analysis -->
+            <metaAnalyseInteractionTerms>false</metaAnalyseInteractionTerms>
+            <!-- legacy: meta analyze interaction terms when performing interaction analysis -->
+            <permuteCovariates>false</permuteCovariates>
+            <!-- legacy: permute covariates when performing interaction analysis-->
+            <metaAnalyseModelCorrelationYHat>false</metaAnalyseModelCorrelationYHat>
+            <!-- legacy: meta-analyze meta-analyze correlation of residuals -->
+            <useabsolutepvalue>false</useabsolutepvalue>
+            <!-- true/false output absolute Z-scores and derived p-values -->
+            <threads>10</threads>
+            <!-- int: number of threads to use during analysis-->
+            <forcethreads>false</forcethreads>
+            <!-- true/false force the use of number of threads specified in threads -->
+            <randomseed/>
+            <!-- integer or empty: specify random seed number for random number generator -->
+            <onlypermutations>false</onlypermutations>
+            <!-- true/false: skip analysis on non-permuted data -->
+            <displayWarnings>false</displayWarnings>
+            <!-- true/false: display warnings about sample gender, case control status etc -->
+            <pathwaydefinition/>
+            <!-- legacy: a file containing pathway definitions for genes-->
+            <sortsnps>false</sortsnps>
+            <!-- legacy: sort snps on position before analysis -->
+        </analysis>
+                		
+        <multipletesting>
+            <type>fdr</type>
+            <!-- type of multiple testing. -->
+            <skipFDRCalculation>false</skipFDRCalculation>
+            <!-- true/false: do not calculate FDR after performing eQTL analysis -->
+            <threshold>0.05</threshold>
+            <!-- double: significance threshold for FDR calculation -->
+            <fdrtype>probe-level</fdrtype>
+            <!-- full/probe-level/gene-level/snp-level: different methods for FDR calculation. probe-level is recommended -->
+            <largeFdrFileOut>false</largeFdrFileOut>
+            <!-- true/false: output permuted eQTLs in the same file format as non-permuted eQTLs (recommended: false) -->
+            <permutations>10</permutations>
+            <!-- int: number of permutations to run -->
+            <startpermutation/>
+            <!-- int: start permutations at iteration-->
+            <stoppermutation/>
+            <!-- int: stop permuting at iteration -->
+        </multipletesting>
+        <output>
+            <outputdirectory>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/BIOS_eqtls/</outputdirectory>
+            <!-- path: location to store results-->
+            <outputplotthreshold>-1</outputplotthreshold>
+            <!-- double: make eQTL plots when eQTL has p-value below this threshold -->
+            <maxnreqtlresults>5000000</maxnreqtlresults>
+            <!-- int: maximum number of eQTLs to store in text-based file -->
+            <dumpeverything>false</dumpeverything>
+            <!-- true/false: dump all calculated eQTLs to text-based file (not recommended, output will be unsorted) -->
+            <usemd5hashforbinaryoutput>false</usemd5hashforbinaryoutput>
+            <!-- true/false: calculate MD5 hashes while output to binary file format -->
+            <binaryoutput>false</binaryoutput>
+            <!-- true/false: provide binary output (for meta-analysis purposes) -->
+            <textoutput>true</textoutput>
+            <!-- true/false: provide text-based output -->
+            <generatesnpsummarystatistics>false</generatesnpsummarystatistics>
+            <!-- true/false: generate SNP summary statistics-->
+            <generateeqtlpvaluetable>false</generateeqtlpvaluetable>
+            <!-- legacy: create p-value table -->
+            <generatefoldchangevalues>false</generatefoldchangevalues>
+            <!-- legacy: true/false: calculate fold-change for eQTLs -->
+            <generatebetaandfoldchanges>false</generatebetaandfoldchanges>
+            <!-- legacy: calculate linear model betas for eQTLs -->
+            <writeSNPQCLog>false</writeSNPQCLog>
+            <!-- true/false: write allele counts and other stats for SNPs -->
+            <requireAtLeastNumberOfDatasets>2</requireAtLeastNumberOfDatasets>
+            <omitDatasetSummaryStats>true</omitDatasetSummaryStats>
+        </output>
+        <confine>
+            <snp/>
+            <!-- path: path to a textfile listing SNPs to limit the analysis to (one snp per line) -->
+            <snpProbe>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/counts.matrix.cumulativeVariants.ALLcounts.chrALL.txt.filtered.variants.rsnumbers.txt</snpProbe>
+            <!-- path: path to a textfile listing SNPs and probes/genes to limit the analysis to (tab-separated format snp\tgene -->
+	    <probe/>            
+            <!-- path: path to a textfile listing probes/genes to limit the analysis to (one probe/gene per line) -->
+            <confineSNPsToSNPsPresentInAllDatasets>false</confineSNPsToSNPsPresentInAllDatasets>
+            <!-- true/false: when meta-analyzing, limit analysis to SNPs present in all datasets -->
+            <confineSNPsSelectSNPInStrongestLD>false</confineSNPsSelectSNPInStrongestLD>
+            <!-- legacy: true/false: select SNPs in meta-analysis that represent LD best-->
+            <confineProbesThatMapToKnownChromosome>true</confineProbesThatMapToKnownChromosome>
+            <!-- true/false: include or exclude SNPs that map to non-autosomal positions -->
+            <confineToProbesThatMapToChromosome/>
+            <!-- int: only analyse probes/genes that are located on this chromosome -->
+            <confineToSNPsThatMapToChromosome/>
+            <!-- int: only analyse probes/genes that are located on this chromosome -->
+            <confineToProbesPresentInAllDatasets>false</confineToProbesPresentInAllDatasets>
+            <!-- true/false: only analyze probes/genes that are available in all datasets when meta-analyzing -->
+            <snpProbeConfineBasedOnChrPos>false</snpProbeConfineBasedOnChrPos>
+            <!-- legacy: true/false: filter confined snpProbe list to combinations on the same chromosome-->
+        </confine>
+    </defaults>
+    <datasets>
+        <dataset>
+            <name>CODAM</name>
+            <location>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/genotypes-hrc-imputed-trityper/CODAM/</location>
+            <genometoexpressioncoupling>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/GTE_LLDEEP_and_BIOS_last_related_removed_110417.txt</genometoexpressioncoupling>
+            <expressiondata>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/gene_read_counts_BIOS_and_LLD_passQC.tsv.SampleSelection.ProbesWithZeroVarianceRemoved.TMM.CPM.Log2Transformed.ProbesCentered.SamplesZTransformed.CovariatesRemoved.txt.gz</expressiondata>
+            <probeannotation>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/Homo_sapiens.GRCh37.75.ProbeAnnotation.txt.gz</probeannotation>
+            <expressionplatform>ensemble.75</expressionplatform>
+            <covariates/>
+            <quantilenormalize>false</quantilenormalize>
+            <logtransform>false</logtransform>
+        </dataset>
+        <dataset>
+            <name>LL</name>
+            <location>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/genotypes-hrc-imputed-trityper/LL/</location>
+            <genometoexpressioncoupling>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/GTE_LLDEEP_and_BIOS_last_related_removed_110417.txt</genometoexpressioncoupling>
+            <expressiondata>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/gene_read_counts_BIOS_and_LLD_passQC.tsv.SampleSelection.ProbesWithZeroVarianceRemoved.TMM.CPM.Log2Transformed.ProbesCentered.SamplesZTransformed.CovariatesRemoved.txt.gz</expressiondata>
+            <probeannotation>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/Homo_sapiens.GRCh37.75.ProbeAnnotation.txt.gz</probeannotation>
+            <expressionplatform>ensemble.75</expressionplatform>
+            <covariates/>
+            <quantilenormalize>false</quantilenormalize>
+            <logtransform>false</logtransform>
+        </dataset>
+        <dataset>
+            <name>LLS_660Q</name>
+            <location>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/genotypes-hrc-imputed-trityper/LLS_660Q/</location>
+            <genometoexpressioncoupling>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/GTE_LLDEEP_and_BIOS_last_related_removed_110417.txt</genometoexpressioncoupling>
+            <expressiondata>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/gene_read_counts_BIOS_and_LLD_passQC.tsv.SampleSelection.ProbesWithZeroVarianceRemoved.TMM.CPM.Log2Transformed.ProbesCentered.SamplesZTransformed.CovariatesRemoved.txt.gz</expressiondata>
+            <probeannotation>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/Homo_sapiens.GRCh37.75.ProbeAnnotation.txt.gz</probeannotation>
+            <expressionplatform>ensemble.75</expressionplatform>
+            <covariates/>
+            <quantilenormalize>false</quantilenormalize>
+            <logtransform>false</logtransform>
+        </dataset>
+        <dataset>
+            <name>LLS_OmniExpr</name>
+            <location>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/genotypes-hrc-imputed-trityper/LLS_OmniExpr/</location>
+            <genometoexpressioncoupling>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/GTE_LLDEEP_and_BIOS_last_related_removed_110417.txt</genometoexpressioncoupling>
+            <expressiondata>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/gene_read_counts_BIOS_and_LLD_passQC.tsv.SampleSelection.ProbesWithZeroVarianceRemoved.TMM.CPM.Log2Transformed.ProbesCentered.SamplesZTransformed.CovariatesRemoved.txt.gz</expressiondata>
+            <probeannotation>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/Homo_sapiens.GRCh37.75.ProbeAnnotation.txt.gz</probeannotation>
+            <expressionplatform>ensemble.75</expressionplatform>
+            <covariates/>
+            <quantilenormalize>false</quantilenormalize>
+            <logtransform>false</logtransform>
+        </dataset>
+        <dataset>
+            <name>NTR_AFFY</name>
+            <location>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/genotypes-hrc-imputed-trityper/NTR_AFFY/</location>
+            <genometoexpressioncoupling>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/GTE_LLDEEP_and_BIOS_last_related_removed_110417.txt</genometoexpressioncoupling>
+            <expressiondata>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/gene_read_counts_BIOS_and_LLD_passQC.tsv.SampleSelection.ProbesWithZeroVarianceRemoved.TMM.CPM.Log2Transformed.ProbesCentered.SamplesZTransformed.CovariatesRemoved.txt.gz</expressiondata>
+            <probeannotation>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/Homo_sapiens.GRCh37.75.ProbeAnnotation.txt.gz</probeannotation>
+            <expressionplatform>ensemble.75</expressionplatform>
+            <covariates/>
+            <quantilenormalize>false</quantilenormalize>
+            <logtransform>false</logtransform>
+        </dataset>
+        <dataset>
+            <name>NTR_GONL</name>
+            <location>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/genotypes-hrc-imputed-trityper/NTR_GONL/</location>
+            <genometoexpressioncoupling>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/GTE_LLDEEP_and_BIOS_last_related_removed_110417.txt</genometoexpressioncoupling>
+            <expressiondata>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/gene_read_counts_BIOS_and_LLD_passQC.tsv.SampleSelection.ProbesWithZeroVarianceRemoved.TMM.CPM.Log2Transformed.ProbesCentered.SamplesZTransformed.CovariatesRemoved.txt.gz</expressiondata>
+            <probeannotation>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/Homo_sapiens.GRCh37.75.ProbeAnnotation.txt.gz</probeannotation>
+            <expressionplatform>ensemble.75</expressionplatform>
+            <covariates/>
+            <quantilenormalize>false</quantilenormalize>
+            <logtransform>false</logtransform>
+        </dataset>
+        <dataset>
+            <name>PAN</name>
+            <location>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/genotypes-hrc-imputed-trityper/PAN/</location>
+            <genometoexpressioncoupling>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/GTE_LLDEEP_and_BIOS_last_related_removed_110417.txt</genometoexpressioncoupling>
+            <expressiondata>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/gene_read_counts_BIOS_and_LLD_passQC.tsv.SampleSelection.ProbesWithZeroVarianceRemoved.TMM.CPM.Log2Transformed.ProbesCentered.SamplesZTransformed.CovariatesRemoved.txt.gz</expressiondata>
+            <probeannotation>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/Homo_sapiens.GRCh37.75.ProbeAnnotation.txt.gz</probeannotation>
+            <expressionplatform>ensemble.75</expressionplatform>
+            <covariates/>
+            <quantilenormalize>false</quantilenormalize>
+            <logtransform>false</logtransform>
+        </dataset>
+        <dataset>
+            <name>RS</name>
+            <location>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/genotypes-hrc-imputed-trityper/RS/</location>
+            <genometoexpressioncoupling>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/GTE_LLDEEP_and_BIOS_last_related_removed_110417.txt</genometoexpressioncoupling>
+            <expressiondata>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/data/gene_read_counts_BIOS_and_LLD_passQC.tsv.SampleSelection.ProbesWithZeroVarianceRemoved.TMM.CPM.Log2Transformed.ProbesCentered.SamplesZTransformed.CovariatesRemoved.txt.gz</expressiondata>
+            <probeannotation>/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/Homo_sapiens.GRCh37.75.ProbeAnnotation.txt.gz</probeannotation>
+            <expressionplatform>ensemble.75</expressionplatform>
+            <covariates/>
+            <quantilenormalize>false</quantilenormalize>
+            <logtransform>false</logtransform>
+        </dataset>
+    </datasets>
+</settings>

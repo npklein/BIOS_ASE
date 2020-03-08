@@ -44,7 +44,7 @@ outliers_per_disease$impact <- factor(outliers_per_disease$impact, levels =c('HI
 outliers_per_disease <- outliers_per_disease[!outliers_per_disease$impact=='MODIFIER',]
 ggplot(outliers_per_disease, aes(impact, fraction_outlier, fill=impact))+
   geom_bar(stat='identity')+
-  theme_bw(base_size = 18)+
+  theme_bw(base_size = 15)+
   facet_wrap(~disease)+
   scale_fill_brewer(palette="Dark2")+
   ylab('Fraction of SNPs that is an outlier')+
@@ -53,7 +53,7 @@ ggplot(outliers_per_disease, aes(impact, fraction_outlier, fill=impact))+
   scale_x_discrete(limit=c('HIGH','MODERATE','LOW'))+
   geom_text(aes(label=n), vjust=-1)+
   scale_y_continuous(limit=c(0,0.55))
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/proportion_outlier_per_disease.png',width=25, height=20)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/proportion_outlier_per_disease.png',width=15, height=10)
 
 
 ##### outliers per categorie
