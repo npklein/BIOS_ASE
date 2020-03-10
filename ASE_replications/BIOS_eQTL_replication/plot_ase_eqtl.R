@@ -3,7 +3,7 @@ library(ggplot2)
 library(data.table)
 library(patchwork)
 ##### read in data ####
-ase_and_eqtl <- read.table('~/UMCG/projects/BIOS/2020-03-05-ASE-BIOS-eqtl-comparison/ase_and_eqtl.txt',sep='\t',header=T)
+ase_and_eqtl <- read.table('/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/ase_and_eqtl.txt',sep='\t',header=T)
 
 #ase_and_eqtl[ase_and_eqtl$zscore_qtl != ase_and_eqtl$zscoreSwapped_qtl,]
 ase_and_eqtl[ase_and_eqtl$ALT!=ase_and_eqtl$minor.allele,c('VARIANT','REF','ALT','SUMMAJOR','SUMMINOR','RATIO',
@@ -34,10 +34,10 @@ p1 <- ggplot(ase_and_eqtl_binom_signific_samp30[sign(ase_and_eqtl_binom_signific
   geom_vline(xintercept=0, lty=2, colour='red')+
   theme_bw(base_size = 15)+
   ylab('logFC ASE')+
-  xlab('Swapped Z-Scores eQTLs')+
-  annotate("text", x = -60, y = 0.39, label = paste0("Concordance: ",signif(concordance,3),
+  xlab('Z-Scores eQTLs')+
+  annotate("text", x = -30, y = 0.39, label = paste0("Concordance: ",signif(concordance,3),
                                                      "\nCorrelation: ",signif(cor_zscore,3)),
-           size=4)+
+           size=4, hjust=1)+
   theme(legend.position="top") + 
   geom_smooth(method='lm', formula = y~x, show.legend = FALSE)+
   labs(size="-log10 ( p-value ASE )")+
@@ -117,11 +117,12 @@ p4 <- ggplot(ase_and_eqtl_different_genotype[sign(ase_and_eqtl_different_genotyp
         axis.ticks.y= element_blank())+
   ggtitle('Swapped, different genotype')
 
-
+# Use below plot to visually check if swapping of alleles goes correctly
 (p1|p2)/(p3|p4)
 
-
-ggsave("~/Downloads/ase_eqtl_comparison.png", width=12,height=12)
+# if true, save the swapped figure
+p1 <- p1+ggtitle('')
+ggsave("~/Downloads/ase_eqtl_comparison.png", width=6,height=6)
 
 
 
