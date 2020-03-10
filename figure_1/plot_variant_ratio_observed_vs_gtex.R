@@ -78,7 +78,7 @@ ggplot(data=data2, aes(x=GTEXRATIO, y=PATRATIO,))+
         axis.title.x = element_text(size=16),
         axis.text=element_text(size=16),
         axis.title.y = element_text(size=16))
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_d/variant_ratio_observed_vs_gtex.png', width=600, height=600)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_d/variant_ratio_observed_vs_gtex.pdf', width=600, height=600)
 
 
 

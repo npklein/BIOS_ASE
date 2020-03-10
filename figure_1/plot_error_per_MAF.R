@@ -55,6 +55,6 @@ ggplot(switch_errors_no_na, aes(as.factor(maf_breaks), switchError, fill = maf_b
   scale_x_discrete(labels=c('< 0.1%','0.1-1%','1-10%','10-20%','20-30%','30-40%','40-50%'))+
   guides(fill=F)+
   scale_colour_brewer(palette="Dark2")
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_c//switch_error_per_maf_bin.png', width=8, height = 8)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_c//switch_error_per_maf_bin.pdf', width=8, height = 8)
 
 ######
