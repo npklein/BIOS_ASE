@@ -10,9 +10,11 @@ library(gtable)
 # READ DATA
 # gonl wgs
 gonl_af <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/GoNL.AF.txt'))
+#gonl_af <- data.frame(fread('GoNL.AF.txt'))
 colnames(gonl_af) <- c('snp','ref','alt','AF_GoNL')
 # gonl RNAseq genotypes
 gonl_RNA_af <- data.frame(fread('/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged/exac_comparison/GoNL.RNAseqGenotypes.AF.txt'))
+#gonl_RNA_af <- data.frame(fread('GoNL.RNAseqGenotypes.AF.txt'))
 colnames(gonl_RNA_af) <- c('snp','ref','alt','AF_GoNL_RNAseq')
 
 
@@ -36,10 +38,6 @@ correlation <- cor(AF$AF1, AF$AF2,method='spearman')
 correlation <- cor(AF$AF1, AF$AF2,method='pearson')
 # GoNL samples gotten from the script that makes the A
 model = lm(AF1 ~ AF2, data = AF)
-label = paste0('Samples == 271\n',
-               'SNPs == ', nrow(AF),
-               '\nR^2 == ', signif(summary(model)$adj.r.squared,3))
-
 
 p <- ggplot(AF, aes(AF1*100, AF2*100))+
 #  geom_point(alpha=0.1)+
@@ -48,22 +46,16 @@ p <- ggplot(AF, aes(AF1*100, AF2*100))+
   xlab(paste0('Allele Frequency WGS genotypes'))+
   ylab(paste0('Allele Frequency RNAseq genotypes'))+
   geom_abline(lty=2, colour='red')+
-  annotate("text", x = 10, y = 95, label = label,
-           size=6,parse=TRUE, hjust=1)+
-  geom_segment(aes(x = -1, y = 10, xend = 10, yend = 10, colour="red"))+ 
-  geom_segment(aes(x = -1, y = -1, xend = 10, yend = 0, colour="red"))+
-  geom_segment(aes(x = -1, y = -1, xend = -1, yend = 10, colour = "red"))+
-  geom_segment(aes(x = 10, y = -1, xend = 10, yend = 10, colour="red"))+
+  geom_segment(aes(x = -3, y = 10, xend = 10, yend = 10, colour="red"), size=1.5)+ 
+  geom_segment(aes(x = -3, y = -3, xend = 10, yend = -3, colour="red"), size=1.5)+
+  geom_segment(aes(x = -3, y = -3, xend = -3, yend = 10, colour = "red"), size=1.5)+
+  geom_segment(aes(x = 10, y = -3, xend = 10, yend = 10, colour="red"), size=1.5)+
   guides(colour=F, size=F)+ 
   scale_x_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+ 
   scale_y_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+
   scale_fill_viridis(trans = "log10")+
-  labs(fill = "log10(count)")+
-  theme(legend.position="top")+
-  theme(plot.margin = unit(c(.5,6,.5,.5),"lines"),
-          legend.background = element_rect(colour = "black"))
-
-
+  labs(fill = "SNPs")+
+  stat_cor(aes(label = ..r.label..), size=5,geom='label')
 
 ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes.pdf', width=6, height=6, plot = p)
 
@@ -71,9 +63,6 @@ ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RN
 AF_rare <- AF[AF$AF1 < 0.1 & AF$AF2 < 0.1,]
 model = lm(AF1 ~ AF2, data = AF_rare)
 
-label = paste0('Samples == 271\n',
-               'SNPs == ',nrow(AF_rare),
-               '\nR^2 == ', signif(summary(model)$adj.r.squared,3))
 p <- ggplot(AF_rare, aes(AF1*100, AF2*100))+
 #  geom_point(alpha=0.1)+
   geom_hex()+
@@ -81,13 +70,12 @@ p <- ggplot(AF_rare, aes(AF1*100, AF2*100))+
   xlab(paste0('Allele Frequency WGS genotypes'))+
   ylab(paste0('Allele Frequency RNAseq genotypes'))+
   geom_abline(lty=2, colour='red')+
-  annotate("text", x = 1.1, y = 10, label = label,
-           size=6,parse=TRUE,hjust=0)+
   scale_x_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+ 
   scale_y_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+
   scale_fill_viridis(trans = "log10")+
   labs(fill = "log10(count)")+
-  theme(legend.position="top")
+  theme(legend.position="top")+
+  stat_cor(aes(label = ..r.label..), size=5,geom='label')
 
 ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare.pdf', width=6, height=6, plot = p)
 
