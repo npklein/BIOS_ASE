@@ -5,11 +5,6 @@ library(patchwork)
 ##### read in data ####
 ase_and_eqtl <- read.table('/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/ase_and_eqtl.txt',sep='\t',header=T)
 
-#ase_and_eqtl[ase_and_eqtl$zscore_qtl != ase_and_eqtl$zscoreSwapped_qtl,]
-ase_and_eqtl[ase_and_eqtl$ALT!=ase_and_eqtl$minor.allele,c('VARIANT','REF','ALT','SUMMAJOR','SUMMINOR','RATIO',
-                                                           'zscore_qtl','zscoreSwapped_qtl','qtl_genotype',
-                                                           'qtl_assessed_allele','major.allele', 'minor.allele')]
-
 ase_and_eqtl$bion.pval <- apply(ase_and_eqtl, 1,function(x){
   t <- binom.test(as.numeric(x[['SUMMINOR']]), as.numeric(x[['SUMMAJOR']])+as.numeric(x[['SUMMINOR']]))
   return(t$p.value)

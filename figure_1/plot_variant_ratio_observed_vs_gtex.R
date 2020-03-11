@@ -7,78 +7,70 @@ library(ggsignif)
 library(ggrepel)
 library(gridExtra)
 
-data <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/concordanceGTEx/counts.matrix.inclPatrickASE.txt'))
-snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
+data <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/concordanceGTEx/counts.matrix.AlleleAdded.txt'))
 
-#Merge SNP info into table
-data_merged <- merge(data, snpInfo, by=c('VARIANT'))
+# at least 30 samples in bios
+BIOS_ASE_counts <- BIOS_ASE_counts[BIOS_ASE_counts$SAMPLECOUNT >= 30,]
+BIOS_ASE_counts <- BIOS_ASE_counts[BIOS_ASE_counts$GTEXSAMPLECOUNT >= 30,]
 
-#Select tissue whole blood
-data1<-data_merged[data_merged$TISSUE == "WHLBLD",]
+BIOS_ASE_counts_deduplicated <- BIOS_ASE_counts[!duplicated(BIOS_ASE_counts$VARIANT),]
 
-#Apply binominal test
-data1$binom <- apply(data1, 1, function(x) binom.test(as.numeric(x[["SUMMAJOR"]]), as.numeric(x[["TOTAL"]]), 
+BIOS_ASE_counts_deduplicated$BIOS_ASE_binom <- apply(BIOS_ASE_counts_deduplicated, 1, function(x) binom.test(as.numeric(x[["SUMMAJOR"]]), as.numeric(x[["TOTAL"]]), 
                                                       p=0.5, alternative = "two.sided", conf.level = 0.95)$p.value)
 
-data1$binomCorrected <- p.adjust(data1$binom, method = "bonferroni")
-data1$ZSCORE_ASE <- -1*qnorm(data1$binomCorrected/2)
-data2<-data1[data1$binomCorrected < 1e-5,]
+BIOS_ASE_counts_deduplicated$BIOS_ASE_binom_FDR <- p.adjust(BIOS_ASE_counts_deduplicated$BIOS_ASE_binom, method = "BH")
 
-#Check positive or negative ratios and annotate with them
-data2$OURDIR <- ifelse(data2$RATIO<0.5, "NEG", "POS")
-data2$GTEXDIR <- ifelse(data2$GTEXRATIO<0.5, "NEG", "POS")
+BIOS_ASE_counts_deduplicated[,c('TISSUE','GTEXSAMPLECOUNT', 'GTEXSUMMAJOR','GTEXSUMMINOR','GTEXTOTAL','GTEXRATIO')] <- NULL
+BIOS_ASE_counts_with_fdr <- merge(BIOS_ASE_counts, BIOS_ASE_counts_deduplicated, 
+                                  by=colnames(BIOS_ASE_counts_deduplicated)[!colnames(BIOS_ASE_counts_deduplicated) %in% c('BIOS_ASE_binom', 
+                                                                                             'BIOS_ASE_binom_FDR')],
+                                  all=T)
 
-#Calculate concordance
-comp <- table(data2$OURDIR==data2$GTEXDIR)
-concordance <- (comp["TRUE"]/(comp["TRUE"]+comp["FALSE"]))*100
-concordance
+BIOS_ASE_counts_with_fdr$GTEX_binom <- apply(BIOS_ASE_counts_with_fdr, 1, function(x) binom.test(as.numeric(x[["GTEXSUMMAJOR"]]), as.numeric(x[["GTEXTOTAL"]]), 
+                                                                                             p=0.5, alternative = "two.sided", conf.level = 0.95)$p.value)
 
-#Calculate correlation
-res <- cor.test(data2$RATIO, data2$GTEXRATIO, 
-                method = "pearson")
-correlation<-res$estimate
+BIOS_ASE_counts_with_fdr$GTEX_fdr <- p.adjust(BIOS_ASE_counts_with_fdr$GTEX_binom, method = "BH")
 
 
-#ggplot(data=data2, aes(x=GTEXRATIO, y=RATIO, colour=ZSCORE_ASE))+
-#  geom_point()+
-#  ggtitle(paste0("GENE ratio vs GTEx ratio\nConcordance: ", concordance, "    Correlation: ", correlation))+
-#  geom_vline(xintercept=0.5)+
-#  geom_hline(yintercept=0.5)
+BIOS_ASE_counts_with_fdr$RATIO_directed <- -1*(0.5-BIOS_ASE_counts_with_fdr$RATIO)
+BIOS_ASE_counts_with_fdr$GTEXRATIO_directed <- -1*(0.5-BIOS_ASE_counts_with_fdr$GTEXRATIO)
 
+BIOS_ASE_counts_sign <- BIOS_ASE_counts_with_fdr[BIOS_ASE_counts_with_fdr$GTEX_fdr < 0.05 & BIOS_ASE_counts_with_fdr$BIOS_ASE_binom_FDR < 0.05,]
+p1 <- ggplot(BIOS_ASE_counts_sign[sign(BIOS_ASE_counts_sign$RATIO_directed)==sign(BIOS_ASE_counts_sign$GTEXRATIO_directed),], 
+             aes(GTEXRATIO_directed, RATIO_directed))+
+  geom_point(data=BIOS_ASE_counts_sign[sign(BIOS_ASE_counts_sign$RATIO_directed)!=sign(BIOS_ASE_counts_sign$GTEXRATIO_directed),],
+             alpha=0.5,shape=21, fill='darkred')+
+  geom_point(alpha=0.5,shape=21, fill='darkblue')+
+  geom_hline(yintercept=0, lty=2, colour='red')+
+  geom_vline(xintercept=0, lty=2, colour='red')+
+  theme_bw(base_size = 15)+
+  ylab('ASE ratio BIOS')+
+  xlab('ASE ratio GTEx')+
+  theme(legend.position="top") + 
+  geom_smooth(method='lm', formula = y~x, show.legend = FALSE)+
+  facet_wrap(~TISSUE,ncol=6)+
+  stat_cor(
+    aes(label = paste(..rr.label..,  sep = "~`,`~")), 
+    method = "spearman")
 
-######
-data2$OURDIR <- ifelse(data2$PATRATIO<0.5, "NEG", "POS")
-data2$GTEXDIR <- ifelse(data2$GTEXRATIO<0.5, "NEG", "POS")
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/variant_ratio_observed_vs_gtex_all_tissue.pdf', width=24, height=24, plot=p1)
 
-#Calculate concordance
-comp <- table(data2$OURDIR==data2$GTEXDIR)
-concordance <- (comp["TRUE"]/(comp["TRUE"]+comp["FALSE"]))*100
-concordance
-
-#Calculate correlation
-res <- cor.test(data2$PATRATIO, data2$GTEXRATIO, 
-                method = "pearson")
-correlation<-res$estimate
-
-#Plot and save
-ggplot(data=data2, aes(x=GTEXRATIO, y=PATRATIO,))+
-  theme_bw()+
-  geom_point(alpha=0.5,shape=16)+
-  geom_vline(xintercept=0.5, lty=2,)+
-  geom_hline(yintercept=0.5, lty=2,)+
-  ylab('Observed variant ratio')+
-  xlab('GTEx variant ratio')+
-  scale_x_continuous(limits = c(0, 1))+
-  scale_y_continuous(limits = c(0, 1))+
-  annotate("text", x = 0.25, y = 1, label = paste0("Concordance: ",(signif(concordance,3)/100)),
-           size=8,parse=TRUE)+
-  annotate("text", x = 0.25, y = 0.95, label = paste0("Correlation: ",signif(correlation,3) ),
-           size=8,parse=TRUE)+
-  theme(panel.grid.major = element_line(colour = "grey", size = 0.1),panel.grid.minor = element_line(colour = "grey", size = 0.1),
-        axis.title.x = element_text(size=16),
-        axis.text=element_text(size=16),
-        axis.title.y = element_text(size=16))
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_d/variant_ratio_observed_vs_gtex.png', width=600, height=600)
-
-
-
+BIOS_ASE_counts_blood <- BIOS_ASE_counts_sign[BIOS_ASE_counts_sign$TISSUE=="WHLBLD",]
+concordance <- sum(sign(BIOS_ASE_counts_blood$RATIO_directed)==sign(BIOS_ASE_counts_blood$GTEXRATIO_directed))/nrow(BIOS_ASE_counts_blood)
+cor_zscore <- cor(BIOS_ASE_counts_blood$RATIO_directed, BIOS_ASE_counts_blood$GTEXRATIO_directed, method='spearman')
+p2 <- ggplot(BIOS_ASE_counts_blood[sign(BIOS_ASE_counts_blood$RATIO_directed)==sign(BIOS_ASE_counts_blood$GTEXRATIO_directed),], 
+             aes(GTEXRATIO_directed, RATIO_directed))+
+  geom_point(data=BIOS_ASE_counts_blood[sign(BIOS_ASE_counts_blood$RATIO_directed)!=sign(BIOS_ASE_counts_blood$GTEXRATIO_directed),],
+             alpha=0.5,shape=21, fill='darkred')+
+  geom_point(alpha=0.5,shape=21, fill='darkblue')+
+  geom_hline(yintercept=0, lty=2, colour='red')+
+  geom_vline(xintercept=0, lty=2, colour='red')+
+  theme_bw(base_size = 15)+
+  ylab('ASE ratio BIOS')+
+  xlab('ASE ratio GTEx')+
+  annotate("text", x = -0.1, y = 0.5, label = paste0("Concordance: ",signif(concordance,3),
+                                                     "\nCorrelation: ",signif(cor_zscore,3)),
+           size=4, hjust=1)+
+  theme(legend.position="top") + 
+  geom_smooth(method='lm', formula = y~x, show.legend = FALSE)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_d/variant_ratio_observed_vs_gtex_blood.pdf', width=8, height=8, plot=p2)
