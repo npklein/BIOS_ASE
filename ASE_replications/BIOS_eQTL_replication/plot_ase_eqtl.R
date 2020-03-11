@@ -122,7 +122,7 @@ p4 <- ggplot(ase_and_eqtl_different_genotype[sign(ase_and_eqtl_different_genotyp
 
 # if true, save the swapped figure
 p1 <- p1+ggtitle('')
-ggsave("~/Downloads/ase_eqtl_comparison.png", width=6,height=6)
+ggsave("ASE-eqtl-comparison-BIOS.pdf", width=6,height=6)
 
 
 
