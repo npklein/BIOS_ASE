@@ -18,6 +18,7 @@ BIOS_ASE_counts_deduplicated <- BIOS_ASE_counts[!duplicated(BIOS_ASE_counts$VARI
 BIOS_ASE_counts_deduplicated$BIOS_ASE_binom <- apply(BIOS_ASE_counts_deduplicated, 1, function(x) binom.test(as.numeric(x[["SUMMAJOR"]]), as.numeric(x[["TOTAL"]]), 
                                                       p=0.5, alternative = "two.sided", conf.level = 0.95)$p.value)
 
+
 BIOS_ASE_counts_deduplicated$BIOS_ASE_binom_FDR <- p.adjust(BIOS_ASE_counts_deduplicated$BIOS_ASE_binom, method = "BH")
 
 BIOS_ASE_counts_deduplicated[,c('TISSUE','GTEXSAMPLECOUNT', 'GTEXSUMMAJOR','GTEXSUMMINOR','GTEXTOTAL','GTEXRATIO')] <- NULL
@@ -74,3 +75,4 @@ p2 <- ggplot(BIOS_ASE_counts_blood[sign(BIOS_ASE_counts_blood$RATIO_directed)==s
   theme(legend.position="top") + 
   geom_smooth(method='lm', formula = y~x, show.legend = FALSE)
 ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_d/variant_ratio_observed_vs_gtex_blood.pdf', width=8, height=8, plot=p2)
+

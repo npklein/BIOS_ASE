@@ -60,7 +60,7 @@ p <- ggplot(AF, aes(AF1*100, AF2*100))+
 
 
 
-png('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes.png', width=600, height=600)
+png('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes.pdf', width=600, height=600)
 ggMarginal(p, type = "histogram", bins=1000)
 dev.off()
 
@@ -87,7 +87,7 @@ p <- ggplot(AF_rare, aes(AF1*100, AF2*100))+
   scale_y_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))
 
 
-png('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare.png', width=600, height=600)
+png('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare.pdf', width=600, height=600)
 ggMarginal(p, type = "histogram", bins=40)
 dev.off()
 
