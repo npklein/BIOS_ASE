@@ -3,6 +3,9 @@ library(ggplot2)
 library(ggpubr)
 library(data.table)
 library(ggExtra)
+library(viridis)
+library(grid)
+library(gtable)
 
 # READ DATA
 # gonl wgs
@@ -31,64 +34,61 @@ merge_AF <- function(AF1, AF2, name1, name2){
 AF <- merge_AF(gonl_RNA_af, gonl_af, 'GoNL RNA','GoNL WGS')
 correlation <- cor(AF$AF1, AF$AF2,method='spearman')
 correlation <- cor(AF$AF1, AF$AF2,method='pearson')
-# GoNL samples gotten from the script that makes the AFs
-samples_label = paste0('Samples == 271')
-n_label <- paste0("SNPs == ",nrow(AF))
+# GoNL samples gotten from the script that makes the A
 model = lm(AF1 ~ AF2, data = AF)
-r2_label <- paste0("\nR^2 == ", signif(summary(model)$adj.r.squared,3))
+label = paste0('Samples == 271\n',
+               'SNPs == ', nrow(AF),
+               '\nR^2 == ', signif(summary(model)$adj.r.squared,3))
 
 
 p <- ggplot(AF, aes(AF1*100, AF2*100))+
-  geom_point(alpha=0.1)+
+#  geom_point(alpha=0.1)+
+  geom_hex()+
   theme_bw(base_size = 18)+
   xlab(paste0('Allele Frequency WGS genotypes'))+
   ylab(paste0('Allele Frequency RNAseq genotypes'))+
   geom_abline(lty=2, colour='red')+
-  annotate("text", x = 10, y = 95, label = samples_label,
-           size=6,parse=TRUE)+
-  annotate("text", x = 10, y = 90, label = n_label,
-           size=6,parse=TRUE)+
-  annotate("text", x = 10, y = 85, label = r2_label,
-           size=6,parse=TRUE)+ 
-  geom_segment(aes(x = 0, y = 10, xend = 10, yend = 10, colour="red"))+ 
-  geom_segment(aes(x = 0, y = 0, xend = 10, yend = 0, colour="red"))+
-  geom_segment(aes(x = 0, y = 0, xend = 0, yend = 10, colour = "red"))+
-  geom_segment(aes(x = 10, y = 0, xend = 10, yend = 10, colour="red"))+
+  annotate("text", x = 10, y = 95, label = label,
+           size=6,parse=TRUE, hjust=1)+
+  geom_segment(aes(x = -1, y = 10, xend = 10, yend = 10, colour="red"))+ 
+  geom_segment(aes(x = -1, y = -1, xend = 10, yend = 0, colour="red"))+
+  geom_segment(aes(x = -1, y = -1, xend = -1, yend = 10, colour = "red"))+
+  geom_segment(aes(x = 10, y = -1, xend = 10, yend = 10, colour="red"))+
   guides(colour=F, size=F)+ 
   scale_x_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+ 
-  scale_y_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))
+  scale_y_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+
+  scale_fill_viridis(trans = "log10")+
+  labs(fill = "log10(count)")+
+  theme(legend.position="top")+
+  theme(plot.margin = unit(c(.5,6,.5,.5),"lines"),
+          legend.background = element_rect(colour = "black"))
 
 
 
-png('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes.pdf', width=600, height=600)
-ggMarginal(p, type = "histogram", bins=1000)
-dev.off()
-
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes.pdf', width=6, height=6, plot = p)
 
 
 AF_rare <- AF[AF$AF1 < 0.1 & AF$AF2 < 0.1,]
-n_label <- paste0("N == ",nrow(AF_rare))
 model = lm(AF1 ~ AF2, data = AF_rare)
-r2_label <- paste0("\nR^2 == ", signif(summary(model)$adj.r.squared,3))
 
+label = paste0('Samples == 271\n',
+               'SNPs == ',nrow(AF_rare),
+               '\nR^2 == ', signif(summary(model)$adj.r.squared,3))
 p <- ggplot(AF_rare, aes(AF1*100, AF2*100))+
-  geom_point(alpha=0.1)+
+#  geom_point(alpha=0.1)+
+  geom_hex()+
   theme_bw(base_size = 18)+
   xlab(paste0('Allele Frequency WGS genotypes'))+
   ylab(paste0('Allele Frequency RNAseq genotypes'))+
   geom_abline(lty=2, colour='red')+
-  annotate("text", x = 1.1, y = 10, label = samples_label,
-           size=6,parse=TRUE)+
-  annotate("text", x = 1, y = 9.6, label = n_label,
-           size=6,parse=TRUE)+
-  annotate("text", x = 1, y = 9.2, label = r2_label,
-           size=6,parse=TRUE)+ 
+  annotate("text", x = 1.1, y = 10, label = label,
+           size=6,parse=TRUE,hjust=0)+
   scale_x_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+ 
-  scale_y_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))
+  scale_y_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+
+  scale_fill_viridis(trans = "log10")+
+  labs(fill = "log10(count)")+
+  theme(legend.position="top")
 
-
-png('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare.pdf', width=600, height=600)
-ggMarginal(p, type = "histogram", bins=40)
-dev.off()
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare.pdf', width=6, height=6, plot = p)
 
 
