@@ -44,12 +44,12 @@ ggplot(LCL_and_ASE_fdr05[sign(LCL_and_ASE_fdr05$BIOS_ratio_directed) != LCL_and_
   theme_bw(base_size = 15)+
   ylab('Ratio LCL')+
   xlab('Ratio BIOS')+
-  annotate("text", x = -0.15, y = 0.25, label = paste0("Concordance: ",signif(concordance_LCL_logFC,3),
+  annotate("text", x = -0.1, y = 0.25, label = paste0("Concordance: ",signif(concordance_LCL_logFC,3),
                                                      "\nCorrelation: ",signif(cor_logFC_LCL,3)),
            size=4, hjust=1)+
   theme(legend.position="top") + 
   geom_smooth(method='lm', formula = y~x, show.legend = FALSE)+
   labs(size="-log10 ( p-value ASE )")
 
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_comparison_ours_vs_LCL.fdr05.png', width=6, height=6)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_comparison_ours_vs_LCL.fdr05.pdf', width=6, height=6)
 ######  
