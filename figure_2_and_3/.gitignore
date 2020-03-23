@@ -1,4 +1,5 @@
 Rplots.pdf
 *txt
 .Rhistory
-
+clinvar_overlapped_with_SNPs.txt
+counts.chr22.addedCADD.addedVKGL.txt
