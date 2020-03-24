@@ -4,8 +4,6 @@ library(ggpubr)
 library(data.table)
 library(ggExtra)
 library(viridis)
-library(grid)
-library(gtable)
 
 # READ DATA
 # gonl wgs
@@ -40,7 +38,6 @@ correlation <- cor(AF$AF1, AF$AF2,method='pearson')
 model = lm(AF1 ~ AF2, data = AF)
 
 p <- ggplot(AF, aes(AF1*100, AF2*100))+
-#  geom_point(alpha=0.1)+
   geom_hex()+
   theme_bw(base_size = 18)+
   xlab(paste0('Allele Frequency WGS genotypes'))+
@@ -54,17 +51,18 @@ p <- ggplot(AF, aes(AF1*100, AF2*100))+
   scale_x_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+ 
   scale_y_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+
   scale_fill_viridis(trans = "log10")+
-  labs(fill = "SNPs")+
+  labs(fill = "# SNPs")+
+  theme(legend.position="top",
+        legend.key = element_rect(fill = "white", colour = "black"))+
   stat_cor(aes(label = ..r.label..), size=5,geom='label')
 
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes.pdf', width=6, height=6, plot = p)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes.pdf', width=6, height=7, plot = p)
 
 
 AF_rare <- AF[AF$AF1 < 0.1 & AF$AF2 < 0.1,]
 model = lm(AF1 ~ AF2, data = AF_rare)
 
 p <- ggplot(AF_rare, aes(AF1*100, AF2*100))+
-#  geom_point(alpha=0.1)+
   geom_hex()+
   theme_bw(base_size = 18)+
   xlab(paste0('Allele Frequency WGS genotypes'))+
@@ -73,10 +71,11 @@ p <- ggplot(AF_rare, aes(AF1*100, AF2*100))+
   scale_x_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+ 
   scale_y_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+
   scale_fill_viridis(trans = "log10")+
-  labs(fill = "log10(count)")+
-  theme(legend.position="top")+
+  labs(fill = "# SNPs")+
+  theme(legend.position="top",
+        legend.key = element_rect(fill = "white", colour = "black"))+
   stat_cor(aes(label = ..r.label..), size=5,geom='label')
 
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare.pdf', width=6, height=6, plot = p)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare.pdf', width=6, height=7, plot = p)
 
 

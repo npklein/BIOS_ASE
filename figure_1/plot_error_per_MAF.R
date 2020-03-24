@@ -1,3 +1,4 @@
+library(ggridges)
 library(stringr)
 library(data.table)
 library(ggplot2)
@@ -42,19 +43,32 @@ give.n <- function(x){
   # experiment with the multiplier to find the perfect position
 }
 
-switch_errors_no_na_subset <- switch_errors_no_na[switch_errors_no_na$switchError < 10,]
-ggplot(switch_errors_no_na, aes(as.factor(maf_breaks), switchError, fill = maf_breaks))+
-  geom_violin()+
-  geom_jitter(data=switch_errors_no_na, aes(as.factor(maf_breaks), switchError), 
-              alpha=0.1, width=0.2)+
-  theme_bw(base_size=18)+
-  xlab('MAF bins')+
-  ylab('Percentage of samples for which SNP has a swap error')+
-  stat_summary(fun.data = give.n, geom = "text", fun.y = median,
-               position = position_dodge(width = 0.75))+
-  scale_x_discrete(labels=c('< 0.1%','0.1-1%','1-10%','10-20%','20-30%','30-40%','40-50%'))+
-  guides(fill=F)+
-  scale_colour_brewer(palette="Dark2")
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_c//switch_error_per_maf_bin.pdf', width=8, height = 8)
+#ggplot(switch_errors_no_na, aes(as.factor(maf_breaks), switchError, fill = maf_breaks))+
+#  geom_violin()+
+#  geom_boxplot(width=0.3)+
+#  geom_jitter(data=switch_errors_no_na, aes(as.factor(maf_breaks), switchError), 
+#              alpha=0.1, width=0.2)+
+#  theme_bw(base_size=18)+
+#  xlab('MAF bins (%)')+
+#  ylab('% samples for which SNP has a swap error')+
+#  stat_summary(fun.data = give.n, geom = "text", fun.y = median,
+#               position = position_dodge(width = 0.75))+
+#  scale_x_discrete(labels=c('< 0.1','0.1-1','1-10','10-20','20-30','30-40','40-50'))+
+#  guides(fill=F)+
+#  scale_colour_brewer(palette="Dark2")
+
+ggplot(switch_errors_no_na, aes(x=switchError, y=as.factor(maf_breaks), fill=as.factor(maf_breaks)))+
+    geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
+    xlab('% samples for which SNP has a swap error')+
+    ylab('MAF bins')+
+    scale_y_discrete(labels=c('< 0.1%','0.1-1%','1-10%','10-20%','20-30%','30-40%','40-50%'))+
+    guides(fill=F)+
+    theme_bw(base_size=18)+
+    scale_fill_brewer(palette="Dark2")
+    
+
+
+
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_c//switch_error_per_maf_bin.pdf', width=6, height = 6)
 
 ######

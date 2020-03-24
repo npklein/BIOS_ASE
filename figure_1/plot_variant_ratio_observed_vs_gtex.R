@@ -7,7 +7,7 @@ library(ggsignif)
 library(ggrepel)
 library(gridExtra)
 
-data <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/concordanceGTEx/counts.matrix.AlleleAdded.txt'))
+BIOS_ASE_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/concordanceGTEx/counts.matrix.AlleleAdded.txt'))
 
 # at least 30 samples in bios
 BIOS_ASE_counts <- BIOS_ASE_counts[BIOS_ASE_counts$SAMPLECOUNT >= 30,]
@@ -62,17 +62,17 @@ cor_zscore <- cor(BIOS_ASE_counts_blood$RATIO_directed, BIOS_ASE_counts_blood$GT
 p2 <- ggplot(BIOS_ASE_counts_blood[sign(BIOS_ASE_counts_blood$RATIO_directed)==sign(BIOS_ASE_counts_blood$GTEXRATIO_directed),], 
              aes(GTEXRATIO_directed, RATIO_directed))+
   geom_point(data=BIOS_ASE_counts_blood[sign(BIOS_ASE_counts_blood$RATIO_directed)!=sign(BIOS_ASE_counts_blood$GTEXRATIO_directed),],
-             alpha=0.5,shape=21, fill='darkred')+
-  geom_point(alpha=0.5,shape=21, fill='darkblue')+
+             alpha=0.5,colour='#fdbb84', colour='#fdbb84')+
+  geom_point(alpha=0.5,colour='#9ecae1',colour='#9ecae1')+
   geom_hline(yintercept=0, lty=2, colour='red')+
   geom_vline(xintercept=0, lty=2, colour='red')+
-  theme_bw(base_size = 15)+
+  theme_bw(base_size = 18)+
   ylab('ASE ratio BIOS')+
   xlab('ASE ratio GTEx')+
-  annotate("text", x = -0.1, y = 0.5, label = paste0("Concordance: ",signif(concordance,3),
-                                                     "\nCorrelation: ",signif(cor_zscore,3)),
-           size=4, hjust=1)+
+  annotate("text", x = -0.1, y = 0.3, label = paste0("Concordance = ",signif(concordance,3),
+                                                     "\nCorrelation = ",signif(cor_zscore,3)),
+           size=5, hjust=1)+
   theme(legend.position="top") + 
   geom_smooth(method='lm', formula = y~x, show.legend = FALSE)
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_d/variant_ratio_observed_vs_gtex_blood.pdf', width=8, height=8, plot=p2)
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_d/variant_ratio_observed_vs_gtex_blood.pdf', width=6, height=6, plot=p2)
 
