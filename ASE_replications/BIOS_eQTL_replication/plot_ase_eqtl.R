@@ -3,7 +3,8 @@ library(ggplot2)
 library(data.table)
 library(patchwork)
 ##### read in data ####
-ase_and_eqtl <- read.table('/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/ase_and_eqtl.txt',sep='\t',header=T)
+#ase_and_eqtl <- read.table('/groups/umcg-bios/tmp03/projects/2020-03-05-ASE-BIOS-eqtl-comparison/ase_and_eqtl.txt',sep='\t',header=T)
+ase_and_eqtl <- read.table('ase_and_eqtl.txt',sep='\t',header=T)
 
 ase_and_eqtl$bion.pval <- apply(ase_and_eqtl, 1,function(x){
   t <- binom.test(as.numeric(x[['SUMMINOR']]), as.numeric(x[['SUMMAJOR']])+as.numeric(x[['SUMMINOR']]))
