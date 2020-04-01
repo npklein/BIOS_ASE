@@ -69,9 +69,9 @@ ggplot(data=allele_counts_high_impact_unique, aes(x=GENENAME, y=log2(GENEEXPRESS
 #  scale_y_continuous(limit=c(0,680))+
   guides(fill=F, alpha=F)+
   scale_colour_brewer(palette="Dark2")+
-  theme(legend.position="top")+
   xlab('')+
-  ylab('log2(TPM+1)')
+  ylab('log2(TPM+1)')+ 
+  guides(colour=guide_legend(title="Alt counts / ref counts"))
 ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig5/panel_a//ase_samples_overall_expression_only_high_impact.png', width=8, height=8)
 
 
