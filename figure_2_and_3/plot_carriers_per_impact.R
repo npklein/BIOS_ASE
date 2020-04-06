@@ -16,8 +16,8 @@ give.n <- function(x){
   return(c(y = -0.1, label = length(x)))
 }
 
-carriers_per_disease_high[carriers_per_disease_high$disease=='other',]$disease <- 'General'
-carriers_per_disease_high <- carriers_per_disease_high[!carriers_per_disease_high$disease=='General',]
+carriers_per_disease[carriers_per_disease$disease=='other',]$disease <- 'General'
+carriers_per_disease <- carriers_per_disease[!carriers_per_disease$disease=='General',]
 
 outliers_per_disease <- carriers_per_disease %>%
   group_by(disease,impact) %>%
