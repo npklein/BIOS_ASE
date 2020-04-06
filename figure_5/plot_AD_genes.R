@@ -21,8 +21,8 @@ allele_counts_AF[allele_counts_AF$allele_freq > 0.5,]$minorAllele <- allele_coun
 snpInfo <- fread('counts.chr22.addedCADD.addedVKGL.txt')
 allele_counts_snpInfo <- merge(allele_counts, snpInfo, by=c('VARIANT','GENENAME'))
 
-allele_counts_snpInfo_with_count_high_impact_variants <- allele_counts_snpInfo_with_count[allele_counts_snpInfo_with_count$CGDINHERITANCE=="AD" & allele_counts_snpInfo_with_count$CADDPHRED > 15 & 
-                                       allele_counts_snpInfo_with_count$SNPEFFIMPACT=="HIGH",]
+allele_counts_snpInfo_with_count_high_impact_variants <- allele_counts_snpInfo[allele_counts_snpInfo$CGDINHERITANCE=="AD" & allele_counts_snpInfo$CADDPHRED > 15 & 
+                                                                                 allele_counts_snpInfo$SNPEFFIMPACT=="HIGH",]
 high_impact_genes <- unique(allele_counts_snpInfo_with_count_high_impact_variants$GENENAME)
 
 ggplot(data=allele_counts_AF[allele_counts_AF$GENENAME%in%high_impact_genes, ], aes(x=GENENAME, y=log10(GENEEXPRESSION+1)))+
