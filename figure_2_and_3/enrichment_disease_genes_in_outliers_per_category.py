@@ -65,7 +65,7 @@ def read_isOutlier():
     na = {}
     input_dir = '/groups/umcg-bios/tmp03/projects/outlierGeneASE//logFoldChangeTables/'
     # Input file made by ../createLogFoldChangeTable.pl
-    with open(input_dir+'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.txt') as input_file:
+    with open(input_dir+'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt') as input_file:
         print('read second logFC file')
         header = input_file.readline().strip().split('\t')
         for line in input_file:
@@ -176,10 +176,11 @@ with open(f) as input_file:
                     count_per_manifestation['other']['na'][impact].append([gene, snp, sample, MAF, element])
                     count_per_inheritance['other']['na'][impact].append([gene, snp, sample, MAF, element])
             else:
-                raise RuntimeError(sample,'not in any of the dictionaries')
+                continue
+#                raise RuntimeError(sample,'not in any of the dictionaries')
 
-    disease_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt'
-    inheritance_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_inheritance/carriers_per_inheritance.txt'
+    disease_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease_bonf.txt'
+    inheritance_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_inheritance/carriers_per_inheritance_bonf.txt'
     
 
     with open(disease_outfile,'w') as out:

@@ -78,19 +78,19 @@ for(pval in c(0.05, 1e-02,1e-3,1e-4,1e-5,1e-6,1e-7,1e-8,1e-9,1e-10,1e-11,1e-12,1
                                                                        'correlation'=cor_current_pval,
                                                                        'concordance'=concordance_current_pval))
 }
-ggplot(cor_at_different_pvalue, aes(-log10(pval), concordance))+
-  geom_point()+
-  geom_line()+
-  theme_bw(base_size=18)+
-  xlab('-log10 ( p-value )')+
-  ylab('concordance')
-ggsave(paste0('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_eqtlGen_concordance_different_pvalues.png'), width=8, height=8)
-ggplot(cor_at_different_pvalue, aes(-log10(pval), correlation))+
-  geom_point()+
-  geom_line()+
-  theme_bw(base_size=18)+
-  xlab('-log10 ( p-value )')+
-  ylab('Correlation')
-ggsave(paste0('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_eqtlGen_correlation_different_pvalues.png'), width=8, height=8)
+#ggplot(cor_at_different_pvalue, aes(-log10(pval), concordance))+
+#  geom_point()+
+#  geom_line()+
+#  theme_bw(base_size=18)+
+#  xlab('-log10 ( p-value )')+
+#  ylab('concordance')
+#ggsave(paste0('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_eqtlGen_concordance_different_pvalues.png'), width=8, height=8)
+#ggplot(cor_at_different_pvalue, aes(-log10(pval), correlation))+
+#  geom_point()+
+#  geom_line()+
+#  theme_bw(base_size=18)+
+#  xlab('-log10 ( p-value )')+
+#  ylab('Correlation')
+#ggsave(paste0('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/ASE_eqtlGen_correlation_different_pvalues.png'), width=8, height=8)
 
 #####

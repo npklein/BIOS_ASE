@@ -4,71 +4,46 @@ library(data.table)
 library(ggplot2)
 library(plotly)
 require(dplyr)
-library(ggbeeswarm)
 
-outliers_per_clinvar <- fread('clinvar_overlapped_with_SNPs.txt')
-table(outliers_per_clinvar[which(outliers_per_clinvar$outlier+outliers_per_clinvar$not_outlier==0),]$clinstat)
-
-outliers_per_clinvar_at_least_1 <- outliers_per_clinvar[which(outliers_per_clinvar$outlier+outliers_per_clinvar$not_outlier>0),]
-outliers_per_clinvar_at_least_1$fraction_outlier <- outliers_per_clinvar_at_least_1$outlier / (outliers_per_clinvar_at_least_1$not_outlier + outliers_per_clinvar_at_least_1$outlier)
-
-total <- data.frame(clinstat=c('Benign','VUS','Pathogenic'),
-                    outlier=c(sum(outliers_per_clinvar_at_least_1[outliers_per_clinvar_at_least_1$clinstat=='Benign',]$outlier_bonf),
-                              sum(outliers_per_clinvar_at_least_1[outliers_per_clinvar_at_least_1$clinstat=='VUS',]$outlier_bonf),
-                              sum(outliers_per_clinvar_at_least_1[outliers_per_clinvar_at_least_1$clinstat=='Pathogenic',]$outlier_bonf)),
-                    not_outlier=c(sum(outliers_per_clinvar_at_least_1[outliers_per_clinvar_at_least_1$clinstat=='Benign',]$not_outlier_bonf),
-                                  sum(outliers_per_clinvar_at_least_1[outliers_per_clinvar_at_least_1$clinstat=='VUS',]$not_outlier_bonf),
-                                  sum(outliers_per_clinvar_at_least_1[outliers_per_clinvar_at_least_1$clinstat=='Pathogenic',]$not_outlier_bonf)))
-total$fraction_outlier <- (total$outlier/(total$outlier+total$not_outlier))
+carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvar_overlapped_with_SNPs.txt')
 
 
-ggplot(total, aes(clinstat, fraction_outlier, fill=clinstat))+
+
+
+give.n <- function(x){
+  return(c(y = -0.1, label = length(x)))
+}
+
+carriers_per_disease[carriers_per_disease$disease=='other',]$disease <- 'General'
+carriers_per_disease <- carriers_per_disease[!carriers_per_disease$disease=='General',]
+
+outliers_per_disease <- carriers_per_disease %>%
+  group_by(disease,clinstat) %>%
+   summarise(outlier = sum(type=='outlier'),
+             not_outlier = sum(type=='not_outlier'),
+             n=length(unique(snp)))
+
+outliers_per_disease$fraction_outlier <- outliers_per_disease$outlier/(outliers_per_disease$outlier+outliers_per_disease$not_outlier)
+
+outliers_per_disease$clinstat <- factor(outliers_per_disease$clinstat, levels=c('Pathogenic','VUS','Benign'))
+print(head(outliers_per_disease))
+ggplot(outliers_per_disease, aes(clinstat, fraction_outlier, fill=clinstat))+
   geom_bar(stat='identity')+
-  theme_bw(base_size = 18)+
+  theme_bw(base_size = 24)+
+  facet_wrap(~disease, nrow=3)+
   scale_fill_brewer(palette="Dark2")+
-  ylab('Fraction of SNPs that is an outlier')+
+  ylab('Fraction of samples that is an outlier')+
   xlab('')+
-  #  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
-  scale_x_discrete(limit=c('Pathogenic',
-                           'VUS','Benign'))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  geom_text(aes(label=n), vjust=-1)+
   scale_y_continuous(limit=c(0,1.1))+
-  guides(fill=FALSE)
+  scale_x_discrete(limit=c('LOW', 'MODERATE','HIGH'), labels='Low','Moderate','High')
 
-outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_clinvar.png'
+outfile = '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig3//proportion_outlier_per_clinvar_per_disease.pdf'
 print(paste('write to:',outfile))
-ggsave(outfile,width=8, height=8)
-
-#####
+ggsave(outfile,width=25, height=20)
 
 
-##### VKGL #####
-outliers_per_vkgl <- fread('vkgl_overlapped_with_SNPs.txt')
-table(outliers_per_vkgl[which(outliers_per_vkgl $outlier+outliers_per_vkgl$not_outlier>0),]$clinstat)
-
-outliers_per_vkgl_at_least_1 <- outliers_per_vkgl[which(outliers_per_vkgl$outlier+outliers_per_vkgl$not_outlier>0),]
-outliers_per_vkgl$fraction_outlier <- outliers_per_vkgl_at_least_1$outlier / (outliers_per_vkgl_at_least_1$not_outlier + outliers_per_vkgl_at_least_1$outlier)
-
-total_vkgl <- data.frame(clinstat=c('Benign','VUS','Pathogenic'),
-                    outlier=c(sum(outliers_per_vkgl_at_least_1[outliers_per_vkgl_at_least_1$clinstat=='Benign',]$outlier_bonf),
-                              sum(outliers_per_vkgl_at_least_1[outliers_per_vkgl_at_least_1$clinstat=='VUS',]$outlier_bonf),
-                              sum(outliers_per_vkgl_at_least_1[outliers_per_vkgl_at_least_1$clinstat=='Pathogenic',]$outlier_bonf)),
-                    not_outlier=c(sum(outliers_per_vkgl_at_least_1[outliers_per_vkgl_at_least_1$clinstat=='Benign',]$not_outlier_bonf),
-                                  sum(outliers_per_vkgl_at_least_1[outliers_per_vkgl_at_least_1$clinstat=='VUS',]$not_outlier_bonf),
-                                  sum(outliers_per_vkgl_at_least_1[outliers_per_vkgl_at_least_1$clinstat=='Pathogenic',]$not_outlier_bonf)))
-total_vkgl$fraction_outlier <- (total_vkgl$outlier/(total_vkgl$outlier+total_vkgl$not_outlier))
 
 
-ggplot(total_vkgl, aes(clinstat, fraction_outlier, fill=clinstat))+
-  geom_bar(stat='identity')+
-  theme_bw(base_size = 18)+
-  scale_fill_brewer(palette="Dark2")+
-  ylab('Fraction of SNPs that is an outlier')+
-  xlab('')+
-  #  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
-  scale_x_discrete(limit=c('Pathogenic','Benign'))+
-  scale_y_continuous(limit=c(0,1.1))+
-  guides(fill=FALSE)
 
-outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_vkgl.png'
-print(paste('write to:',outfile))
-ggsave(outfile,width=8, height=8)

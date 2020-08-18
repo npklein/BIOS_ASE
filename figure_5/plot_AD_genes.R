@@ -42,4 +42,3 @@ ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig5/ase_samples_overal
 
 
 
-print(allele_counts_snpInfo_with_count_high_impact_variants)
