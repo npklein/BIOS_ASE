@@ -89,21 +89,27 @@ p <- ggplot(AF, aes(AF1*100, AF2*100))+
   xlab(paste0('Allele Frequency WGS genotypes'))+
   ylab(paste0('Allele Frequency RNAseq genotypes'))+
   geom_abline(lty=2, colour='red')+
-  geom_segment(aes(x = -3, y = 10, xend = 10, yend = 10, colour="red"), size=1.5)+
+  geom_segment(aes(x = -3, y = 10, xend = 10, yend = 10, colour="red"), size=1.5)+ 
   geom_segment(aes(x = -3, y = -3, xend = 10, yend = -3, colour="red"), size=1.5)+
   geom_segment(aes(x = -3, y = -3, xend = -3, yend = 10, colour = "red"), size=1.5)+
   geom_segment(aes(x = 10, y = -3, xend = 10, yend = 10, colour="red"), size=1.5)+
-  guides(colour=F, size=F)+
-  scale_x_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+
+  guides(colour=F, size=F)+ 
+  scale_x_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+ 
   scale_y_continuous(breaks = c(0,25,50,75,100),labels = paste0(c("0%", "25%", "50%", "75%", "100%")))+
   scale_fill_viridis(trans = "log10")+
   labs(fill = "# SNPs")+
   theme(legend.position="top",
         legend.key = element_rect(fill = "white", colour = "black"),
-        panel.background = element_rect(fill = "black", color  =  NA))+
-  stat_cor(aes(label = ..r.label..), size=5,geom='label')+
-  
-  ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes_black_background.pdf', width=6, height=7, plot = p)
+        panel.background = element_rect(fill = "black", color  =  NA),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank())+
+  geom_vline(xintercept=c(0,25,50,75,100), colour='grey20')+
+  geom_hline(yintercept=c(0,25,50,75,100), colour='grey20')+
+  stat_cor(aes(label = ..r.label..), size=5,geom='label')
+
+
+
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_a//WGS_vs_RNAseq_genotypes_black_background.pdf', width=6, height=7, plot = p)
 
 
 AF_rare <- AF[AF$AF1 < 0.1 & AF$AF2 < 0.1,]
@@ -115,14 +121,19 @@ p <- ggplot(AF_rare, aes(AF1*100, AF2*100))+
   xlab(paste0('Allele Frequency WGS genotypes'))+
   ylab(paste0('Allele Frequency RNAseq genotypes'))+
   geom_abline(lty=2, colour='red')+
-  scale_x_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+
+  scale_x_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+ 
   scale_y_continuous(breaks = c(0,2.5,5,7.5,10),labels = paste0(c("0%", "2.5%", "5%", "7.5%", "10%")))+
   scale_fill_viridis(trans = "log10")+
   labs(fill = "# SNPs")+
   theme(legend.position="top",
         legend.key = element_rect(fill = "white", colour = "black"),
-        panel.background = element_rect(fill = "black", color  =  NA))+
+        panel.background = element_rect(fill = "black", color  =  NA),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank())+
+  geom_vline(xintercept=c(0,2.5,5,7.5,10), colour='grey20')+
+  geom_hline(yintercept=c(0,2.5,5,7.5,10), colour='grey20')+
   stat_cor(aes(label = ..r.label..), size=5,geom='label')
-  
-  ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare_black_background.pdf', width=6, height=7, plot = p)
+
+ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig1/panel_b/WGS_vs_RNAseq_genotypes_rare_black_background.pdf', width=6, height=7, plot = p)
+
 

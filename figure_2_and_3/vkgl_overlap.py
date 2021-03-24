@@ -1,27 +1,24 @@
 import glob
 import gzip
 clinvar_info = {}
-
-ensembl_to_omim = {}
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/OMIM.20171220.ensembleGenes.txt') as input_file:
-    for line in input_file:
-        line = line.strip().split('\t')
-        ensembl_to_omim[line[0]] = line[1]
-
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvar_data/clinvar_20180128.criteriaProvided_multiple_submitters_no_conflicts.txt') as input_file:
+with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt') as input_file:
     input_file.readline()
     for line in input_file:
         line = line.strip().split('\t')
         snp = line[1]+'_'+line[2]
-        clinstat  = line[15]
+        clinstat  = line[-1]
         if 'benign' in clinstat.lower():
             clinstat = 'Benign'
         elif 'pathogenic' in clinstat.lower():
             clinstat = 'Pathogenic'
         elif 'uncertain_significance' in clinstat.lower():
             clinstat = 'VUS'
+        elif clinstat == 'NA':
+            continue
         else:
             raise RuntimeError(clinstat+' not benign, pathogenic, or uncertain significance')
+        if clinstat != 'NA':
+            print(clinstat)
         clinvar_info[snp] = clinstat
 
 def read_isOutlier(outlier_file):
@@ -95,9 +92,9 @@ for f in glob.glob('/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagn
                     else:
                         raise RuntimeError(genotype+' not expected genotype')
 
-outfile='/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvar_overlapped_with_SNPs.txt'
+outfile='/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/vkgl_overlapped_with_SNPs.txt'
 with open(outfile,'w') as out:
-    out.write('snp\tgene\tclinstat\tref\thet\talt\toutlier\tnot_outlier\tna\toutlier_bonf\tnot_outlier_bonf\tna_bonf\tdisease\n')
+    out.write('snp\tgene\tclinstat\tref\thet\talt\toutlier\tnot_outlier\tna\toutlier_bonf\tnot_outlier_bonf\tna_bonf\n')
     for snp in set_of_snps:
         if snp in clinvar_info:
             clinstat = clinvar_info[snp]
@@ -132,12 +129,8 @@ with open(outfile,'w') as out:
             else:
                 out.write('\t0')
             if gene in na_bonf:
-                out.write('\t'+str(na_bonf[gene]))
+                out.write('\t'+str(na_bonf[gene])+'\n')
             else:
-                out.write('\t0')
-            if gene in ensembl_to_omim:
-                out.write('\t'+ensembl_to_omim[gene]+'\n')
-            else:
-                out.write('\tGeneNotInOmim\n')
+                out.write('\t0\n')
 
 print('writtent to '+outfile)

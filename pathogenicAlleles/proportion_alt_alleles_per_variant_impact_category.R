@@ -108,7 +108,7 @@ for ( group in listGroups ){
     print(paste0("P-val: ", pval))
   }
   
-  
+  print('read counts')
   #Read counts per outlier/non-outlier category
   dataTab<-read.table(paste0("/groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.splitOutliers.",group,".txt"), sep="\t", header=TRUE)
   
@@ -118,6 +118,7 @@ for ( group in listGroups ){
   #dataTab2 <- dataTab1[dataTab1$TotalAlleles > 0,]
   dataTab2 <- dataTab1
   
+  print('calc prop')
   #Calculate proportion of alt alleles
   dataTab2$prop <- (dataTab2$AltAlleles/dataTab2$TotalAlleles)
   #Calculate proportion of carriers
@@ -126,16 +127,18 @@ for ( group in listGroups ){
   
   
   
-  
+  print('calc sd')
   #Calculate sd, se
+  print(colnames(dataTab2))
   tgc <- summarySE(dataTab2, measurevar="prop", groupvars=c("STATUS","snpEff_Annotation"))
-  
+  print('done')
   #Y-max
   tgc$yMax <- (tgc$prop+tgc$se)
   max<-max(tgc$yMax, na.rm=TRUE) #Use this for plotting purpose of labels in graph
 
   #Create plot
-  png(paste0("/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/proportion_alt_alleles_per_variant_impact_category.",group,".png"), width = 1600, height = 1200)
+  print('set pdf')
+  pdf(paste0("/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/proportion_alt_alleles_per_variant_impact_category.",group,".pdf"), width = 8, height = 4)
   
   #Create plot
   myplot<-

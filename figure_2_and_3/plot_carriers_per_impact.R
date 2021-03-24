@@ -5,8 +5,8 @@ library(ggplot2)
 library(plotly)
 require(dplyr)
 
-#carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt')
-carriers_per_disease <- fread('carriers_per_disease.txt')
+carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt')
+#carriers_per_disease <- fread('carriers_per_disease.txt')
 
 
 carriers_per_disease <- carriers_per_disease[!is.na(carriers_per_disease$logFC),]
@@ -18,7 +18,6 @@ give.n <- function(x){
 
 carriers_per_disease[carriers_per_disease$disease=='other',]$disease <- 'General'
 carriers_per_disease <- carriers_per_disease[!carriers_per_disease$disease=='General',]
-
 
 outliers_per_disease <- carriers_per_disease %>%
   group_by(disease,impact) %>%
@@ -32,7 +31,7 @@ outliers_per_disease_noModifier <- outliers_per_disease[outliers_per_disease$imp
 outliers_per_disease_noModifier$impact <- factor(outliers_per_disease_noModifier$impact, levels=c('LOW','MODERATE','HIGH'))
 ggplot(outliers_per_disease_noModifier, aes(impact, fraction_outlier, fill=impact))+
   geom_bar(stat='identity')+
-  theme_bw(base_size = 18)+
+  theme_bw(base_size = 30)+
   facet_wrap(~disease, nrow=3)+
   scale_fill_brewer(palette="Dark2")+
   ylab('Fraction of samples that is an outlier')+
