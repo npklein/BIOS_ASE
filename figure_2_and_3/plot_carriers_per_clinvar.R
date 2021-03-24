@@ -21,6 +21,9 @@ total <- data.frame(clinstat=c('Benign','VUS','Pathogenic'),
                                   sum(outliers_per_clinvar_at_least_1[outliers_per_clinvar_at_least_1$clinstat=='Pathogenic',]$not_outlier_bonf)))
 total$fraction_outlier <- (total$outlier/(total$outlier+total$not_outlier))
 
+outliers_per_clinvar_at_least_1 %>% group_by(clinstat) %>% summarize(outlier=sum(outlier_bonf), not_outlier=sum(not_outlier_bonf), median=median(fraction_outlier)*100)
+ggplot(outliers_per_clinvar_at_least_1, aes(clinstat, fraction_outlier))+
+  geom_violin()
 
 ggplot(total, aes(clinstat, fraction_outlier, fill=clinstat))+
   geom_bar(stat='identity')+
