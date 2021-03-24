@@ -5,7 +5,7 @@ library(ggplot2)
 library(plotly)
 require(dplyr)
 
-carriers_per_disease <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt')
+carriers_per_disease <- fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt')
 #carriers_per_disease <- fread('carriers_per_disease.txt')
 
 
@@ -41,7 +41,7 @@ ggplot(outliers_per_disease_noModifier, aes(impact, fraction_outlier, fill=impac
   scale_y_continuous(limit=c(0,1.1))+
   scale_x_discrete(limit=c('LOW', 'MODERATE','HIGH'), labels='Low','Moderate','High')
 
-outfile = '/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig3//proportion_outlier_per_impact_per_disease.pdf'
+outfile = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/BIOS_manuscript/fig3//proportion_outlier_per_impact_per_disease.pdf'
 print(paste('write to:',outfile))
 ggsave(outfile,width=25, height=20)
 

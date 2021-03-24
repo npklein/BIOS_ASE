@@ -2,10 +2,16 @@ library(dplyr)
 library(ggplot2)
 library(reshape2)
 library(ggsignif)
-
+library(data.table)
 input_dir <- '/groups/umcg-bios/tmp03/projects/outlierGeneASE/variant_MAF_stratification/'
 stratificationTable <- read.table(paste0(input_dir, 'variant_stratification.binom.countOncePerSNP.txt'),
                                   header = T)
+expression <- fread('gzip -dc /groups/umcg-bios/prm02/projects/expression/combined_gene_count_run_1.summed.txt.gz')
+expression_df <- data.frame(expression)
+rownames(expression_df) <- expression$genee
+expression_df$gene <- NULL
+gene_means_log10 <- rowMeans(log10(expression_df+1))
+
 #omim_genes <- read.table('omim.genes.txt')
 #cgd <- read.table('tmp.important.columns.only.txt', sep='\t', header=T)
 #cgd_genes <- cgd[cgd$GenePresentInCGD=="YES",]$ENSEMBLID
@@ -16,7 +22,9 @@ stratificationTable$gene <- NULL
   
 stratificationTable <- stratificationTable[!is.na(stratificationTable$X0.0.1_outlier),]
 stratificationSum <- colSums(stratificationTable)
-  
+
+
+
 not_outlier <- stratificationSum[grepl('not_outlier', names(stratificationSum))]
 names(not_outlier) <-  c('0-0.1','0.1-1','1-5', '5-10','10-25','25-50')
 outlier <- stratificationSum[!grepl('not_outlier', names(stratificationSum))]

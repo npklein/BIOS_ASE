@@ -1,4 +1,4 @@
-dir='/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/'
+dir='/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/geneAndVariantLists/'
 with open(dir+'OMIM_20180211.mim2gene.txt') as input_file, open(dir+'OMIM.20171220.ensembleGenes.txt','w') as out:
     for line in input_file:
         line = line.strip()

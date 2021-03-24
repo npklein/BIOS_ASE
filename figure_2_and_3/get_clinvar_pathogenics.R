@@ -5,10 +5,10 @@ date <- format(Sys.time(), "%Y-%b-%d")
 
 
 # INPUT: clinvar file as downloaded from clinvar
-clinvar_file <- "/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/variant_summary_2018-Nov-16.txt.gz"
+clinvar_file <- "/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/clinvar/variant_summary_2018-Nov-16.txt.gz"
 
 # OUTPUT: Clinvar file with certain criteia (see ReviewStatus lower in script)
-clinvar_out_file <- paste0("/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/clinvarSNPs_",date,".txt")
+clinvar_out_file <- paste0("/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/clinvar/clinvarSNPs_",date,".txt")
 
 
 # If the file does not exist, download it from clinvar. However, this file updates without chaning the name. To exactly
@@ -18,7 +18,7 @@ if(!file.exists(clinvar_file)){
     print(paste(clinvar_file,"does not exist, downloading new clinvar file. Change clinvar_file in this script and rerun"))
     url <- "ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz"
     # wget ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz <- like wget
-    outfile <- paste0('/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/variant_summary_',date,'.txt.gz')
+    outfile <- paste0('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/clinvar/variant_summary_',date,'.txt.gz')
     download.file(url, destfile=outfile)
     print(paste("Downloaded file to",outfile))
     print("Change input file in the script and run again")

@@ -1,7 +1,7 @@
 import glob
 import gzip
 clinvar_info = {}
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt') as input_file:
+with open('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt') as input_file:
     input_file.readline()
     for line in input_file:
         line = line.strip().split('\t')
@@ -46,8 +46,8 @@ def read_isOutlier(outlier_file):
                     raise RuntimeError(element+' should not be one of the options')
     return(outliers, not_outliers, na)
 
-outflier_file_bonf = '/groups/umcg-bios/tmp03/projects/outlierGeneASE//logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt'
-outflier_file = '/groups/umcg-bios/tmp03/projects/outlierGeneASE//logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.txt'
+outflier_file_bonf = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE//logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt'
+outflier_file = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE//logFoldChangeTables/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.txt'
 outliers_bonf, not_outliers_bonf, na_bonf = read_isOutlier(outflier_file_bonf)
 outliers, not_outliers, na = read_isOutlier(outflier_file)
 
@@ -57,7 +57,7 @@ set_of_snps = set()
 snp_not_in_clinvar = 0
 snp_count = {}
 snp_gene = {}
-for f in glob.glob('/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing_annotation/annotatedWith.snpEff.closest.VEP/*removedCODAM*vcf.gz'):
+for f in glob.glob('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing_annotation/annotatedWith.snpEff.closest.VEP/*removedCODAM*vcf.gz'):
     print(f)
     with gzip.open(f,'rt') as input_file:
         for line in input_file:
@@ -92,7 +92,7 @@ for f in glob.glob('/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagn
                     else:
                         raise RuntimeError(genotype+' not expected genotype')
 
-outfile='/groups/umcg-bios/tmp03/projects/outlierGeneASE/clinvar/vkgl_overlapped_with_SNPs.txt'
+outfile='/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/clinvar/vkgl_overlapped_with_SNPs.txt'
 with open(outfile,'w') as out:
     out.write('snp\tgene\tclinstat\tref\thet\talt\toutlier\tnot_outlier\tna\toutlier_bonf\tnot_outlier_bonf\tna_bonf\n')
     for snp in set_of_snps:
