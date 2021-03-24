@@ -7,12 +7,12 @@ library(viridis)
 
 # READ DATA
 # gonl wgs
-gonl_af <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/GoNL.AF.txt'))
-#gonl_af <- data.frame(fread('GoNL.AF.txt'))
+#gonl_af <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/GoNL.AF.txt'))
+gonl_af <- data.frame(fread('GoNL.AF.txt'))
 colnames(gonl_af) <- c('snp','ref','alt','AF_GoNL')
 # gonl RNAseq genotypes
-gonl_RNA_af <- data.frame(fread('/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged/exac_comparison/GoNL.RNAseqGenotypes.AF.txt'))
-#gonl_RNA_af <- data.frame(fread('GoNL.RNAseqGenotypes.AF.txt'))
+#gonl_RNA_af <- data.frame(fread('/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged/exac_comparison/GoNL.RNAseqGenotypes.AF.txt'))
+gonl_RNA_af <- data.frame(fread('GoNL.RNAseqGenotypes.AF.txt'))
 colnames(gonl_RNA_af) <- c('snp','ref','alt','AF_GoNL_RNAseq')
 
 

@@ -22,23 +22,31 @@ snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetra
 #snpInfo <- fread('counts.chr22.addedCADD.addedVKGL.txt')
 allele_counts_snpInfo <- merge(allele_counts, snpInfo, by=c('VARIANT','GENENAME'))
 allele_counts_snpInfo <- allele_counts_snpInfo[!is.na(allele_counts_snpInfo$MINOR ),]
-allele_counts_snpInfo_with_count_high_impact_variants <- allele_counts_snpInfo[allele_counts_snpInfo$CGDINHERITANCE=="AD" & allele_counts_snpInfo$CADDPHRED > 15 & 
+allele_counts_snpInfo_with_count_high_impact_variants <- allele_counts_snpInfo[allele_counts_snpInfo$CGDINHERITANCE=="AD" & allele_counts_snpInfo$CADDPHRED > 20 & 
                                                                                  allele_counts_snpInfo$SNPEFFIMPACT=="HIGH",]
 high_impact_genes <- unique(allele_counts_snpInfo_with_count_high_impact_variants$GENENAME)
 
 ggplot(data=allele_counts_AF[allele_counts_AF$GENENAME%in%high_impact_genes, ], aes(x=GENENAME, y=log10(GENEEXPRESSION+1)))+
-  geom_violin()+
-  geom_boxplot(data=allele_counts_AF[allele_counts_AF$GENENAME%in%high_impact_genes, ], width=0.25, outlier.shape=NA)+
-  geom_point(data=allele_counts_snpInfo_with_count_high_impact_variants,
+  geom_violin(fill="grey90")+
+  geom_boxplot(data=allele_counts_AF[allele_counts_AF$GENENAME%in%high_impact_genes, ], width=0.1, outlier.shape=NA)+
+  geom_point(data=allele_counts_snpInfo_with_count_high_impact_variants[allele_counts_snpInfo_with_count_high_impact_variants$GENENAME!="ALOX5",],
               aes(x=GENENAME, y=log10(na.omit(GENEEXPRESSION)+1), fill = MINORRATIO),
              size=2.5,pch=21)+
+  geom_point(data=allele_counts_snpInfo_with_count_high_impact_variants[allele_counts_snpInfo_with_count_high_impact_variants$GENENAME=="ALOX5"
+                                                                        & allele_counts_snpInfo_with_count_high_impact_variants$VARIANT=="10_45891347_C_T",],
+             aes(x=GENENAME, y=log10(na.omit(GENEEXPRESSION)+1), fill = MINORRATIO),
+             size=2.5,pch=21, position = position_nudge(x = 0.1))+
+  geom_point(data=allele_counts_snpInfo_with_count_high_impact_variants[allele_counts_snpInfo_with_count_high_impact_variants$GENENAME=="ALOX5"
+                                                                        & allele_counts_snpInfo_with_count_high_impact_variants$VARIANT=="10_45938895_G_T",],
+             aes(x=GENENAME, y=log10(na.omit(GENEEXPRESSION)+1), fill = MINORRATIO),
+             size=2.5,pch=21, position = position_nudge(x = -0.1))+
   theme_bw(base_size=13)+
   xlab('')+
   ylab('log10(TPM+1)')+
   scale_fill_gradientn(colours = terrain.colors(10))+
-  labs(fill="Alt ratio / ref ratio")
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig5/ase_samples_overall_expression_only_high_impact.pdf', width=8, height=5)
-ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig5/ase_samples_overall_expression_only_high_impact.png', width=8, height=5)
+  labs(fill="minor allele / major allele")
+ggsave('~/Downloads/ase_samples_overall_expression_only_high_impact.pdf', width=8, height=5)
+ggsave('~/Downloads/ase_samples_overall_expression_only_high_impact.png', width=8, height=5)
 
 
 

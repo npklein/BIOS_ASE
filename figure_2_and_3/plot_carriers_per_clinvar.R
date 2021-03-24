@@ -9,6 +9,9 @@ carriers_per_disease <- fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/
 
 
 
+outliers_per_clinvar_at_least_1 %>% group_by(clinstat) %>% summarize(outlier=sum(outlier_bonf), not_outlier=sum(not_outlier_bonf), median=median(fraction_outlier)*100)
+ggplot(outliers_per_clinvar_at_least_1, aes(clinstat, fraction_outlier))+
+  geom_violin()
 
 give.n <- function(x){
   return(c(y = -0.1, label = length(x)))
