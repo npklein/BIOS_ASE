@@ -11,7 +11,7 @@ carriers_per_disease <- fread('carriers_per_disease.txt.gz')
 carriers_per_disease <- carriers_per_disease[!is.na(carriers_per_disease$logFC),]
 carriers_per_disease$sample <- NULL
 
-snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
+snpInfo <- fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
 snpInfo$snp <- paste0(sapply(strsplit(snpInfo$VARIANT, "_"), "[[", 1),'_',sapply(strsplit(snpInfo$VARIANT, "_"), "[[", 2))
 snpInfo$CGDAGEGROUP <- NULL
 snpInfo$CGDINHERITANCE <- NULL
@@ -122,5 +122,5 @@ ggplot(outliers_per_category, aes(impact, fraction_outlier, fill=impact))+
 ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/proportion_outlier_per_type.png',width=25, height=20)
 #####
 
-print('saved at /groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/proportion_outlier_per_disease.png')
-print('saved at /groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/proportion_outlier_per_type.png')
+print('saved at /groups/umcg-bios/tmp04/projects/copy_from_tmp03/BIOS_manuscript/suppl/proportion_outlier_per_disease.')
+print('saved at /groups/umcg-bios/tmp04/projects/copy_from_tmp03/BIOS_manuscript/suppl/proportion_outlier_per_type.pdf')

@@ -10,14 +10,14 @@ round_maf_number = 5
 OMIM_genes = set([])
 gene_to_symbol = {}
 # Genes downloaded from OMIM
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/OMIM.20171220.ensembleGenes.txt') as input_file:
+with open('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/omim_enrichment/OMIM.20171220.ensembleGenes.txt') as input_file:
     for line in input_file:
         line = line.strip().split('\t')
         OMIM_genes.add(line[0])
         gene_to_symbol[line[0]] = line[1]
 
 
-annotation_dir = '/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing_annotation/annotatedWith.snpEff.closest.VEP/'
+annotation_dir = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing_annotation/annotatedWith.snpEff.closest.VEP/'
 
 # from the annotation table extract which SNPs are located within each gene
 sample_genotypes = {}
@@ -76,7 +76,7 @@ samples = sorted(set_of_samples)
 print('Got',len(samples),'samples')
 print('start writing')
 
-outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.txt'
+outfile = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.txt'
 with open(outfile,'w') as out:
     out.write('gene\tsnp\tMAF\timpact\tisOmimGene')
     for sample in samples:

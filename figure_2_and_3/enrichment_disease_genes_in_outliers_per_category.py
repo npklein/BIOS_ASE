@@ -6,7 +6,7 @@ def read_CGD():
     inheritances = set([])
     manifestation = {}
     manifestations = set([])
-    with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/CGD.20171220.txt') as input_file:
+    with open('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/geneAndVariantLists/CGD.20171220.txt') as input_file:
         print('Read CGD file')
         header = input_file.readline().strip().split('\t')
         for line in input_file:
@@ -40,7 +40,7 @@ manifestation, manifestations, inheritance, inheritances, count_per_manifestatio
 def read_logFC():
     logFC_per_sample_per_gene = {}
     # Input file made by ../createLogFoldChangeTable.pl
-    input_dir = '/groups/umcg-bios/tmp03/projects/outlierGeneASE//logFoldChangeTables/'
+    input_dir = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE//logFoldChangeTables/'
     with open(input_dir+'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.samplesFILTERED.values.txt') as input_file:
         print('read logFC file')
         header = input_file.readline().strip().split('\t')
@@ -63,7 +63,7 @@ def read_isOutlier():
     outliers = {}
     not_outliers = {}
     na = {}
-    input_dir = '/groups/umcg-bios/tmp03/projects/outlierGeneASE//logFoldChangeTables/'
+    input_dir = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE//logFoldChangeTables/'
     # Input file made by ../createLogFoldChangeTable.pl
     with open(input_dir+'genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing.logFoldChange.depthFiltere.BINOM.Bonferroni.samplesFILTERED.txt') as input_file:
         print('read second logFC file')
@@ -88,7 +88,7 @@ outliers, not_outliers, na = read_isOutlier()
 
 
 ensembl_to_omim = {}
-with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/OMIM.20171220.ensembleGenes.txt') as input_file:
+with open('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/geneAndVariantLists/OMIM.20171220.ensembleGenes.txt') as input_file:
     for line in input_file:
         line = line.strip().split('\t')
         ensembl_to_omim[line[0]] = line[1]
@@ -96,7 +96,7 @@ with open('/groups/umcg-bios/tmp03/projects/outlierGeneASE/geneAndVariantLists/O
 
 # Input files made by OMIM_enrichment_hetsOnly.py
 skipped = set([])
-f = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.txt'
+f = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/omim_enrichment/omim_carriers/OMIM_carriers_allIMPACT.txt'
 with open(f) as input_file:
     print('processing',f)
     # offset to where the sample names start. Before that it is gene,snp,maf,etc
@@ -179,8 +179,8 @@ with open(f) as input_file:
                 continue
 #                raise RuntimeError(sample,'not in any of the dictionaries')
 
-    disease_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease_bonf.txt'
-    inheritance_outfile = '/groups/umcg-bios/tmp03/projects/outlierGeneASE/omim_enrichment/carriers_per_inheritance/carriers_per_inheritance_bonf.txt'
+    disease_outfile = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease_bonf.txt'
+    inheritance_outfile = '/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/omim_enrichment/carriers_per_inheritance/carriers_per_inheritance_bonf.txt'
     
 
     with open(disease_outfile,'w') as out:
