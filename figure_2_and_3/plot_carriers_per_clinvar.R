@@ -5,7 +5,8 @@ library(ggplot2)
 library(plotly)
 require(dplyr)
 
-carriers_per_disease <- fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/clinvar/clinvar_overlapped_with_SNPs.txt')
+#carriers_per_disease <- fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/clinvar/clinvar_overlapped_with_SNPs.txt')
+carriers_per_disease <- fread('clinvar_overlapped_with_SNPs.txt')
 
 
 
