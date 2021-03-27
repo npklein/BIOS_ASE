@@ -5,7 +5,7 @@ library(ggplot2)
 library(plotly)
 require(dplyr)
 
-carriers_per_disease <- fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt')
+carriers_per_disease <- fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/omim_enrichment/carriers_per_disease/carriers_per_disease.txt.gz')
 #carriers_per_disease <- fread('carriers_per_disease.txt')
 
 
