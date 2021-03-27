@@ -30,12 +30,35 @@ ggplot(total, aes(clinstat, fraction_outlier, fill=clinstat))+
   #  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
   scale_x_discrete(limit=c('Pathogenic',
                            'VUS','Benign'))+
-  scale_y_continuous(limit=c(0,1.1))+
   guides(fill=FALSE)
-
 outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_clinvar.png'
 print(paste('write to:',outfile))
 ggsave(outfile,width=8, height=8)
+
+test_matrix <- data.frame(outlier=c(total[total$clinstat=='Pathogenic',]$outlier, 
+                                    total[total$clinstat=='Benign',]$outlier),
+                          not_outlier=c(total[total$clinstat=='Pathogenic',]$not_outlier, 
+                                       total[total$clinstat=='Benign',]$not_outlier))
+rownames(test_matrix) <- c('pathogenic','benign')
+p_benign_path <- fisher.test(test_matrix)$p.value
+
+test_matrix <- data.frame(outlier=c(total[total$clinstat=='Pathogenic',]$outlier, 
+                                    total[total$clinstat=='VUS',]$outlier),
+                          not_outlier=c(total[total$clinstat=='Pathogenic',]$not_outlier, 
+                                        total[total$clinstat=='VUS',]$not_outlier))
+rownames(test_matrix) <- c('pathogenic','VUS')
+p_vus_path <- fisher.test(test_matrix)$p.value
+
+test_matrix <- data.frame(outlier=c(total[total$clinstat=='Benign',]$outlier, 
+                                    total[total$clinstat=='VUS',]$outlier),
+                          not_outlier=c(total[total$clinstat=='Benign',]$not_outlier, 
+                                        total[total$clinstat=='VUS',]$not_outlier))
+rownames(test_matrix) <- c('pathogenic','VUS')
+p_vus_benign <- fisher.test(test_matrix)$p.value
+
+p_benign_path
+p_vus_path
+p_vus_benign
 
 #####
 
@@ -65,9 +88,18 @@ ggplot(total_vkgl, aes(clinstat, fraction_outlier, fill=clinstat))+
   xlab('')+
   #  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
   scale_x_discrete(limit=c('Pathogenic','Benign'))+
-  scale_y_continuous(limit=c(0,1.1))+
   guides(fill=FALSE)
 
 outfile='/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig2//proportion_outlier_per_vkgl.png'
 print(paste('write to:',outfile))
 ggsave(outfile,width=8, height=8)
+
+
+
+
+test_matrix <- data.frame(outlier=c(total_vkgl[total_vkgl$clinstat=='Benign',]$outlier, 
+                                    total_vkgl[total_vkgl$clinstat=='Pathogenic',]$outlier),
+                          not_outlier=c(total_vkgl[total_vkgl$clinstat=='Benign',]$not_outlier, 
+                                        total_vkgl[total_vkgl$clinstat=='Pathogenic',]$not_outlier))
+rownames(test_matrix) <- c('Benign','Pathogenic')
+p_benign_path <- fisher.test(test_matrix)$p.value
