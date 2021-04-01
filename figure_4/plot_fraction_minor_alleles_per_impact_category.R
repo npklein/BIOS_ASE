@@ -5,9 +5,13 @@ library(ggpubr)
 library(ggsignif)
 
 ###### READ IN DATA #####
-major_allele_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.majorAllelle.chrALL.txt.filtered.txt'))
-minor_allele_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.minorAllelle.chrALL.txt.filtered.txt'))
-snp_info <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.txt'))
+#major_allele_counts <- data.frame(fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.majorAllelle.chrALL.txt.filtered.txt'))
+#minor_allele_counts <- data.frame(fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03//outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.matrix.minorAllelle.chrALL.txt.filtered.txt'))
+#snp_info <- data.frame(fread('/groups/umcg-bios/tmp04/projects/copy_from_tmp03/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.txt'))
+major_allele_counts <- data.frame(fread('counts.matrix.majorAllelle.chrALL.txt.filtered.txt'))
+minor_allele_counts <- data.frame(fread('counts.matrix.minorAllelle.chrALL.txt.filtered.txt'))
+snp_info <- data.frame(fread('counts.chr22.addedCADD.txt'))
+
 #####
 
 ###### MELT AND FILTER #####
@@ -97,3 +101,65 @@ ggsave('/groups/umcg-bios/tmp03/projects/BIOS_manuscript/fig4/minor_allele_fract
         plot=p,  width=8, height=8)
 
 
+
+
+
+summed_counts_filtered$frac_both <- summed_counts_filtered$frac_minor_allele
+summed_counts_filtered[summed_counts_filtered$frac_minor_allele>0.5,]$frac_both <- 1-summed_counts_filtered[summed_counts_filtered$frac_minor_allele>0.5,]$frac_minor_allele 
+
+
+summed_counts_filtered$binom <- apply(summed_counts_filtered, 1, function(x) {
+  binom.test(as.numeric(x[['major']]),
+             as.numeric(x[['minor']])+as.numeric(x[['major']]))$p.value})
+summed_counts_filtered$fdr <- p.adjust(summed_counts_filtered$binom, method='fdr')
+
+
+summed_counts_filtered_subset <- summed_counts_filtered[summed_counts_filtered$fdr < 0.05,]
+summed_counts_filtered_subset <- summed_counts_filtered_subset[summed_counts_filtered_subset$minor>10 & 
+                                                                 summed_counts_filtered_subset$major> 10,]
+
+comparison_df <- data.frame(compare_means(frac_both ~SNPEFFIMPACT,  
+                                          data = summed_counts_filtered_subset,
+                                          method = "wilcox.test"))
+
+
+comparison_df$frac_both <- NA
+comparison_df$SNPEFFIMPACT <- NA
+comparison_df[comparison_df$group2 == 'HIGH' & comparison_df$group1=='MODERATE',]$frac_both <- 0.63
+comparison_df[comparison_df$group2 == 'HIGH' & comparison_df$group1=='MODERATE',]$SNPEFFIMPACT <- 'MODERATE'
+comparison_df[comparison_df$group2 == 'HIGH' & comparison_df$group1=='LOW',]$frac_both <- 0.73
+comparison_df[comparison_df$group2 == 'HIGH' & comparison_df$group1=='LOW',]$SNPEFFIMPACT <- 'MODERATE'
+comparison_df[comparison_df$group2 == 'MODERATE' & comparison_df$group1=='LOW',]$frac_both <- 0.83
+comparison_df[comparison_df$group2 == 'MODERATE' & comparison_df$group1=='LOW',]$SNPEFFIMPACT <- 'LOW'
+
+
+
+
+p <- ggplot(data=summed_counts_filtered_subset, aes(SNPEFFIMPACT, 
+                                             frac_both,
+                                             fill = SNPEFFIMPACT))+
+  geom_violin()+
+  geom_boxplot(width=0.05)+
+  theme_bw(base_size = 18)+
+  xlab('Functional impact')+
+  ylab('Allele ratio')+
+  guides(fill=F)+
+  scale_fill_brewer(palette="Dark2")+ 
+  stat_summary(fun.data = give.n, geom = "text")+
+  geom_text(data = comparison_df[!(comparison_df$group2 == 'HIGH' & comparison_df$group1=='LOW'),], 
+            aes(x = SNPEFFIMPACT, y =frac_both , label = p.adj), size = 4,
+            hjust=-1.6)+
+  geom_text(data = comparison_df[(comparison_df$group2 == 'HIGH' & comparison_df$group1=='LOW'),], 
+            aes(x = SNPEFFIMPACT, y =frac_both , label = p.adj), size = 4)+
+  geom_segment(aes(x='HIGH', y=0.6, xend='MODERATE', yend=0.6), size=0.3) + # line 1
+  geom_segment(aes(x='HIGH', y=0.6, xend='HIGH', yend=0.575), size=0.3) + # line 1
+  geom_segment(aes(x='MODERATE', y=0.6, xend='MODERATE', yend=0.575), size=0.3) + # line 1
+  geom_segment(aes(x='HIGH', y=0.7, xend='LOW', yend=0.7), size=0.3) + # line 2
+  geom_segment(aes(x='HIGH', y=0.7, xend='HIGH', yend=0.675), size=0.3) + # line 2
+  geom_segment(aes(x='LOW', y=0.7, xend='LOW', yend=0.675), size=0.3) + # line 2
+  geom_segment(aes(x='MODERATE', y=0.8, xend='LOW', yend=0.8), size=0.3) + # line 3
+  geom_segment(aes(x='MODERATE', y=0.8, xend='MODERATE', yend=0.775), size=0.3) + # line 3
+  geom_segment(aes(x='LOW', y=0.8, xend='LOW', yend=0.775), size=0.3) # line 3
+
+ggsave('minor_allele_fraction.manuscript.20190315.pdf',
+       plot=p,  width=8, height=8)

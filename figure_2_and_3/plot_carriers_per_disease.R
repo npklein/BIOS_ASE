@@ -84,10 +84,10 @@ for(disease in unique(outliers_per_disease$disease)){
                             not_outlier=c(df[df$impact=='LOW',]$not_outlier, 
                                           df[df$impact=='MODERATE',]$not_outlier))
   rownames(test_matrix) <- c('LOW','MODERATE')
-  p_high_modarate <- fisher.test(test_matrix)$p.value*36
+  p_low_modarate <- fisher.test(test_matrix)$p.value*36
   x <- x+1
   if('HIGH' %in% df$impact){
-    cat(paste(disease,signif(p_high_modarate,2),signif(p_high_low,2), signif(p_high_modarate,2),'\n'))
+    cat(paste(disease,signif(p_high_modarate,2),signif(p_high_low,2), signif(p_low_modarate,2),'\n'))
   }else{
     cat(paste(disease, signif(p_high_modarate,2),'\n'))
   }

@@ -2,11 +2,11 @@
 library(data.table)
 library(ggplot2)
 
-allele_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/geneExpressionAndMajorMinorAlleleCounts.GOI.list.txt'))
-#allele_counts <- data.frame(fread('geneExpressionAndMajorMinorAlleleCounts.GOI.list.txt'))
+#allele_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/geneExpressionAndMajorMinorAlleleCounts.GOI.list.txt'))
+allele_counts <- data.frame(fread('geneExpressionAndMajorMinorAlleleCounts.GOI.list.txt'))
 allele_counts$SAMPLE_GENE <- paste0(allele_counts$SAMPLE,'_',allele_counts$GENENAME)
-#allele_freqs <- fread('chrALL.AFsFromData.txt')
-allele_freqs <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/annotatedWith.snpEff.closest.VEP/chrALL.AFsFromData.txt')
+allele_freqs <- fread('chrALL.AFsFromData.txt')
+#allele_freqs <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/annotatedWith.snpEff.closest.VEP/chrALL.AFsFromData.txt')
 
 colnames(allele_freqs) <- c('VARIANT', 'allele_freq')
 allele_counts_AF <- merge(allele_counts,allele_freqs, by='VARIANT' )
@@ -18,8 +18,8 @@ allele_counts_AF[allele_counts_AF$allele_freq > 0.5,]$minorAllele <- allele_coun
 # cause allele counts 
 
 
-snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
-#snpInfo <- fread('counts.chr22.addedCADD.addedVKGL.txt')
+#snpInfo <- fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/variantPenetranceAndPLIAnalysis/counts.chr22.addedCADD.addedVKGL.txt')
+snpInfo <- fread('counts.chr22.addedCADD.addedVKGL.txt')
 allele_counts_snpInfo <- merge(allele_counts, snpInfo, by=c('VARIANT','GENENAME'))
 allele_counts_snpInfo <- allele_counts_snpInfo[!is.na(allele_counts_snpInfo$MINOR ),]
 allele_counts_snpInfo_with_count_high_impact_variants <- allele_counts_snpInfo[allele_counts_snpInfo$CGDINHERITANCE=="AD" & allele_counts_snpInfo$CADDPHRED > 20 & 
@@ -47,6 +47,23 @@ ggplot(data=allele_counts_AF[allele_counts_AF$GENENAME%in%high_impact_genes, ], 
   labs(fill="minor allele / major allele")
 ggsave('~/Downloads/ase_samples_overall_expression_only_high_impact.pdf', width=8, height=5)
 ggsave('~/Downloads/ase_samples_overall_expression_only_high_impact.png', width=8, height=5)
+
+
+
+
+
+
+
+
+
+ggplot(data=allele_counts_AF, aes(x=GENENAME, y=log10(GENEEXPRESSION+1)))+
+  geom_violin(fill="grey90")+
+  geom_boxplot(data=allele_counts_AF[allele_counts_AF$GENENAME%in%high_impact_genes, ], width=0.1, outlier.shape=NA)+
+  theme_bw(base_size=13)+
+  xlab('')+
+  ylab('log10(TPM+1)')+
+  scale_fill_gradientn(colours = terrain.colors(10))+
+  labs(fill="minor allele / major allele")
 
 
 

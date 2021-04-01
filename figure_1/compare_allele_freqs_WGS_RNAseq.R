@@ -32,6 +32,12 @@ merge_AF <- function(AF1, AF2, name1, name2){
 
 ############################ PLOT AFs ###################################
 AF <- merge_AF(gonl_RNA_af, gonl_af, 'GoNL RNA','GoNL WGS')
+
+t <- gonl_RNA_af[gonl_RNA_af$AF_GoNL_RNAseq>0,]
+write.table(t$snp[!t$snp %in% AF$snp],
+            row.names=F, file='non_matching_SNPs_GoNL_RNA_WGS.txt',
+            quote=F)
+
 correlation <- cor(AF$AF1, AF$AF2,method='spearman')
 correlation <- cor(AF$AF1, AF$AF2,method='pearson')
 # GoNL samples gotten from the script that makes the A

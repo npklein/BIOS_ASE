@@ -1,2 +1,12 @@
+.Rhistory
 *Rplots.pdf
 numbers_and_pvalues
+pathogenicAlleles/
+*pdf
+*txt
+*gz
+*log
+*png
+.figure_1/switchAndErrorsPerGene/
+figure_1/switchAndErrorsPerGene/
+figure_5/body.sh

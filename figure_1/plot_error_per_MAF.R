@@ -4,8 +4,10 @@ library(data.table)
 library(ggplot2)
 library(plyr)
 
-files = list.files(pattern="*.perSNP.txt", path="/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing/results/phasing/switchAndErrorsPerGene/",
-                   full.names=T)
+#files = list.files(pattern="*.perSNP.txt", path="/groups/umcg-bios/tmp03/projects/genotypes_BIOS_LLDeep_Diagnostics_merged_phasing_noRnaEditing/results/phasing/switchAndErrorsPerGene/",
+#                   full.names=T)
+files = list.files(pattern="*.perSNP.txt", path="switchAndErrorsPerGene/",
+                                      full.names=T)
 
 switch_errors <- data.frame()
 for(f in files){

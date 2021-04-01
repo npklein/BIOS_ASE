@@ -2,12 +2,12 @@ library(ggplot2)
 library(data.table)
 library(reshape2)
 library(ggforce)
-library(ggpubr)
 library(ggsignif)
 library(ggrepel)
 library(gridExtra)
+library(ggpubr)
 
-BIOS_ASE_counts <- data.frame(fread('/groups/umcg-bios/tmp03/projects/outlierGeneASE/concordanceGTEx/counts.matrix.AlleleAdded.txt'))
+BIOS_ASE_counts <- data.frame(fread('counts.matrix.AlleleAdded.txt'))
 
 # at least 30 samples in bios
 BIOS_ASE_counts <- BIOS_ASE_counts[BIOS_ASE_counts$SAMPLECOUNT >= 30,]

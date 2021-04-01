@@ -61,8 +61,8 @@ for ( group in listGroups ){
   
   
   #Read table containing allelic counts
-  dataTab<-read.table(paste0("/groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.",group,".txt"), sep="\t", header=TRUE)
-  
+#  dataTab<-read.table(paste0("/groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.",group,".txt"), sep="\t", header=TRUE)
+  dataTab<-read.table(paste0("alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.",group,".txt"), sep="\t", header=TRUE)
   #Set empty vector
   pvals <- c()
   nvariants <- c()
@@ -110,7 +110,8 @@ for ( group in listGroups ){
   
   print('read counts')
   #Read counts per outlier/non-outlier category
-  dataTab<-read.table(paste0("/groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.splitOutliers.",group,".txt"), sep="\t", header=TRUE)
+  #dataTab<-read.table(paste0("/groups/umcg-bios/tmp03/projects/outlierGeneASE/pathogenicAlleles/alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.splitOutliers.",group,".txt"), sep="\t", header=TRUE)
+  dataTab<-read.table(paste0("alleleCountPerGroupPerGene.binom.annotated.alleleFiltered.removedCODAMandOutliers.splitOutliers.",group,".txt"), sep="\t", header=TRUE)
   
   #Select variants by snpEff annotation
   dataTab1 <- dataTab[dataTab$snpEff_Annotation %in% c("splice_acceptor_variant&intron_variant", "splice_donor_variant&intron_variant", "start_lost", "stop_gained", "stop_gained&splice_region_variant", "stop_lost"), ]
@@ -136,6 +137,12 @@ for ( group in listGroups ){
   tgc$yMax <- (tgc$prop+tgc$se)
   max<-max(tgc$yMax, na.rm=TRUE) #Use this for plotting purpose of labels in graph
 
+  
+  for(anno in unique(tgc$snpEff_Annotation)){
+    df <- tgc[tgc$snpEff_Annotation==anno,]
+    print(paste0(anno, '    ',df[df$STATUS=='outlier',]$prop/df[df$STATUS=='non-outlier',]$prop))
+  }
+  
   #Create plot
   print('set pdf')
   pdf(paste0("/groups/umcg-bios/tmp03/projects/BIOS_manuscript/suppl/proportion_alt_alleles_per_variant_impact_category.",group,".pdf"), width = 8, height = 4)
